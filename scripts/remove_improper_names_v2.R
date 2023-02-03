@@ -1,5 +1,7 @@
 #' Remove improper names using stringr
 #'
+#' @author Payal Bal, Fonti Kar
+#' 
 #' @param name_vector vector of species names
 #' @param allow.higher.taxa logical, if TRUE species with single word names are excluded as they are likely within species suffix
 #' @param improper.species.list logical, if TRUE a list of improper species will be returned
@@ -10,7 +12,6 @@
 
 remove_improper_names_v2 <- function(name_vector,
                                      allow.higher.taxa = FALSE,
-                                     allow.subspecies = TRUE,
                                      improper.species.list = TRUE){
   
   message("Cleaning checklist for improper species names...")
@@ -59,7 +60,13 @@ remove_improper_names_v2 <- function(name_vector,
                      "spec\\.nov\\.",
                      "cf\\,", 
                      "\\sand\\s",
-                     "\\swith\\s")
+                     "\\swith\\s",
+                     "\\*",
+                     "\\(*\\)", 
+                     "\\:",
+                     "\\\\0",
+                     "[:digit:]",
+                     "\\\\|[^[:print:]]")
   
   ## Record improper species names as identified by taxa modifiers or particular text patterns
   if (improper.species.list){
