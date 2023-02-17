@@ -4,6 +4,7 @@ Australian invertebrate fire susceptibility analyses including fire overlap and 
 
 ## AFD checklist preparation
 
-1. Merge raw data
-2. Clean checklist  
+1. Merge raw data: AFDraw_merge_phyla
+2. Clean checklist: AFD_checkllist_clean
+3. 
 ...

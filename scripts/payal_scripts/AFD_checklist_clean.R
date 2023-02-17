@@ -190,6 +190,9 @@ length(unique(afd_data$FULL_NAME))
 length(unique(afd_data$COMPLETE_NAME))
 
 
+# readr::write_csv(afd_data, file.path(outdir, "afd_Jan2023_clean.csv"))
+
+
 ## Are there duplicates in FULL_NAME & COMPLETE_NAME?
 length(afd_data$FULL_NAME) == length(unique(afd_data$FULL_NAME))
 length(afd_data$COMPLETE_NAME) == length(unique(afd_data$COMPLETE_NAME))
