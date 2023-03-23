@@ -1,44 +1,57 @@
-# ---
+
 # AFD checklist cleaning
 # authors: Payal Bal, Fonti Kar, Hannah Smart
-# notes: 
-#   VALID_NAME replaced by FULL_NAME in updated AFD data
 
-# ---
+
  
- 
+
+## ----------------------------------------------- ## 
 ## Set working environment ####
+## ----------------------------------------------- ##
+# .rs.restartR()
 rm(list = ls())
 gc()
 # system("ps")
 # system("pkill -f R")
 
 ## Packages
-pacman::p_load(dplyr, janitor, galah, stringr, tidyverse, arrow, stringr, data.table, CoordinateCleaner)
+x <- c('dplyr', 'janitor', 'galah', 'stringr', 'tidyverse', 'arrow', 'stringr', 
+               'data.table', 'CoordinateCleaner', 'usethis', 'devtools')
+lapply(x, require, character.only = TRUE)
+rm(x)
 
 ## Functions 
 source(file.path(getwd(),"scripts/remove_improper_names_v2.R"))
 
 ## Paths
-inverts_dir <- "/Volumes/6300-PAYALB/uom_data/inverts_data"
+inverts_dir <- "/Volumes/6300-PAYALB/uom_data/ausinvertraits.addons_data"
 outdir <- file.path(inverts_dir, "outputs")
 
 
 
+
+## ----------------------------------------------- ##
 ## Load Australian Faunal Directory taxonomy ####
+## ----------------------------------------------- ##
 afd_data <- read_csv(file.path(outdir, "afd_Jan2023.csv"))
-# names(afd_data)[names(afd_data) %in% "FULL_NAME"] = "VALID_NAME" # to align with existing code
+afd_data <- as.data.table(afd_data)
+afd_data_raw <- copy(afd_data) ## make a copy 
 
 names(afd_data)
 sum(is.na(afd_data$FULL_NAME))
+length(unique(afd_data$FULL_NAME))
+nrow(afd_data)
 
-afd_species <- afd_data$FULL_NAME
-length(afd_species)
-length(unique(afd_species))
+sp_words <- sapply(strsplit(as.character(afd_data$FULL_NAME), " "), length)
+table(sp_words)
 
 
+
+
+## ----------------------------------------------- ##
 ## Remove improper names ####
-species_record <- remove_improper_names_v2(afd_species,
+## ----------------------------------------------- ##
+species_record <- remove_improper_names_v2(afd_data$FULL_NAME,
                                            allow.higher.taxa = FALSE,
                                            improper.species.list = TRUE)
 
@@ -46,15 +59,37 @@ species_record <- remove_improper_names_v2(afd_species,
 is.na(species_record$updated_list) |> table()
   
 # Filter records based on updated list
-afd_data |> 
-  dplyr::filter(FULL_NAME %in% species_record$updated_list) -> afd_data
+afd_data <- afd_data[which(afd_data$FULL_NAME %in% species_record$updated_list),]
+
+
+## Remove double and single quotes from names
+grep("\"",afd_data$FULL_NAME, value = TRUE)
+writeLines(grep("\"",afd_data$FULL_NAME, value = TRUE)[1])
+
+x <- grep("\"",afd_data$FULL_NAME, value = TRUE)
+y <- gsub("\"","",x)
+afd_data[FULL_NAME %in% x]$FULL_NAME <- y
+grep("\"",afd_data$FULL_NAME, value = TRUE)
+
+x <- grep("\'",afd_data$FULL_NAME, value = TRUE)
+y <- gsub("\'","",x)
+afd_data[FULL_NAME %in% x]$FULL_NAME <- y
+grep("\'",afd_data$FULL_NAME, value = TRUE)
+
+setDT(afd_data, key = 'FULL_NAME')
+length(unique(afd_data$FULL_NAME)); nrow(afd_data)
 
 
 
+
+## ----------------------------------------------- ##
 ## Remove invasive species using GRIIS list ####
+## ----------------------------------------------- ##
 
-## Load new GRIIS
-## Source of new GRIIS list (provided by Fonti Kar, ALA)
+## >> Process new  GRIIS list ####
+## Source: provided by Fonti Kar, ALA
+
+## Load new GRIIS list
 distribution <- fread(file.path(inverts_dir,
                                 "dwca-griis-australia-v1.6/distribution.txt"))
 species <- fread(file.path(inverts_dir,
@@ -62,119 +97,173 @@ species <- fread(file.path(inverts_dir,
 taxa <- fread(file.path(inverts_dir,
                         "dwca-griis-australia-v1.6/taxon-edited.txt"), fill = TRUE)
 
-griis_list <- taxa |>  
-  full_join(distribution, by = "id") |>  
-  full_join(species, by = "id")
+griis_list <- merge(taxa, distribution, by = "id")
+griis_list <- merge(griis_list, species, by = "id")
+names(griis_list)
+rm(distribution, species, taxa)
 
-## Check for and remove NAs in griis_list$scientificName
+
+## Remove NAs in scientificName
+nrow(griis_list)
 is.na(griis_list$scientificName) |> table() 
-griis_list[is.na(griis_list$scientificName)]
-griis_list <- na.omit(griis_list)
+
+if (nrow(griis_list[is.na(griis_list$scientificName)]) > 0) {
+  griis_list <- griis_list[!is.na(scientificName)]  
+}
 
 
-## Use galah::search_taxa() to get tidy names and filter by noIssues
-griis_ala_raw <- data.frame(search_taxa(griis_list$scientificName))
+## Clean up scientificName in GRIIS and filter by noIssues & no missing values in species
+griis_names <- as.data.table(galah::search_taxa(griis_list$scientificName))
 
 
-## Pre-process the GRIIS list and filter by noIssues and no missing values in species
-griis_ala_tidy <- griis_ala_raw |>  
-  filter(issues == "noIssue",
-         !is.na(species)) |>  
-  dplyr::select(search_term, taxon_concept_id, scientific_name, scientific_name_authorship)
+## Create list of GRIIS scientificName found (and cleaned) using galah::search_taxa()
+griis_names_tidy <- griis_names[!is.na(species) & issues == "noIssue"][,.(search_term, taxon_concept_id, scientific_name, scientific_name_authorship)]
+
+fwrite(as.data.table(griis_names_tidy), 
+       file = file.path(outdir, "griis_invasive_speciesnames_resolved.csv"), 
+       row.names = FALSE)
+
+message(cat("Number of AFD species in processed GRIIS list, found & corrected using galah::search_taxa(): "),
+        length(which(afd_data$FULL_NAME %in% griis_names_tidy$scientific_name)))
 
 
-## Reporting
-message(cat("Number of AFD species listed in GRIIS: "),
-        length(which(afd_data$FULL_NAME %in% griis_ala_tidy$scientific_name)))
+## Create list of GRIIS scientificName not found using galah::search_taxa() 
+griis_names_untidy <- griis_names[is.na(species)]$search_term
+fwrite(as.data.table(griis_names_untidy), 
+       file = file.path(outdir, "griis_invasive_speciesnames_unresolved.csv"), 
+       row.names = FALSE)
 
-message("AFD species listed in GRIIS: ")
-afd_data$FULL_NAME[which(afd_data$FULL_NAME %in% griis_ala_tidy$scientific_name)]
-
-
-## Excluding GRIIS listed species from AFD list
-updated_griis_afd <- afd_data$FULL_NAME[which(afd_data$FULL_NAME %in% griis_ala_tidy$scientific_name)]
-afd_data <- afd_data[! afd_data$FULL_NAME %in% griis_ala_tidy$scientific_name, ]
+message(cat("Number species in GRIIS list, not found using galah::search_taxa(): "),
+        length(griis_names_untidy))
 
 
-## Filter using old GRIIS list
+## >> Filter AFD using new GRIIS list ####
+## Using resolved names in GRIIS list
+length(unique(afd_data$FULL_NAME)); nrow(afd_data)
+afd_data <- afd_data[! afd_data$FULL_NAME %in% griis_names_tidy$scientific_name, ]
+length(unique(afd_data$FULL_NAME)); nrow(afd_data)
+
+## Using unresolved names in GRIIS list as check by JM
+## Most names irrelvant (plants, other taxa), only a few to be used for filtering
+## No names found in AFD checklist
+temp <- fread(file.path(outdir, "griis_invasive_speciesnames_unresolved_JRM.csv"))
+message(cat("Number of AFD species listed in griis_invasive_speciesnames_unresolved: "),
+        length(which(afd_data$FULL_NAME %in% c(temp$griis_names_untidy, 
+                                               temp$corrected_name[which(temp$corrected_name != "")]))))
+
+x <- afd_data$FULL_NAME[afd_data$FULL_NAME %in% c(temp$griis_names_untidy, 
+                                             temp$corrected_name[which(temp$corrected_name != "")])]
+length(unique(afd_data$FULL_NAME)); nrow(afd_data)
+afd_data <- afd_data[! afd_data$FULL_NAME %in% x, ]
+length(unique(afd_data$FULL_NAME)); nrow(afd_data)
+
+
+## >> Filter AFD using old GRIIS list ####
 ## Source: Downloaded from ALA for NESP project
 griis_old <- read.csv(file.path(inverts_dir, 
                                 "GRIIS_Global_Register_of_Introduced_and_Invasive_Species_Australia.csv"))
 
-message(cat("Number of AFD species listed in GRIIS: "),
+message(cat("Number of AFD species listed in old GRIIS list: "),
         length(which(afd_data$FULL_NAME %in% c(griis_old$Supplied.Name, griis_old$scientificName))))
 
-old_griis_afd <- afd_data$FULL_NAME[which(afd_data$FULL_NAME %in% 
-                                            c(griis_old$Supplied.Name, griis_old$scientificName))]
-afd_data <- afd_data[! afd_data$FULL_NAME %in% griis_old$Supplied.Name,]
+afd_data <- afd_data[! afd_data$FULL_NAME %in% c(griis_old$Supplied.Name, griis_old$scientificName),]
+length(unique(afd_data$FULL_NAME)); nrow(afd_data)
 
 
 
+
+
+## ----------------------------------------------- ##
 ## Remove marine species ####
-## $$ FIX: Add Fonti'sworrms scripts to repo ####
+## ----------------------------------------------- ##
+
+## Author: Fonti Kar
+## Source of WoRMS: https://github.com/AtlasOfLivingAustralia/data_cleaning_workflows/blob/develop/workflow/worrms.Rmd
 worms <- read_csv(file.path(inverts_dir, "worms/worms_afd_query_results.csv"))
 names(worms)
 
+
+## >> List of marine species from WORMS ####
 ## Find missing values in scientificname, valid_name
 is.na(worms$scientificname) |> table()
 is.na(worms$valid_name) |> table()
 
-## Do valid name match scientific name?
+
+## Do valid name match scientific name? NO
 (worms$valid_name == worms$scientificname) |> janitor::tabyl()
+
+
+## Summary of records using identifiers of habitat occupancy
+worms %>% select(starts_with("is")) %>% colSums(., na.rm = TRUE)
+
 
 ## List WoRMs species exclusively as marine using identifiers of habitat occupancy of each taxa
 ## i.e. TRUE for isMarine and NA/FALSE for the others
-worms %>% select(starts_with("is")) %>% colSums(., na.rm = TRUE)
-
-## Number of strictly marine species in WoRMs
-worms %>%
-  filter(isMarine == 1,
-         isBrackish == 0, isTerrestrial == 0, isFreshwater == 0, isExtinct == 0) -> marine_worms 
+worms <- as.data.table(worms)
+marine_worms <- worms[isMarine == 1 & isBrackish == 0 & isTerrestrial == 0 & isFreshwater == 0 & isExtinct == 0]
 
 
-## Check: valid_name and scientificname is different in WoRMs
-marine_worms |> 
-  filter(! valid_name == scientificname) |> 
-  select(valid_name, scientificname)
+## Unmatched valid name and scientific name in WORMS
+marine_worms[(! valid_name == scientificname)][,.(valid_name, scientificname)]
 
 
-## Exclude marine species using valid_name
-afd_data |> 
-  filter(FULL_NAME %in% marine_worms$valid_name) |>
-  select(FULL_NAME) ->  excluded_mar_species
+## >> Exclude marine species using valid_name in WORMS ####
+afd_marine_1 <- afd_data[FULL_NAME %in% marine_worms$valid_name][,.(FULL_NAME)]
 
-nrow(excluded_mar_species)
-
-afd_data |> 
-  filter(! FULL_NAME %in% marine_worms$valid_name) -> nomarine_nogriis_afd_species
-
-## Check
-nrow(nomarine_nogriis_afd_species) + nrow(excluded_mar_species) == nrow(afd_data)
-
-
-## Exclude marine species using scientificname
-nomarine_nogriis_afd_species |> 
-  filter(FULL_NAME %in% marine_worms$scientificname) |> 
-  select(FULL_NAME) -> excluded_mar_species_scientificname
-
-nrow(excluded_mar_species_scientificname)
-
-nomarine_nogriis_afd_species |> 
-  filter(! FULL_NAME %in% marine_worms$scientificname) -> nomarine_nogriis_afd_species_snm
-
-## Check
-nrow(nomarine_nogriis_afd_species_snm) + nrow(excluded_mar_species) + nrow(excluded_mar_species_scientificname) == nrow(afd_data)
-
-
-## Reporting 
-message(paste("Found ", nrow(excluded_mar_species), " marine species by valid_name in WoRMS"))
-message(paste("After exclusion by valid_name, a further", nrow(excluded_mar_species_scientificname), "marine species were found by scientificname in WoRMS"))
-message(paste("The total number of AFD species remaining following complete exclusion is ", nrow(nomarine_nogriis_afd_species_snm)))
+nrow(afd_data) - nrow(afd_marine_1)
+afd_data <- afd_data[! FULL_NAME %in% marine_worms$valid_name]
 
 
 
-## Identifying duplicates ####
-## $$ TO DO: Send outputs to JM for review
+## >> Exclude marine species using scientificname in WORMS ####
+afd_marine_2 <- afd_data[FULL_NAME %in% marine_worms$scientificname][,.(FULL_NAME)]
+
+nrow(afd_data) - nrow(afd_marine_2)
+afd_data <- afd_data[! FULL_NAME %in% marine_worms$scientificname]
+length(unique(afd_data$FULL_NAME)); nrow(afd_data)
+
+
+
+## >> Identifying marine as per 'ECOLOGY_DESCRIPTIORS' in AFD ####
+nrow(afd_data[grep("marine", afd_data$ECOLOGY_DESCRIPTIORS)])
+
+temp <- afd_data[grep("marine", afd_data$ECOLOGY_DESCRIPTIORS)][,.(FULL_NAME, SYNONYMS, PHYLUM, SUBPHYLUM, SUPERCLASS, CLASS, SUBCLASS, SUPERORDER, ORDER, SUBORDER, SUPERFAMILY, FAMILY, SUBFAMILY, SUPERTRIBE, TRIBE, SUBTRIBE, GENUS, SPECIES, SUB_SPECIES, CONCEPT_GUID, ECOLOGY_DESCRIPTIORS)]
+
+fwrite(as.data.table(temp), file = file.path(outdir, "afd_marine.csv"), 
+       row.names = FALSE)
+
+
+
+## Save data
+afd_data <- setDT(afd_data, key = "FULL_NAME")
+fwrite(afd_data, 
+       file = file.path(outdir, "afd_Jan2023_clean.csv"), 
+       row.names = FALSE)
+
+
+
+
+
+
+## ----------------------------------------------- ##
+## Synonyms ####
+## ----------------------------------------------- ##
+source("./scripts/get_AFDsynonyms.R")
+out <- get_AFDsynonyms(unique(afd_data$FULL_NAME, afd_data))
+saveRDS(out, file = "./outputs/afd_synonyms.rds")
+
+
+out <- readRDS("./outputs/afd_synonyms.rds")
+
+grep("\'",afd_data$FULL_NAME, value = TRUE)
+
+
+
+
+
+## ----------------------------------------------- ##
+## Identify duplicates ####
+## ----------------------------------------------- ##
 
 ## List duplicates comparing all columns
 nrow(afd_data[duplicated(afd_data),] )
@@ -190,12 +279,9 @@ length(unique(afd_data$FULL_NAME))
 length(unique(afd_data$COMPLETE_NAME))
 
 
-# readr::write_csv(afd_data, file.path(outdir, "afd_Jan2023_clean.csv"))
-
-
 ## Are there duplicates in FULL_NAME & COMPLETE_NAME?
-length(afd_data$FULL_NAME) == length(unique(afd_data$FULL_NAME))
-length(afd_data$COMPLETE_NAME) == length(unique(afd_data$COMPLETE_NAME))
+length(afd_data$FULL_NAME) != length(unique(afd_data$FULL_NAME))
+length(afd_data$COMPLETE_NAME) != length(unique(afd_data$COMPLETE_NAME))
 
 
 ## Set as DT
@@ -206,9 +292,7 @@ afd_dt$FULL_NAME[duplicated(afd_dt$FULL_NAME)]
 
 
 ## Duplicates in FULL_NAME (*including* first appearance)
-afd_dt$FULL_NAME[duplicated(afd_dt$FULL_NAME) | duplicated(afd_dt$FULL_NAME, fromLast=TRUE)] ->
-  dup_fullname
-
+dup_fullname <- afd_dt$FULL_NAME[duplicated(afd_dt$FULL_NAME) | duplicated(afd_dt$FULL_NAME, fromLast=TRUE)]
 length (dup_fullname)
 dup_fullname
 
@@ -217,8 +301,7 @@ afd_dt$COMPLETE_NAME[duplicated(afd_dt$COMPLETE_NAME)]
 
 
 ## Duplicates in COMPLETE_NAME (*including* first appearance)
-afd_dt$COMPLETE_NAME[duplicated(afd_dt$COMPLETE_NAME) | duplicated(afd_dt$COMPLETE_NAME, fromLast=TRUE)] -> dup_completename
-
+dup_completename <- afd_dt$COMPLETE_NAME[duplicated(afd_dt$COMPLETE_NAME) | duplicated(afd_dt$COMPLETE_NAME, fromLast=TRUE)]
 length(dup_completename)
 dup_completename
 
@@ -237,6 +320,11 @@ readr::write_csv(temp2, file.path(outdir, "afd_fullname_repeats.csv"))
 
 
 
+
+
+
+
+
 ## Counts for number of words
 str_count(afd_data$FULL_NAME, pattern = "\\S+") |> janitor::tabyl()
 
@@ -245,107 +333,5 @@ stringr::str_count(afd_data$FULL_NAME, pattern = regex("\\\"")) |> sum() # Count
 stringr::str_count(afd_data$FULL_NAME, pattern = regex("'")) |> sum() # Counting occurrences for '
 stringr::str_count(afd_data$FULL_NAME, pattern = regex("\\(")) |> sum() 
 stringr::str_count(afd_data$FULL_NAME, pattern = regex("\\[")) |> sum() 
-```
-
-
-
-
-
-
-
-## HS script ####
-
-
-####remove marine species using CAAB
-## CAAB used for a finer sweep for local marine species-still under development?
-## code from original splist_AFD_script
-##to be removed from script?
-
-Using CAAB data: https://www.cmar.csiro.au/data/caab/
-  
-  ```{r}
-# Read in data
-caab_species <- fread("databases/caab_dump_latest.csv")
-
-# Create scientific name
-caab_species |> mutate(scientific_name = ifelse(! is.na(SPECIES),
-                                                paste0(GENUS," ", SPECIES),
-                                                NA)) -> caab_species
-# Overlap 
-intersect(afd_data, caab_species) # ZERO
-
-afd_data |> filter(VALID_NAME %in% caab_species) # ZER0 
-```
-
-
-## Identifying duplicates 
-
-This section identify duplicates at the level of: 
-  - row
-- `VALID_NAME`
-- `COMPLETE_NAME`
-
-The number of species > the number of _unique_ species implies that there are duplicates.
-JM: use `COMPLETE_NAME` for finding duplicates
-
-
-
-```{r}
-## List duplicates comparing all columns
-afd_data[duplicated(afd_data),] 
-
-## Look for duplicates in specific columns
-sum(is.na(afd_data$VALID_NAME)) # Count number of NA in VALID_NAME
-length(afd_data$VALID_NAME) # Total species
-length(unique(afd_data$VALID_NAME)) # Total unique VALID_NAME
-length(unique(afd_data$COMPLETE_NAME)) # Total unique COMPLETE_NAME
-```
-
-## Duplicates in COMPLETE_NAME (excluding first appearance)
-
-```{r}
-message(cat("Number of duplicated COMPLETE_NAME (excluding first appearance): "), 
-        length(afd_data$COMPLETE_NAME[duplicated(afd_data$COMPLETE_NAME)]))
-message("duplicated COMPLETE_NAME: ")
-afd_data$COMPLETE_NAME[duplicated(afd_data$COMPLETE_NAME)]
-```
-
-## Duplicates in COMPLETE_NAME (*including* first appearance)
-
-```{r}
-
-afd_data$COMPLETE_NAME[duplicated(afd_data$COMPLETE_NAME) | duplicated(afd_data$COMPLETE_NAME, fromLast=TRUE)] -> dup_temp
-
-message(cat("#duplicates in COMPLETE_NAME (including first appearance) : ", length(dup_temp)))
-message("duplicated COMPLETE_NAME: ")
-dup_temp
-
-#remove duplicates from afd list
-
-
-# readr::write_csv(temp, "output/afd_completename_repeats.csv") ##this didn't work when written like this so have changed to the code below
-write.csv(dup_temp, "output/afd_completename_repeats.csv")
-
-#write clean afd species list to .csv file
-write.csv(afd_data, "output/afd_data_clean.csv")
-
-
-## Various checks and tallies
-
-Checks or tallies of species according to the number of words and particular formatting patterns in `VALID_NAME`
-
-Note: '\' is an escape operator for various special characters
-
-```{r}
-## Counts for number of words
-str_count(afd_data$VALID_NAME, pattern = "\\S+") |> janitor::tabyl()
-
-## Counts for special characters in species names
-stringr::str_count(afd_data$VALID_NAME, pattern = regex("\\\"")) |> sum() # Counting occurrences for \"
-stringr::str_count(afd_data$VALID_NAME, pattern = regex("'")) |> sum() # Counting occurrences for '
-stringr::str_count(afd_data$VALID_NAME, pattern = regex("\\(")) |> sum() 
-stringr::str_count(afd_data$VALID_NAME, pattern = regex("\\[")) |> sum() 
-```
-
 
 

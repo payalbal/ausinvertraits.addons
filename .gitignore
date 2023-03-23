@@ -1,10 +1,9 @@
 
 # Specific files/folders #
 ##########################
-data/
-  outputs/
-  docs/
-  scripts/extras/
+outputs/
+scripts/extras/
+
 
 # R files #
 ###########
