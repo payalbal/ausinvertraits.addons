@@ -24,7 +24,8 @@ rm(x)
 source(file.path(getwd(),"scripts/remove_improper_names_v2.R"))
 
 ## Paths
-inverts_dir <- "/Volumes/6300-PAYALB/uom_data/ausinvertraits.addons_data"
+# inverts_dir <- "/Volumes/6300-PAYALB/uom_data/ausinvertraits.addons_data"
+inverts_dir <- "/tempdata/research-cifs/6300-payalb/uom_data/ausinvertraits.addons_data"
 outdir <- file.path(inverts_dir, "outputs")
 
 
@@ -209,16 +210,16 @@ marine_worms[(! valid_name == scientificname)][,.(valid_name, scientificname)]
 
 ## >> Exclude marine species using valid_name in WORMS ####
 afd_marine_1 <- afd_data[FULL_NAME %in% marine_worms$valid_name][,.(FULL_NAME)]
-
 nrow(afd_data) - nrow(afd_marine_1)
+
 afd_data <- afd_data[! FULL_NAME %in% marine_worms$valid_name]
 
 
 
 ## >> Exclude marine species using scientificname in WORMS ####
 afd_marine_2 <- afd_data[FULL_NAME %in% marine_worms$scientificname][,.(FULL_NAME)]
-
 nrow(afd_data) - nrow(afd_marine_2)
+
 afd_data <- afd_data[! FULL_NAME %in% marine_worms$scientificname]
 length(unique(afd_data$FULL_NAME)); nrow(afd_data)
 
@@ -237,7 +238,7 @@ fwrite(as.data.table(temp), file = file.path(outdir, "afd_marine.csv"),
 ## Save data
 afd_data <- setDT(afd_data, key = "FULL_NAME")
 fwrite(afd_data, 
-       file = file.path(outdir, "afd_Jan2023_clean.csv"), 
+       file = file.path(outdir, "afd_Mar2023_clean.csv"), 
        row.names = FALSE)
 
 
@@ -249,13 +250,13 @@ fwrite(afd_data,
 ## Synonyms ####
 ## ----------------------------------------------- ##
 source("./scripts/get_AFDsynonyms.R")
-out <- get_AFDsynonyms(unique(afd_data$FULL_NAME, afd_data))
+
+afd_data <- fread(file.path(outdir, "afd_Mar2023_clean.csv"))
+afd_data <- setDT(afd_data, key = "FULL_NAME")
+
+out <- get_AFDsynonyms(unique(afd_data$FULL_NAME), afd_data)
 saveRDS(out, file = "./outputs/afd_synonyms.rds")
 
-
-out <- readRDS("./outputs/afd_synonyms.rds")
-
-grep("\'",afd_data$FULL_NAME, value = TRUE)
 
 
 
