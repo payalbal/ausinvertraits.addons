@@ -24,8 +24,8 @@ rm(x)
 source(file.path(getwd(),"scripts/remove_improper_names_v2.R"))
 
 ## Paths
-# inverts_dir <- "/Volumes/6300-PAYALB/uom_data/ausinvertraits.addons_data"
-inverts_dir <- "/tempdata/research-cifs/6300-payalb/uom_data/ausinvertraits.addons_data"
+inverts_dir <- "/Volumes/6300-PAYALB/uom_data/ausinvertraits.addons_data"
+# inverts_dir <- "/tempdata/research-cifs/6300-payalb/uom_data/ausinvertraits.addons_data"
 outdir <- file.path(inverts_dir, "outputs")
 
 
@@ -178,8 +178,31 @@ length(unique(afd_data$FULL_NAME)); nrow(afd_data)
 ## Remove marine species ####
 ## ----------------------------------------------- ##
 
+## >> Create WORMS list ####
 ## Author: Fonti Kar
 ## Source of WoRMS: https://github.com/AtlasOfLivingAustralia/data_cleaning_workflows/blob/develop/workflow/worrms.Rmd
+## Resources: 
+## https://www.marinespecies.org/aphia.php?p=webservice&type=r
+## https://mmisw.org/ont/ioos/marine_biogeography
+# install.packages("worrms") #https://docs.ropensci.org/worrms/index.html
+
+# pacman::p_load(tidyverse, worrms, here, job)
+# afd_species <- unique(afd_data$FULL_NAME) 
+# afd_species_chunks <- split(afd_species, ceiling(seq_along(afd_species)/120)) # split to chunks of 120 species
+# 
+# job({
+#   worms_ls <- list()
+#   for (i in 1:length(afd_species_chunks)) {
+#     message(cat("Working on", names(afd_species_chunks)[i], "/", length(afd_species_chunks)))
+#     try(worrms::wm_records_names(afd_species_chunks[[i]]) -> tmp)
+#     tmp |> bind_rows() -> worms_ls[[i]]
+#   }
+#   
+#   worms_afd_query_results <- worms_ls %>% bind_rows() # collapse list
+#   write_csv(worms_afd_query_results, file.path(inverts_dir, "worms/worms_afd_query_results.csv"))
+# })
+
+
 worms <- read_csv(file.path(inverts_dir, "worms/worms_afd_query_results.csv"))
 names(worms)
 
@@ -198,47 +221,51 @@ is.na(worms$valid_name) |> table()
 worms %>% select(starts_with("is")) %>% colSums(., na.rm = TRUE)
 
 
-## List WoRMs species exclusively as marine using identifiers of habitat occupancy of each taxa
+## List WoRMs species listed as marine using identifiers of habitat occupancy of each taxa
 ## i.e. TRUE for isMarine and NA/FALSE for the others
 worms <- as.data.table(worms)
-marine_worms <- worms[isMarine == 1 & isBrackish == 0 & isTerrestrial == 0 & isFreshwater == 0 & isExtinct == 0]
+
+marine_worms <- worms[isMarine == 1]
 
 
 ## Unmatched valid name and scientific name in WORMS
 marine_worms[(! valid_name == scientificname)][,.(valid_name, scientificname)]
 
 
-## >> Exclude marine species using valid_name in WORMS ####
-afd_marine_1 <- afd_data[FULL_NAME %in% marine_worms$valid_name][,.(FULL_NAME)]
-nrow(afd_data) - nrow(afd_marine_1)
-
+## >> Exclude marine species using valid_name & scientificnamein WORMS ####
 afd_data <- afd_data[! FULL_NAME %in% marine_worms$valid_name]
-
-
-
-## >> Exclude marine species using scientificname in WORMS ####
-afd_marine_2 <- afd_data[FULL_NAME %in% marine_worms$scientificname][,.(FULL_NAME)]
-nrow(afd_data) - nrow(afd_marine_2)
-
 afd_data <- afd_data[! FULL_NAME %in% marine_worms$scientificname]
 length(unique(afd_data$FULL_NAME)); nrow(afd_data)
 
 
-
-## >> Identifying marine as per 'ECOLOGY_DESCRIPTIORS' in AFD ####
+## >> Identify marine as per 'ECOLOGY_DESCRIPTIORS' in AFD ####
 nrow(afd_data[grep("marine", afd_data$ECOLOGY_DESCRIPTIORS)])
 
-temp <- afd_data[grep("marine", afd_data$ECOLOGY_DESCRIPTIORS)][,.(FULL_NAME, SYNONYMS, PHYLUM, SUBPHYLUM, SUPERCLASS, CLASS, SUBCLASS, SUPERORDER, ORDER, SUBORDER, SUPERFAMILY, FAMILY, SUBFAMILY, SUPERTRIBE, TRIBE, SUBTRIBE, GENUS, SPECIES, SUB_SPECIES, CONCEPT_GUID, ECOLOGY_DESCRIPTIORS)]
+temp <- as.data.table(afd_data[grep("marine", afd_data$ECOLOGY_DESCRIPTIORS)][,.(FULL_NAME, SYNONYMS, PHYLUM, SUBPHYLUM, SUPERCLASS, CLASS, SUBCLASS, SUPERORDER, ORDER, SUBORDER, SUPERFAMILY, FAMILY, SUBFAMILY, SUPERTRIBE, TRIBE, SUBTRIBE, GENUS, SPECIES, SUB_SPECIES, CONCEPT_GUID, ECOLOGY_DESCRIPTIORS)])
 
 fwrite(as.data.table(temp), file = file.path(outdir, "afd_marine.csv"), 
        row.names = FALSE)
 
+## Check species in https://www.marinespecies.org/aphia.php?p=search
+afd_marine <- as.data.table(temp$FULL_NAME)
+
+## Save species listed as freshwater and terrestrial
+temp <- worms[isMarine == 1 & isFreshwater == 1]
+temp <- unique(c(temp$scientificname, temp$valid_name))
+write.csv(temp, file = file.path(outdir, "worms_marine_freshwater.csv"), 
+          row.names = FALSE)
+
+temp <- worms[isMarine == 1 & isTerrestrial == 1]
+temp <- unique(c(temp$scientificname, temp$valid_name))
+write.csv(temp, file = file.path(outdir, "worms_marine_terrestrial.csv"), 
+       row.names = FALSE)
 
 
-## Save data
+
+## Save cleaned AFD checklist ####
 afd_data <- setDT(afd_data, key = "FULL_NAME")
 fwrite(afd_data, 
-       file = file.path(outdir, "afd_Mar2023_clean.csv"), 
+       file = file.path(outdir, "afd_Apr2023_clean.csv"), 
        row.names = FALSE)
 
 
