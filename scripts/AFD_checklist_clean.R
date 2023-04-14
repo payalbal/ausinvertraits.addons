@@ -274,7 +274,7 @@ fwrite(afd_data,
 
 
 ## ----------------------------------------------- ##
-## Synonyms ####
+## $$ TO FIX $$ - Synonyms ####
 ## ----------------------------------------------- ##
 source("./scripts/get_AFDsynonyms.R")
 
@@ -292,6 +292,8 @@ saveRDS(out, file = "./outputs/afd_synonyms.rds")
 ## ----------------------------------------------- ##
 ## Identify duplicates ####
 ## ----------------------------------------------- ##
+## >> List duplicates ####
+afd_data <- fread(file.path(outdir, "afd_Apr2023_clean.csv"))
 
 ## List duplicates comparing all columns
 nrow(afd_data[duplicated(afd_data),] )
@@ -306,44 +308,42 @@ afd_data %>% add_column(COMPLETE_NAME = paste0(trimws(afd_data$FULL_NAME),
 length(unique(afd_data$FULL_NAME))
 length(unique(afd_data$COMPLETE_NAME))
 
+## Set keys
+afd_data <- setDT(afd_data, key = c("FULL_NAME", "COMPLETE_NAME", "CONCEPT_GUID"))
+
 
 ## Are there duplicates in FULL_NAME & COMPLETE_NAME?
 length(afd_data$FULL_NAME) != length(unique(afd_data$FULL_NAME))
+nrow(afd_data[duplicated(FULL_NAME),] )
+
 length(afd_data$COMPLETE_NAME) != length(unique(afd_data$COMPLETE_NAME))
+nrow(afd_data[duplicated(COMPLETE_NAME),] )
 
 
-## Set as DT
-afd_dt <- setDT(afd_data, key = c("FULL_NAME", "COMPLETE_NAME", "CONCEPT_GUID"))
-
-## List of duplicates in FULL_NAME (excluding first appearance)
-afd_dt$FULL_NAME[duplicated(afd_dt$FULL_NAME)]
-
+## Duplicates in FULL_NAME (excluding first appearance)
+afd_data$FULL_NAME[duplicated(afd_data$FULL_NAME)]
 
 ## Duplicates in FULL_NAME (*including* first appearance)
-dup_fullname <- afd_dt$FULL_NAME[duplicated(afd_dt$FULL_NAME) | duplicated(afd_dt$FULL_NAME, fromLast=TRUE)]
-length (dup_fullname)
-dup_fullname
+afd_data$FULL_NAME[duplicated(afd_data$FULL_NAME) | duplicated(afd_data$FULL_NAME, fromLast=TRUE)]
 
-## List of duplicates in COMPLETE_NAME (excluding first appearance)
-afd_dt$COMPLETE_NAME[duplicated(afd_dt$COMPLETE_NAME)]
+temp <- afd_data[duplicated(afd_data$FULL_NAME) | duplicated(afd_data$FULL_NAME, fromLast=TRUE)]
+nrow(temp)
+readr::write_csv(temp, file.path(outdir, "afd_fullname_repeats.csv"))
 
+
+## Duplicates in COMPLETE_NAME (excluding first appearance)
+afd_data$COMPLETE_NAME[duplicated(afd_data$COMPLETE_NAME)]
 
 ## Duplicates in COMPLETE_NAME (*including* first appearance)
-dup_completename <- afd_dt$COMPLETE_NAME[duplicated(afd_dt$COMPLETE_NAME) | duplicated(afd_dt$COMPLETE_NAME, fromLast=TRUE)]
-length(dup_completename)
-dup_completename
+afd_data$COMPLETE_NAME[duplicated(afd_data$COMPLETE_NAME) | duplicated(afd_data$COMPLETE_NAME, fromLast=TRUE)]
 
-
-## Write outputs
-temp1 <- afd_dt[COMPLETE_NAME %in% dup_completename]
-readr::write_csv(temp1, file.path(outdir, "afd_completename_repeats.csv"))
-
-temp2 <- afd_dt[FULL_NAME %in% dup_fullname]
-readr::write_csv(temp2, file.path(outdir, "afd_fullname_repeats.csv"))
+temp <- afd_data[duplicated(afd_data$COMPLETE_NAME) | duplicated(afd_data$COMPLETE_NAME, fromLast=TRUE)]
+nrow(temp)
+readr::write_csv(temp, file.path(outdir, "afd_completename_repeats.csv"))
 
 
 
-## Resolve duplicates manually ####
+## >> Resolve duplicates manually ####
 
 
 
