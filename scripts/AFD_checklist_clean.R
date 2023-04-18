@@ -344,7 +344,8 @@ readr::write_csv(temp, file.path(outdir, "afd_completename_repeats.csv"))
 
 
 ## >> Resolve duplicates manually ####
-
+file.path(outdir, "afd_completename_repeats_JRM.csv")
+file.path(outdir, "afd_fullname_repeats_JRM.csv")
 
 
 
