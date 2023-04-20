@@ -11,6 +11,7 @@
 
 ## Load required packages
 library(tidyverse)
+library(data.table)
 
 ## Load the Bland dataset
 bland <- read.csv("./data/Bland_2017/Crayfish_Species_Dataset.csv", header = T) 
@@ -66,6 +67,7 @@ bland_template <- template %>%
     trait_name == "occipital_carapace_length" ~ "mm",
     trait_name == "fecundity_per_reproductive_event" ~ "offspring",
     trait_name == "EOO" ~ "km2")) %>%  # specify unit_numeric for numerical traits
+  tidyr::drop_na(value) %>% # remove rows with NA in the value column
   dplyr::mutate(methods = case_when(
     trait_name == "occipital_carapace_length" ~ "I collected maximum body size (mm) from species descriptions, field guides and museum specimens (references available on request). I used maximum body size as mean body size is generally not available for crayfish species. I found three measures of crayfish body size: occipital carapace length (OCL), carapace length (CL), and body length (BL). I used CL as the preferred measure of body size as it was available for most species (397 species). For species for which maximum CL was missing, I preferentially transformed OCL values, as crayfish BL is a more variable measure of crayfish body size than OCL. I corrected OCL into CL for 53 species and BL into CL for 79 species. I developed correction factors between OCL and CL, and BL and CL from a database of morphological measurements of 1,743 specimens. These measurements were obtained from species descriptions, museum plates, museum specimens and field specimens (references available on request). I used species-specific correction factors when available, if not I used genus-specific correction factors (29 species).",
     trait_name == "fecundity_per_reproductive_event" ~ "Maximum number of eggs taken from species descriptions, field guides and museum specimens.",
@@ -77,6 +79,21 @@ bland_template <- template %>%
   dplyr::mutate(source_citation = "Bland, L. M. (2017). Global correlates of extinction risk in freshwater crayfish. Animal Conservation, 20(6), 532-542.") %>% # add source_citation
   dplyr::mutate(source_type = "article") # add source_type
 
+## Change category level names of microhabitat_activity and microhabitat_shelter using data.table.
+
+bland_template <- as.data.table(bland_template)
+bland_template$value <- as.character(bland_template$value) # make the value column a character
+
+bland_template[trait_name == "microhabitat_activity" & value == 1]$value = "water_lotic"  # change category names for microhabitat_activity
+bland_template[trait_name == "microhabitat_activity" & value == 2]$value = "water_lentic"
+bland_template[trait_name == "microhabitat_activity" & value == 3]$value = "burrow"
+bland_template[trait_name == "microhabitat_activity" & value == 4]$value = "troglofauna"
+
+bland_template[trait_name == "microhabitat_shelter" & value == 1]$value = "water_lotic"   # change category names for microhabitat_shelter
+bland_template[trait_name == "microhabitat_shelter" & value == 2]$value = "water_lentic"
+bland_template[trait_name == "microhabitat_shelter" & value == 3]$value = "burrow"
+bland_template[trait_name == "microhabitat_shelter" & value == 4]$value = "troglofauna"
+
 ## More to do to finish occupying the data template. See the TO DO list below.
 
 
@@ -84,7 +101,7 @@ bland_template <- template %>%
 ## Export the Bland_2017 data.csv ##
 ##--------------------------------##
 
-write.csv(bland_template, "./outputs/other_dbs/Bland_2017/data.csv", row.names = FALSE)
+write.csv(bland_template, "Bland_2017/data.csv", row.names = FALSE)
 
 
 ##--------##
@@ -98,48 +115,4 @@ write.csv(bland_template, "./outputs/other_dbs/Bland_2017/data.csv", row.names =
 # The environmental variables are: Temp, TempSeas, Prec, PrecSeas, 
 # ElevMin, Consumption, Fragment, Mercury, Pesticide, Sed, Cropland, 
 # Livestock, HPD).
-
-# (2) Change category level names of the both trait_name 
-# microhabitat_activity and microhabitat_shelter to:
-# value 1 to "water_lotic"
-# value 2 to "water_lentic"
-# value 3 to "burrow"
-# value 4 to "troglofauna"
-# I tried the code below, but it doesn't quite work because
-# every value that doesn't match what is specified is changed to NA.
-# (thus we lose all of the numerical values for the other traits).
-
-# dplyr::mutate(value = case_when(
-# trait_name == "microhabitat_activity" & value == 1 ~ "water_lotic",
-# trait_name == "microhabitat_activity" & value == 2 ~ "water_lentic",
-# trait_name == "microhabitat_activity" & value == 3 ~ "burrow",
-# trait_name == "microhabitat_activity" & value == 4 ~ "troglofauna")) %>%  # change trait categories to match IA trait levels
-
-## Data table approach
-dt <- as.data.table(bland_template) ## convert data to data.table format; you needn't create a new object if you're runnign this step last: bland_template <- as.data.table(bland_template)
-names(dt) ## to see data table column names
-str(dt) ## to see types of data in each column
-dt$value <- as.character(dt$value) ## change column type of character
-str(dt) ## check that value column type
-
-
-dt[trait_name == "microhabitat_activity" & value == 1]$value ## just a check 
-dt[trait_name == "microhabitat_activity" & value == 1]$value = "water_lotic"
-
-dt[trait_name == "microhabitat_activity" & value == 2]$value ## just a check 
-dt[trait_name == "microhabitat_activity" & value == 2]$value = "water_lentic"
-
-dt[trait_name == "microhabitat_activity" & value == 3]$value ## just a check 
-dt[trait_name == "microhabitat_activity" & value == 3]$value = "burrow"
-
-
-dt[trait_name == "microhabitat_activity" & value == 4]$value ## just a check 
-dt[trait_name == "microhabitat_activity" & value == 4]$value = "troglofauna"
-
-
-dt[trait_name == "microhabitat_activity" ]$value ## to check value column
-
-write.csv(dt, "./outputs/other_dbs/Bland_2017/db_data.csv", row.names = FALSE)
-
-
 
