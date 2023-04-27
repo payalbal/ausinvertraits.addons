@@ -310,6 +310,10 @@ length(unique(afd_data$COMPLETE_NAME))
 
 ## Set keys
 afd_data <- setDT(afd_data, key = c("FULL_NAME", "COMPLETE_NAME", "CONCEPT_GUID"))
+fwrite(afd_data, 
+       file = file.path(outdir, "afd_Apr2023_clean.csv"), 
+       row.names = FALSE)
+
 
 
 ## Are there duplicates in FULL_NAME & COMPLETE_NAME?
@@ -344,16 +348,16 @@ readr::write_csv(temp, file.path(outdir, "afd_completename_repeats.csv"))
 
 
 ## >> Resolve duplicates manually ####
-file.path(outdir, "afd_completename_repeats_JRM.csv")
-file.path(outdir, "afd_fullname_repeats_JRM.csv")
+## NOTE: Duplicates will NOT be removed at this stage. 
 
 
 
 
 
 
-
-
+## ----------------------------------------------- ##
+## Data checks (not exhaustive) ####
+## ----------------------------------------------- ##
 ## Counts for number of words
 str_count(afd_data$FULL_NAME, pattern = "\\S+") |> janitor::tabyl()
 
