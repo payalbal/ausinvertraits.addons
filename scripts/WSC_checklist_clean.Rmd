@@ -1,0 +1,72 @@
+---
+title: "Cleaning the World Spider Catalog List"
+author: "Fonti Kar"
+date: "2023-05-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Cleaning the World Spider Catalog
+
+
+## Load dependencies 
+
+```{r}
+
+```
+
+## Read in data
+
+```{r}
+
+```
+
+## Getting familiar with data
+
+```{r}
+
+```
+
+## Precleaning 
+
+Structure inconsistencies fixed to align with AFD
+
+```{r}
+
+```
+
+## Remove improper names
+
+```{r}
+
+```
+
+## Remove non-Australian species
+
+## Remove marine species
+
+## Matches to AFD
+
+Flag and summarise and list
+
+```{r}
+
+```
+
+Discrepancies in other variables with matches 
+
+```{r}
+
+```
+
+## New taxa additions
+
+Flag and summarise and list
+
+```{r}
+
+```
+
