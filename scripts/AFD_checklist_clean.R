@@ -285,7 +285,7 @@ afd_data <- fread(file.path(outdir, "afd_May2023_clean.csv"))
 afd_data <- setDT(afd_data, key = "FULL_NAME")
 
 out <- get_AFDsynonyms(unique(afd_data$FULL_NAME), afd_data)
-saveRDS(out, file = "./outputs/afd_synonyms.rds")
+saveRDS(out, file = file.path(outdir, "afd_synonyms.rds"))
 
 
 
