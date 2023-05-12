@@ -12,20 +12,22 @@
 ## The start up basics ##
 ##---------------------##
 
+## Set working directory
+setwd("./ausinvertraits.addons") 
+
 ## Load required package
 library(tidyverse)
 
-
 ## Load the Bland datasets
-b1 <- read.csv("scripts/Allometry_06062014.csv", header = T) 
-b2 <- read.csv("scripts/Life_History_Traits_06062014.csv", header = T) 
-b3 <- read.csv("scripts/Crayfish_Species_Dataset.csv", header = T) 
+b1 <- read.csv("./data/Bland_2017/Allometry_06062014.csv", header = T)
+b2 <- read.csv("./data/Bland_2017/Life_History_Traits_06062014.csv", header = T) 
+b3 <- read.csv("./data/Bland_2017/Crayfish_Species_Dataset.csv", header = T) 
 
 ## Load the file containing Australian crayfish genera and family name
-b_names <- read.csv("scripts/aus_crayfish_genera.csv", header = T) 
+b_names <- read.csv("data/Bland_2017/aus_crayfish_genera.csv", header = T) 
 
 ## Load the data template
-template <- read.csv("scripts/template.csv", header = T) 
+template <- read.csv("data/Bland_2017/data_template.csv", header = T) 
 
 
 ##-----------------------##
@@ -355,5 +357,5 @@ b3_template <- template %>%
 bland_template <- b1_template %>%
   dplyr::bind_rows(b2_template, b3_template) # combine the three datasets mapped to the data template
 
-write.csv(bland_template, "scripts/data.csv", row.names = FALSE) # export the data as a csv
+write.csv(bland_template, "./outputs/data.csv", row.names = FALSE) # export the data as a csv
 
