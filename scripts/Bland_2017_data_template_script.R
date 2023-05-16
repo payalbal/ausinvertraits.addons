@@ -12,8 +12,15 @@
 ## The start up basics ##
 ##---------------------##
 
+## $$ add show_col_types = FALSE to quiet the messages when using read_csv; but before you do make sure that the data is being read in correctly. You can *sometimes* get spurious conversions in data that is being read in, for example if a number is recorded as a character in the csv it might be read in as NA. So just check all is in order and you can safely shut that read_csv message up :)
+
 ## Set working directory
-setwd("./ausinvertraits.addons") 
+getwd()
+setwd(...) # $$ set this to Rproject directory if needed
+
+out_dir <- file.path(getwd(), "outputs") # $$ good practice to set an output directory at the start of the script so you can just call on this later. Feel free to change names to whatever seems most sensible to you
+dbout_dir <- file.path(out_dir, "other_dbs/Bland_2017")
+
 
 ## Load required package
 library(tidyverse)
@@ -91,7 +98,7 @@ b1_mod <- b1 %>%
 b1_template <- template %>%
   dplyr::full_join(b1_mod) %>%  # merge with empty data_template
   dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from data template)
-  dplyr::mutate(taxname_source = "AFD") %>%  # add taxname_source (note that this is only correct for the Australian species)
+  dplyr::mutate(taxname_source = NA) %>%  # add taxname_source (note that this is only correct for the Australian species)
   dplyr::mutate(entity_type_tax = "species") %>%  # add entity_type_tax category
   dplyr::mutate(life_stage_generic = "adult") %>%  # add life_stage_generic category
   dplyr::mutate(trait_name = "occipital_carapace_length") %>%  # add trait_name
@@ -221,7 +228,7 @@ b2_mod <- b2 %>%
 b2_template <- template %>%
   dplyr::full_join(b2_mod) %>%  # merge with empty data_template
   dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from data template)
-  dplyr::mutate(taxname_source = "AFD") %>%  # add taxname_source (note that this is only correct for the Australian species)
+  dplyr::mutate(taxname_source = NA) %>%  # add taxname_source (note that this is only correct for the Australian species)
   dplyr::mutate(entity_type_tax = "species") %>%  # add entity_type_tax category
   dplyr::mutate(
     life_stage_generic = case_when(
@@ -315,7 +322,7 @@ b3_mod <- b3 %>%
 b3_template <- template %>%
   dplyr::full_join(b3_mod) %>%  # merge with empty data_template
   dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from data template)
-  dplyr::mutate(taxname_source = "AFD") %>%  # add taxname_source
+  dplyr::mutate(taxname_source = NA) %>%  # add taxname_source
   dplyr::mutate(entity_type_tax = "species") %>%  # add entity_type_tax
   dplyr::mutate(life_stage_generic = "all") %>%  # add life_stage_generic
   dplyr::mutate(sex = "all") %>% # add sex category
@@ -354,9 +361,43 @@ b3_template <- template %>%
 ## Combine the datasets & export ##
 ##-------------------------------##
 
-
+## $$ changed output path
 bland_template <- b1_template %>%
   dplyr::bind_rows(b2_template, b3_template) %>%  # combine the three datasets mapped to the data template
-  readr::write_csv(file.path(getwd(), "outputs/data.csv")) # export the data as a csv into "outputs" folder
+  readr::write_csv(file.path(dbout_dir, "data.csv")) # export the data as a csv into "outputs" folder
 
 
+
+##-------------------------------##
+## $$ Specify taxname_source     ##
+##-------------------------------##
+
+## >> Specify AFD as source
+afd <- data.table::fread(file.path(out_dir, "afd_May2023_clean.csv"))
+
+## $$ I've left my data.table code in here because I was checking the tidyverse code against it. Sorraay! I'm not great with tidy. I've tried. Feel free to delete the data.table code and check that what I've done is sensible :|
+temp <- data.table::data.table(bland_template)
+nrow(temp[taxon_family == "Parastacidae"][taxon_name %in% afd$FULL_NAME])
+x <- bland_template %>%
+  filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>%
+  mutate(taxname_source = ifelse(taxon_name %in% afd$FULL_NAME, "AFD", taxname_source))
+sum(x$taxname_source == "AFD", na.rm = TRUE)
+
+## $$ This will be the code 
+bland_template <- bland_template %>%
+  filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>%
+  mutate(taxname_source = ifelse(taxon_name %in% afd$FULL_NAME, "AFD", taxname_source))
+
+## $$ Checks
+unique(bland_template$taxname_source)
+sum(bland_template$taxname_source == "AFD", na.rm = TRUE)
+
+## >> Manually check the remaining species against other data sources 
+## For reproducibility, create vectors of species names following your investigations by source and then, add the relevant source in script to the bland_template. Latter preferable, even if it will be hardcoded in the script. 
+## Note this step will be automated once we have the InverTraits taxonomy set up
+## IF species name is not found in AFD and any other sources, then specify taxname_source = "not found"
+## IF species is morphospecies or undescribed species, then specify taxname_source = NA
+
+
+## Save dataset subset to Parastacidae and with taxname_source specified
+readr::write_csv(bland_template, file.path(dbout_dir, "data.csv"))
