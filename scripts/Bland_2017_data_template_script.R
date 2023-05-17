@@ -1,24 +1,23 @@
-##################################
+##------------------------------##
 ## Other databases - Bland_2017 ##
-##################################
+##------------------------------##
 
 
-## Script to clean and map the Bland_2017 raw crayfish 
-## datasets provided by Bland (2) and the open access dataset (1)
+## Script to clean and map the Bland_2017 global crayfish 
+## raw datasets (2) provided by Bland and the open access dataset
 ## that accompanies the paper to the IA data_template.
 
 
-##---------------------##
-## The start up basics ##
-##---------------------##
+##-------------------------##
+#### The start up basics ####
+##-------------------------##
 
-## $$ add show_col_types = FALSE to quiet the messages when using read_csv; but before you do make sure that the data is being read in correctly. You can *sometimes* get spurious conversions in data that is being read in, for example if a number is recorded as a character in the csv it might be read in as NA. So just check all is in order and you can safely shut that read_csv message up :)
 
 ## Set working directory
 getwd()
-setwd(...) # $$ set this to Rproject directory if needed
+setwd(...) # set this to R project directory if needed
 
-out_dir <- file.path(getwd(), "outputs") # $$ good practice to set an output directory at the start of the script so you can just call on this later. Feel free to change names to whatever seems most sensible to you
+out_dir <- file.path(getwd(), "outputs")
 dbout_dir <- file.path(out_dir, "other_dbs/Bland_2017")
 
 
@@ -26,21 +25,22 @@ dbout_dir <- file.path(out_dir, "other_dbs/Bland_2017")
 library(tidyverse)
 
 ## Load the Bland datasets
-b1 <- read_csv(file.path(getwd(), "data", "Bland_2017/Allometry_06062014.csv"))
-b2 <- read_csv(file.path(getwd(), "data", "Bland_2017/Life_History_Traits_06062014.csv")) 
-b3 <- read_csv(file.path(getwd(), "data", "Bland_2017/Crayfish_Species_Dataset.csv")) 
+b1 <- read_csv(file.path(getwd(), "data", "Bland_2017/Allometry_06062014.csv"), show_col_types = FALSE)
+b2 <- read_csv(file.path(getwd(), "data", "Bland_2017/Life_History_Traits_06062014.csv"), show_col_types = FALSE) 
+b3 <- read_csv(file.path(getwd(), "data", "Bland_2017/Crayfish_Species_Dataset.csv"), show_col_types = FALSE) 
 
 
-## Load the file containing Australian crayfish genera and family name
-b_names <- read_csv(file.path(getwd(), "data", "Bland_2017/aus_crayfish_genera.csv")) 
+## Load the file containing Australian crayfish genera and family name.
+## This file allows the family name to be attached to Australian crayfish genera (which all belong to one family)
+b_names <- read_csv(file.path(getwd(), "data", "Bland_2017/aus_crayfish_genera.csv"), show_col_types = FALSE) 
 
 ## Load the data template
-template <- read_csv(file.path(getwd(), "data", "Bland_2017/data_template.csv")) 
+template <- read_csv(file.path(getwd(), "data", "Bland_2017/data_template.csv"), show_col_types = FALSE) 
 
 
-##-----------------------##
-## The allometry dataset ##
-##-----------------------##
+##---------------------------##
+#### The allometry dataset ####
+##---------------------------##
 
 ## (1) Modify the dataset in preparation for the data template.
 
@@ -56,7 +56,7 @@ b1_mod <- b1 %>%
     delim = " ",
     names = c("genus", "epithet"),
     cols_remove = FALSE) %>% # create new columns with genus and specific epithet, so that the Australian crayfish family name can be matched below
-  dplyr::left_join(b_names, by = "genus") %>% # merge the crayfish name dataset for taxon family names
+  dplyr::left_join(b_names, by = "genus") %>% # merge the crayfish name dataset so that the family name is added for Australian species
   dplyr::mutate(Heterochely = replace_na(Heterochely, "None")) %>%  # add category for specimens without heterochely so that rows can be excluded below
   dplyr::filter(Heterochely != "Small") %>%  # exclude rows with measurements for the small chelae as they are repeat rows of individuals
   dplyr::mutate(sex = str_to_lower(sex)) %>%  # change sex categories to lowercase case
@@ -70,13 +70,13 @@ b1_mod <- b1 %>%
   dplyr::mutate(
     secondary_citation = case_when(
       Data_Type == "Museum" ~  NA,
-      .default = as.character(secondary_citation))) %>%  # remove notes related to museum specimens from the secondary citation column (so it is only citations)
+      .default = as.character(secondary_citation))) %>%  # remove notes related to museum specimens from the secondary citation column (so this column is only citations)
   dplyr::mutate(
     Data_Type = case_when(
       Data_Type == "Plate" ~ "measurement taken from plate",
       Data_Type == "Museum" ~ "measurement made on museum specimen",
       Data_Type == "Table" ~ "measurement taken from table",
-      Data_Type == "Table mean" ~ "measurement taken from table mean")) %>%  # describe where data comes from
+      Data_Type == "Table mean" ~ "measurement taken from table mean")) %>%  # describe where the data comes from
   dplyr::mutate(
     Types = case_when(
       Types == "Allotype" ~ "measurement made on allotype",
@@ -93,12 +93,11 @@ b1_mod <- b1 %>%
   dplyr::select(-genus, -epithet, -Data_Type, -Types, -Heterochely, -measurement_remarks1)  # drop unnecessary columns
 
 
-## (2) Merge the allometry dataset & IA data template, & occupy missing cells
+## (2) Merge the allometry dataset with the IA data template, & occupy missing cells
 
 b1_template <- template %>%
   dplyr::full_join(b1_mod) %>%  # merge with empty data_template
   dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from data template)
-  dplyr::mutate(taxname_source = NA) %>%  # add taxname_source (note that this is only correct for the Australian species)
   dplyr::mutate(entity_type_tax = "species") %>%  # add entity_type_tax category
   dplyr::mutate(life_stage_generic = "adult") %>%  # add life_stage_generic category
   dplyr::mutate(trait_name = "occipital_carapace_length") %>%  # add trait_name
@@ -106,8 +105,8 @@ b1_template <- template %>%
   dplyr::mutate(value_type = "raw") %>%  # add value_type category
   dplyr::mutate(unit_numeric = "mm") %>%  # add unit_numeric
   tidyr::drop_na(value) %>%  # remove rows with NA in the value column
-  dplyr::mutate(value = as.character(value))  %>%  # make the value column a character
-  dplyr::mutate(replicates = 1) %>%  # add replicates
+  dplyr::mutate(value = as.character(value))  %>%  # make the value column a character so that both categorical and numerical values can occur in this column
+  dplyr::mutate(replicates = 1) %>%  # add replicates (1 because these are measurements on individuals)
   dplyr::mutate(methods = "Measurements were obtained from species descriptions, museum plates, museum specimens, and field specimens. Morphological measurements were obtained at 0.1 mm precision.") %>% # add methods
   dplyr::mutate(source_key = "Bland_2017") %>%  # add source_key
   dplyr::mutate(source_doi = "doi: 10.1111/acv.12350") %>%  # add source_doi
@@ -115,15 +114,15 @@ b1_template <- template %>%
   dplyr::mutate(source_type = "article")  # add source_type
 
 
-##---------------------------------##
-## The life history traits dataset ##
-##---------------------------------##
+##-------------------------------------##
+#### The life history traits dataset ####
+##-------------------------------------##
 
 ## (1) Modify the dataset in preparation for the data template.
 
 ## (1a) First make two data frames for two complicated variables (female size at maturity and male minimum form 1 size)
 
-## Female size at maturity data (to be merged later on)
+## Female size at maturity data (to be merged later on).
 
 b2_size_mat <- b2 %>%
   dplyr::select(Friendly_name, Size_maturity_females, Size_Mat_Type, Ref_Size_mat) %>%  # select needed columns
@@ -131,7 +130,7 @@ b2_size_mat <- b2 %>%
     taxon_name = Friendly_name,
     value = Size_maturity_females,
     trait_name = Size_Mat_Type,
-    secondary_citation = Ref_Size_mat) %>%  # rename columns
+    secondary_citation = Ref_Size_mat) %>%  # rename columns to match data template
   tidyr::separate_wider_delim(
     taxon_name,
     delim = " ",
@@ -146,7 +145,7 @@ b2_size_mat <- b2 %>%
   dplyr::select(taxon_name, taxon_family, trait_name, value, secondary_citation)  # select only needed columns
 
 
-## Male form 1 size data (to be merged later on)
+## Male form 1 size data (to be merged later on).
 
 b2_size_form <- b2 %>%
   dplyr::select(Friendly_name, Min_size_form_I_males, Type_size_form_I, Ref_form_I_males) %>%   # select needed columns
@@ -154,7 +153,7 @@ b2_size_form <- b2 %>%
     taxon_name = Friendly_name,
     value = Min_size_form_I_males,
     trait_name = Type_size_form_I,
-    secondary_citation = Ref_form_I_males)  %>%  # rename columns
+    secondary_citation = Ref_form_I_males)  %>%  # rename columns to match data template
   tidyr::separate_wider_delim(
     taxon_name,
     delim = " ",
@@ -203,7 +202,7 @@ b2_mod <- b2 %>%
     delim = " ",
     names = c("genus", "epithet"),
     cols_remove = FALSE) %>% # create new columns with genus and specific epithet, so that the Australian crayfish family name can be matched below
-  dplyr::left_join(b_names, by = "genus") %>% # merge the crayfish name dataset for taxon family names for the Australian species
+  dplyr::left_join(b_names, by = "genus") %>% # merge the crayfish name dataset to get family names for the Australian species
   dplyr::select(
     taxon_name,
     taxon_family,
@@ -223,12 +222,11 @@ b2_mod <- b2 %>%
   dplyr::bind_rows(b2_size_mat, b2_size_form) # combine the female size at maturity and male form I size data
 
 
-## (2) Merge the life history dataset & IA data template, & occupy missing cells
+## (2) Merge the life history dataset with the IA data template, & occupy missing cells.
 
 b2_template <- template %>%
   dplyr::full_join(b2_mod) %>%  # merge with empty data_template
   dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from data template)
-  dplyr::mutate(taxname_source = NA) %>%  # add taxname_source (note that this is only correct for the Australian species)
   dplyr::mutate(entity_type_tax = "species") %>%  # add entity_type_tax category
   dplyr::mutate(
     life_stage_generic = case_when(
@@ -254,7 +252,7 @@ b2_template <- template %>%
       trait_name == "body_length_mat" ~ "female",
       trait_name == "fecundity_per_reproductive_event" ~ "all",
       .default = as.character(sex))) %>%   # add sex for the appropriate traits
-  dplyr::mutate(entity_type = "species") %>% # add entity_type
+  dplyr::mutate(entity_type = "species") %>% # add entity_type for all rows
   dplyr::mutate(value_type = case_when(
     trait_name == "body_length" ~ "maximum",
     trait_name == "body_length_form" ~ "minimum",
@@ -296,9 +294,9 @@ b2_template <- template %>%
   dplyr::mutate(source_type = "article")  # add source_type
 
 
-##-------------------------##
-## The open access dataset ##
-##-------------------------##
+##-----------------------------##
+#### The open access dataset ####
+##-----------------------------##
 
 
 ## (1) Modify the dataset in preparation for the data template.
@@ -317,20 +315,19 @@ b3_mod <- b3 %>%
   tidyr::drop_na(value) # remove rows with NA in the value column
 
 
-## (2) Merge the open access dataset & IA data template, & occupy missing cells
+## (2) Merge the open access dataset with the IA data template, & occupy missing cells.
 
 b3_template <- template %>%
   dplyr::full_join(b3_mod) %>%  # merge with empty data_template
   dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from data template)
-  dplyr::mutate(taxname_source = NA) %>%  # add taxname_source
-  dplyr::mutate(entity_type_tax = "species") %>%  # add entity_type_tax
-  dplyr::mutate(life_stage_generic = "all") %>%  # add life_stage_generic
-  dplyr::mutate(sex = "all") %>% # add sex category
-  dplyr::mutate(entity_type = "species") %>% # add entity_type
+  dplyr::mutate(entity_type_tax = "species") %>%  # add entity_type_tax for all rows
+  dplyr::mutate(life_stage_generic = "all") %>%  # add life_stage_generic for all rows
+  dplyr::mutate(sex = "all") %>% # add sex category for all rows
+  dplyr::mutate(entity_type = "species") %>% # add entity_type for all rows
   dplyr::mutate(value_type = case_when(
-    trait_name == "EOO" ~ "raw")) %>%  # specify value_type for numerical traits
+    trait_name == "EOO" ~ "raw")) %>%  # specify value_type for numerical trait
   dplyr::mutate(unit_numeric = case_when(
-    trait_name == "EOO" ~ "km2")) %>%  # specify unit_numeric for numerical traits
+    trait_name == "EOO" ~ "km2")) %>%  # specify unit_numeric for numerical trait
   dplyr::mutate(value = case_when(
     trait_name == "microhabitat_activity" & value == 1 ~ "water_lotic",
     trait_name == "microhabitat_activity" & value == 2 ~ "water_lentic",
@@ -357,38 +354,29 @@ b3_template <- template %>%
     trait_name == "EOO" ~ "IUCN. (2010). IUCN Red List of threatened species. Available at: http://www.iucnredlist.org/")) # add secondary citations for the methods description
 
 
-##-------------------------------##
-## Combine the datasets & export ##
-##-------------------------------##
+##-----------------------------------##
+#### Combine the datasets & export ####
+##-----------------------------------##
 
-## $$ changed output path
 bland_template <- b1_template %>%
   dplyr::bind_rows(b2_template, b3_template) %>%  # combine the three datasets mapped to the data template
   readr::write_csv(file.path(dbout_dir, "data.csv")) # export the data as a csv into "outputs" folder
 
 
 
-##-------------------------------##
-## $$ Specify taxname_source     ##
-##-------------------------------##
+##----------------------------##
+#### Specify taxname_source ####
+##----------------------------##
 
-## >> Specify AFD as source
+## Read in the AFD checklist.
 afd <- data.table::fread(file.path(out_dir, "afd_May2023_clean.csv"))
 
-## $$ I've left my data.table code in here because I was checking the tidyverse code against it. Sorraay! I'm not great with tidy. I've tried. Feel free to delete the data.table code and check that what I've done is sensible :|
-temp <- data.table::data.table(bland_template)
-nrow(temp[taxon_family == "Parastacidae"][taxon_name %in% afd$FULL_NAME])
-x <- bland_template %>%
-  filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>%
-  mutate(taxname_source = ifelse(taxon_name %in% afd$FULL_NAME, "AFD", taxname_source))
-sum(x$taxname_source == "AFD", na.rm = TRUE)
-
-## $$ This will be the code 
+## Filter only species in the Parastacidae, and match species names to the AFD checklist.
 bland_template <- bland_template %>%
   filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>%
   mutate(taxname_source = ifelse(taxon_name %in% afd$FULL_NAME, "AFD", taxname_source))
 
-## $$ Checks
+## Check the above code.
 unique(bland_template$taxname_source)
 sum(bland_template$taxname_source == "AFD", na.rm = TRUE)
 
