@@ -354,22 +354,36 @@ b3_template <- template %>%
     trait_name == "EOO" ~ "IUCN. (2010). IUCN Red List of threatened species. Available at: http://www.iucnredlist.org/")) # add secondary citations for the methods description
 
 
-##-----------------------------------##
-#### Combine the datasets & export ####
-##-----------------------------------##
+##--------------------------##
+#### Combine the datasets ####
+##--------------------------##
 
 bland_template <- b1_template %>%
-  dplyr::bind_rows(b2_template, b3_template) %>%  # combine the three datasets mapped to the data template
-  readr::write_csv(file.path(dbout_dir, "data.csv")) # export the data as a csv into "outputs" folder
+  dplyr::bind_rows(b2_template, b3_template)
 
-
-
-##----------------------------##
-#### Specify taxname_source ####
-##----------------------------##
+##--------------------------------------------------##
+#### Create a list of Australian crayfish species ####
+##--------------------------------------------------##
 
 ## Read in the AFD checklist.
 afd <- data.table::fread(file.path(out_dir, "afd_May2023_clean.csv"))
+
+## Create species list.
+bland_taxa_list <- bland_template %>%
+  dplyr::filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>% # filter only rows in the family Parastacidae as all Australian crayfish belong in this family
+  dplyr::select(taxon_name, taxon_family, taxname_source) %>%
+  dplyr::distinct(taxon_name, .keep_all = TRUE) %>%
+  tibble::add_column(updated_taxon_name = "") %>%
+  tibble::add_column(notes = "") %>%
+  mutate(taxname_source = ifelse(taxon_name %in% afd$FULL_NAME, "AFD", taxname_source)) %>% # match species names to the AFD checklist.
+  readr::write_csv(file.path(dbout_dir, "bland_taxa_list.csv")) # export the data as a csv into "outputs" folder
+
+## We then manually checked the names that were not in the AFD checklist (taxname_source was NA).
+## Of these taxa, 23 are not Australian, 7 names were misspellings of species names in AFD, 
+## one species name was current but not in AFD, one name is now considered a subspecies, and 
+## one is a synonym (a further one is a synonym but its name has been synonymised into three 
+## different species so we were unable to give it a known name).
+
 
 ## Filter only species in the Parastacidae, and match species names to the AFD checklist.
 bland_template <- bland_template %>%
