@@ -43,7 +43,7 @@ template <- read_csv(file.path(getwd(), "data", "Bland_2017/data_template.csv"),
 ##---------------------------##
 
 ## (1) Modify the dataset in preparation for the data template.
-
+##** create a new body length column
 b1_mod <- b1 %>%
   dplyr::select(-tax_id, -Specimen, -c(CL:AbdoWidth), -Mean_of_N_individuals) %>% # drop unnecessary columns
   dplyr::rename(
