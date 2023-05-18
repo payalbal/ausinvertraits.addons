@@ -1,13 +1,11 @@
 taxon_name,taxon_family,taxname_source,updated_taxon_name,notes
 Astacopsis franklinii,Parastacidae,AFD,,
 Astacopsis gouldi,Parastacidae,AFD,,
-Cherax albidus,Parastacidae,NA,,
+Astacopsis tricornis,Parastacidae,AFD,,
 Cherax bicarinatus,Parastacidae,AFD,,
-Cherax boesemani,Parastacidae,NA,,
-Cherax boschmai,Parastacidae,NA,,
-Cherax buitendijkae,Parastacidae,NA,,
+Cherax cainii,Parastacidae,AFD,,
+Cherax cairnsensis,Parastacidae,AFD,,
 Cherax cartalacoolah,Parastacidae,AFD,,
-Cherax communis,Parastacidae,NA,,
 Cherax crassimanus,Parastacidae,AFD,,
 Cherax cuspidatus,Parastacidae,AFD,,
 Cherax depressus,Parastacidae,AFD,,
@@ -15,16 +13,8 @@ Cherax destructor,Parastacidae,AFD,,
 Cherax dispar,Parastacidae,AFD,,
 Cherax glaber,Parastacidae,AFD,,
 Cherax leckii,Parastacidae,AFD,,
-Cherax longipes,Parastacidae,NA,,
-Cherax lorentzi,Parastacidae,NA,,
-Cherax misolicus,Parastacidae,NA,,
-Cherax murido,Parastacidae,NA,,
-Cherax pallidus,Parastacidae,NA,,
-Cherax paniaicus,Parastacidae,NA,,
-Cherax papuanus,Parastacidae,NA,,
 Cherax parvus,Parastacidae,AFD,,
 Cherax plebejus,Parastacidae,AFD,,
-Cherax preisii,Parastacidae,NA,,
 Cherax preissii,Parastacidae,AFD,,
 Cherax punctatus,Parastacidae,AFD,,
 Cherax quadricarinatus,Parastacidae,AFD,,
@@ -32,7 +22,6 @@ Cherax quinquecarinatus,Parastacidae,AFD,,
 Cherax rhynchotus,Parastacidae,AFD,,
 Cherax robustus,Parastacidae,AFD,,
 Cherax rotundus,Parastacidae,AFD,,
-Cherax solus,Parastacidae,NA,,
 Cherax tenuimanus,Parastacidae,AFD,,
 Cherax urospinosus,Parastacidae,AFD,,
 Cherax wasselli,Parastacidae,AFD,,
@@ -46,7 +35,6 @@ Engaeus disjuncticus,Parastacidae,AFD,,
 Engaeus fossor,Parastacidae,AFD,,
 Engaeus fultoni,Parastacidae,AFD,,
 Engaeus granulatus,Parastacidae,AFD,,
-Engaeus hemicerratulus,Parastacidae,NA,,
 Engaeus hemicirratulus,Parastacidae,AFD,,
 Engaeus karnanga,Parastacidae,AFD,,
 Engaeus laevis,Parastacidae,AFD,,
@@ -79,9 +67,6 @@ Engaewa subcoerulea,Parastacidae,AFD,,
 Engaewa walpolea,Parastacidae,AFD,,
 Euastacus armatus,Parastacidae,AFD,,
 Euastacus australasiensis,Parastacidae,AFD,,
-Euastacus australiensis,Parastacidae,NA,,
-Euastacus balanesis,Parastacidae,NA,,
-Euastacus bidawalis,Parastacidae,NA,,
 Euastacus bindal,Parastacidae,AFD,,
 Euastacus bispinosus,Parastacidae,AFD,,
 Euastacus brachythorax,Parastacidae,AFD,,
@@ -104,7 +89,6 @@ Euastacus hystricosus,Parastacidae,AFD,,
 Euastacus jagabar,Parastacidae,AFD,,
 Euastacus jagara,Parastacidae,AFD,,
 Euastacus kershawi,Parastacidae,AFD,,
-Euastacus maccai,Parastacidae,NA,,
 Euastacus maidae,Parastacidae,AFD,,
 Euastacus mirangudjin,Parastacidae,AFD,,
 Euastacus monteithorum,Parastacidae,AFD,,
@@ -116,7 +100,6 @@ Euastacus polysetosus,Parastacidae,AFD,,
 Euastacus reductus,Parastacidae,AFD,,
 Euastacus rieki,Parastacidae,AFD,,
 Euastacus robertsi,Parastacidae,AFD,,
-Euastacus serratus,Parastacidae,NA,,
 Euastacus setosus,Parastacidae,AFD,,
 Euastacus simplex,Parastacidae,AFD,,
 Euastacus spinichelatus,Parastacidae,AFD,,
@@ -125,13 +108,11 @@ Euastacus sulcatus,Parastacidae,AFD,,
 Euastacus suttoni,Parastacidae,AFD,,
 Euastacus urospinosus,Parastacidae,AFD,,
 Euastacus valentulus,Parastacidae,AFD,,
-Euastacus wiowuru,Parastacidae,NA,,
 Euastacus woiwuru,Parastacidae,AFD,,
 Euastacus yanga,Parastacidae,AFD,,
 Euastacus yarraensis,Parastacidae,AFD,,
 Euastacus yigara,Parastacidae,AFD,,
 Geocharax falcata,Parastacidae,AFD,,
-Geocharax gracilis,Parastacidae,NA,,
 Gramastacus insolitus,Parastacidae,AFD,,
 Ombrastacoides asperrimanus,Parastacidae,AFD,,
 Ombrastacoides brevirostris,Parastacidae,AFD,,
@@ -148,18 +129,37 @@ Spinastacoides catinipalmus,Parastacidae,AFD,,
 Spinastacoides inermis,Parastacidae,AFD,,
 Spinastacoides insignis,Parastacidae,AFD,,
 Tenuibranchiurus glypticus,Parastacidae,AFD,,
-Astacopsis tricornis,Parastacidae,AFD,,
-Cherax cainii,Parastacidae,AFD,,
-Cherax cairnsensis,Parastacidae,AFD,,
-Cherax holthuisi,Parastacidae,NA,,
-Cherax minor,Parastacidae,NA,,
-Cherax monticola,Parastacidae,NA,,
-Cherax peknyi,Parastacidae,NA,,
-Euastacus yarreansis,Parastacidae,NA,,
-Astacoides betsileoensis,Parastacidae,NA,,
-Astacoides caldwelli,Parastacidae,NA,,
-Astacoides granulimanus,Parastacidae,NA,,
-Paranephrops planifrons,Parastacidae,NA,,
-Paranephrops zealandicus,Parastacidae,NA,,
-Parastacus brasiliensis,Parastacidae,NA,,
-Parastacus pilimanus,Parastacidae,NA,,
+Astacoides betsileoensis,Parastacidae,NA,,non-Australian species
+Astacoides caldwelli,Parastacidae,NA,,non-Australian species
+Astacoides granulimanus,Parastacidae,NA,,non-Australian species
+Cherax albidus,Parastacidae,AFD,Cherax destructor albidus,subspecies
+Cherax boesemani,Parastacidae,NA,,non-Australian species
+Cherax boschmai,Parastacidae,NA,,non-Australian species
+Cherax buitendijkae,Parastacidae,NA,,non-Australian species
+Cherax communis,Parastacidae,NA,,non-Australian species
+Cherax holthuisi,Parastacidae,NA,,non-Australian species
+Cherax longipes,Parastacidae,NA,,non-Australian species
+Cherax lorentzi,Parastacidae,NA,,non-Australian species
+Cherax minor,Parastacidae,NA,,non-Australian species
+Cherax misolicus,Parastacidae,NA,,non-Australian species
+Cherax monticola,Parastacidae,NA,,non-Australian species
+Cherax murido,Parastacidae,NA,,non-Australian species
+Cherax pallidus,Parastacidae,NA,,non-Australian species
+Cherax paniaicus,Parastacidae,NA,,non-Australian species
+Cherax papuanus,Parastacidae,NA,,non-Australian species
+Cherax peknyi,Parastacidae,NA,,non-Australian species
+Cherax preisii,Parastacidae,NA,Cherax preissii,misspelling
+Cherax solus,Parastacidae,NA,,non-Australian species
+Engaeus hemicerratulus,Parastacidae,AFD,Engaeus hemicirratulus,misspelling
+Euastacus australiensis,Parastacidae,AFD,Euastacus australasiensis,misspelling
+Euastacus balanesis,Parastacidae,AFD,Euastacus balanensis,misspelling
+Euastacus bidawalis,Parastacidae,AFD,Euastacus bidawalus,misspelling
+Euastacus maccai,Parastacidae,Catalogue of Life,,
+Euastacus serratus,Parastacidae,not_found,,
+Euastacus wiowuru,Parastacidae,AFD,Euastacus woiwuru,misspelling
+Euastacus yarreansis,Parastacidae,NA,Euastacus yarreansis,misspelling
+Geocharax gracilis,Parastacidae,NA,Geocharax tasmanicus,synonym
+Paranephrops planifrons,Parastacidae,NA,,non-Australian species
+Paranephrops zealandicus,Parastacidae,NA,,non-Australian species
+Parastacus brasiliensis,Parastacidae,NA,,non-Australian species
+Parastacus pilimanus,Parastacidae,NA,,non-Australian species
