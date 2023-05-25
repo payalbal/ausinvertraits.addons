@@ -20,7 +20,6 @@ setwd(...) # set this to R project directory if needed
 out_dir <- file.path(getwd(), "outputs")
 dbout_dir <- file.path(out_dir, "other_dbs/Bland_2017")
 
-
 ## Load required package
 library(tidyverse)
 
@@ -28,7 +27,6 @@ library(tidyverse)
 b1 <- read_csv(file.path(getwd(), "data", "Bland_2017/Allometry_06062014.csv"), show_col_types = FALSE)
 b2 <- read_csv(file.path(getwd(), "data", "Bland_2017/Life_History_Traits_06062014.csv"), show_col_types = FALSE) 
 b3 <- read_csv(file.path(getwd(), "data", "Bland_2017/Crayfish_Species_Dataset.csv"), show_col_types = FALSE) 
-
 
 ## Load the file containing Australian crayfish genera and family name.
 ## This file allows the family name to be attached to Australian crayfish genera (which all belong to one family)
@@ -43,14 +41,15 @@ template <- read_csv(file.path(getwd(), "data", "Bland_2017/data_template.csv"),
 ##---------------------------##
 
 ## (1) Modify the dataset in preparation for the data template.
-##** create a new body length column
+
 b1_mod <- b1 %>%
-  dplyr::select(-tax_id, -Specimen, -c(CL:AbdoWidth), -Mean_of_N_individuals) %>% # drop unnecessary columns
+  dplyr::select(Binomial, Sex, Reference, Data_Type, Types, Heterochely, OCL, CL, AbdoLength) %>% # select and reorder columns
   dplyr::rename(
     taxon_name = Binomial,
-    value = OCL,
     sex = Sex,
-    secondary_citation = Reference) %>% # change column names to match data_template column names
+    secondary_citation = Reference,
+    occipital_carapace_length = OCL) %>% # change column names to match data_template column names
+  dplyr::mutate(body_length = CL + AbdoLength) %>% # create new body length variable from the sum of carapace and abdomen length
   tidyr::separate_wider_delim(
     taxon_name,
     delim = " ",
@@ -90,8 +89,11 @@ b1_mod <- b1 %>%
     c("Data_Type", "Types", "measurement_remarks1"),
     na.rm = TRUE,
     remove = FALSE) %>%  # combine information about measurement details into measurement_remarks
-  dplyr::select(-genus, -epithet, -Data_Type, -Types, -Heterochely, -measurement_remarks1)  # drop unnecessary columns
-
+  dplyr::select(taxon_name, taxon_family, sex, measurement_remarks, secondary_citation, occipital_carapace_length, body_length)  %>%   # keep only necessary columns
+  tidyr::pivot_longer(cols = occipital_carapace_length:body_length,
+                      names_to = "trait_name",
+                      values_to = "value")  # convert to long format so that the trait names and values are in two columns
+  
 
 ## (2) Merge the allometry dataset with the IA data template, & occupy missing cells
 
@@ -100,14 +102,13 @@ b1_template <- template %>%
   dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from data template)
   dplyr::mutate(entity_type_tax = "species") %>%  # add entity_type_tax category
   dplyr::mutate(life_stage_generic = "adult") %>%  # add life_stage_generic category
-  dplyr::mutate(trait_name = "occipital_carapace_length") %>%  # add trait_name
   dplyr::mutate(entity_type = "individual") %>%  # add entity_type category
   dplyr::mutate(value_type = "raw") %>%  # add value_type category
   dplyr::mutate(unit_numeric = "mm") %>%  # add unit_numeric
   tidyr::drop_na(value) %>%  # remove rows with NA in the value column
   dplyr::mutate(value = as.character(value))  %>%  # make the value column a character so that both categorical and numerical values can occur in this column
   dplyr::mutate(replicates = 1) %>%  # add replicates (1 because these are measurements on individuals)
-  dplyr::mutate(methods = "Measurements were obtained from species descriptions, museum plates, museum specimens, and field specimens. Morphological measurements were obtained at 0.1 mm precision.") %>% # add methods
+  dplyr::mutate(methods = "Measurements were obtained from species descriptions, museum plates, museum specimens, or field specimens.") %>% # add methods
   dplyr::mutate(source_key = "Bland_2017") %>%  # add source_key
   dplyr::mutate(source_doi = "doi: 10.1111/acv.12350") %>%  # add source_doi
   dplyr::mutate(source_citation = "Bland, L. M. (2017). Global correlates of extinction risk in freshwater crayfish. Animal Conservation, 20(6), 532-542.") %>%  # add source_citation
@@ -131,18 +132,12 @@ b2_size_mat <- b2 %>%
     value = Size_maturity_females,
     trait_name = Size_Mat_Type,
     secondary_citation = Ref_Size_mat) %>%  # rename columns to match data template
-  tidyr::separate_wider_delim(
-    taxon_name,
-    delim = " ",
-    names = c("genus", "epithet"),
-    cols_remove = FALSE) %>%  # create new columns with genus and specific epithet, so that the Australian crayfish family name can be matched below
-  dplyr::left_join(b_names, by = "genus") %>%  # merge the crayfish name dataset for taxon family names for the Australian species
   dplyr::filter(trait_name %in% c("OCL", "TL")) %>%  # keep only rows with occipital_carapace_length or body_length measurements
   dplyr::mutate(
     trait_name = case_when(
       trait_name == "OCL" ~ "occipital_carapace_length_mat",
       trait_name == "TL" ~ "body_length_mat")) %>%  # rename size at maturity categories with unique trait names so that details can be added later
-  dplyr::select(taxon_name, taxon_family, trait_name, value, secondary_citation)  # select only needed columns
+  dplyr::select(taxon_name, trait_name, value, secondary_citation)  # select only needed columns
 
 
 ## Male form 1 size data (to be merged later on).
@@ -154,18 +149,12 @@ b2_size_form <- b2 %>%
     value = Min_size_form_I_males,
     trait_name = Type_size_form_I,
     secondary_citation = Ref_form_I_males)  %>%  # rename columns to match data template
-  tidyr::separate_wider_delim(
-    taxon_name,
-    delim = " ",
-    names = c("genus", "epithet"),
-    cols_remove = FALSE) %>% # create new columns with genus and specific epithet, so that the Australian crayfish family name can be matched below
-  dplyr::left_join(b_names, by = "genus") %>% # merge the crayfish name dataset for taxon family names for the Australian species
   dplyr::filter(trait_name %in% c("OCL", "TL")) %>%  # keep only rows with occipital_carapace_length or body_length measurements
   dplyr::mutate(
     trait_name = case_when(
       trait_name == "OCL" ~ "occipital_carapace_length_form",
       trait_name == "TL" ~ "body_length_form")) %>%  # rename form I size categories with unique trait names so that details can be added later
-  dplyr::select(taxon_name, taxon_family, trait_name, value, secondary_citation)  # select only needed columns
+  dplyr::select(taxon_name, trait_name, value, secondary_citation)  # select only needed columns
 
 
 ## (1b) Create a dataset with the secondary_citations for each trait (to be merged with the trait values later).
@@ -197,15 +186,8 @@ b2_mod <- b2 %>%
     time_to_maturity = Age_at_maturity) %>%  # change column names to match data_template column names
   dplyr::mutate(life_span = life_span * 365) %>%  # convert life span in years to days
   dplyr::mutate(time_to_maturity = time_to_maturity * 365) %>%  # convert time to maturity in years to days
-  tidyr::separate_wider_delim(
-    taxon_name,
-    delim = " ",
-    names = c("genus", "epithet"),
-    cols_remove = FALSE) %>% # create new columns with genus and specific epithet, so that the Australian crayfish family name can be matched below
-  dplyr::left_join(b_names, by = "genus") %>% # merge the crayfish name dataset to get family names for the Australian species
   dplyr::select(
     taxon_name,
-    taxon_family,
     occipital_carapace_length,
     body_length,
     Egg_size,
@@ -218,9 +200,16 @@ b2_mod <- b2 %>%
     values_to = "value") %>% # convert to long format so that all trait names and values are in two columns
   dplyr::left_join(b2_mod_refs, by = c("taxon_name", "trait_name")) %>% # merge the dataset with secondary citations
   dplyr::select(-trait_name2) %>%
-  tidyr::drop_na(value)  %>% # remove rows with NA in the value column
-  dplyr::bind_rows(b2_size_mat, b2_size_form) # combine the female size at maturity and male form I size data
-
+  tidyr::drop_na(value) %>% # remove rows with NA in the value column
+  dplyr::bind_rows(b2_size_mat, b2_size_form) %>% # combine the female size at maturity and male form I size data
+  tidyr::separate_wider_delim(
+    taxon_name,
+    delim = " ",
+    names = c("genus", "epithet"),
+    cols_remove = FALSE) %>% # create new columns with genus and specific epithet, so that the Australian crayfish family name can be matched below
+  dplyr::left_join(b_names, by = "genus") %>% # merge the crayfish name dataset to get family names for the Australian species
+  dplyr::select(taxon_name, taxon_family, trait_name, value, secondary_citation) # select only needed columns
+  
 
 ## (2) Merge the life history dataset with the IA data template, & occupy missing cells.
 
@@ -266,7 +255,9 @@ b2_template <- template %>%
     trait_name == "time_to_maturity" ~ "mean")) %>%  # specify value_type for numerical traits
   dplyr::mutate(measurement_remarks = case_when(
     trait_name == "body_length_mat" ~ "Female size at maturity.",
-    trait_name == "occipital_carapace_length_mat" ~ "Female size at maturity.")) %>%  # provide details of measurements
+    trait_name == "occipital_carapace_length_mat" ~ "Female size at maturity.",
+    trait_name == "body_length" ~ "Body lengths were collected from species descriptions and field guides. Maximum size was used as mean size is generally not available for crayfish species.",
+    trait_name == "occipital_carapace_length" ~ "Occipital carapace lengths were collected from species descriptions and field guides. Maximum size was used as mean size is generally not available for crayfish species.")) %>%  # provide details of measurements
   dplyr::mutate(
     trait_name = case_when(
       trait_name == "body_length_form" ~ "body_length",
@@ -283,10 +274,10 @@ b2_template <- template %>%
     trait_name == "time_to_maturity" ~ "days")) %>%  # specify units for numerical traits
   dplyr::mutate(value = as.character(value))  %>%  # make the value column a character
   dplyr::mutate(methods = case_when(
-    trait_name == "body_length" ~ "Body lengths were collected from species descriptions and field guides. Maximum size was used as mean size is generally not available for crayfish species.",
+    trait_name == "body_length" ~ "Measurements were obtained from species descriptions, museum plates, museum specimens, or field specimens.",
     trait_name == "fecundity_per_reproductive_event" ~ "Maximum number of eggs taken from species descriptions, field guides, and museum specimens.",
     trait_name == "life_span" ~ "Life span was taken from species descriptions and field guides.",
-    trait_name == "occipital_carapace_length" ~ "Occipital carapace lengths were collected from species descriptions and field guides. Maximum size was used as mean size is generally not available for crayfish species.",
+    trait_name == "occipital_carapace_length" ~ "Measurements were obtained from species descriptions, museum plates, museum specimens, or field specimens.",
     trait_name == "time_to_maturity" ~ "Age at maturity was taken from species descriptions and field guides."))  %>%  # specify methods for each trait.
   dplyr::mutate(source_key = "Bland_2017") %>%  # add source_key
   dplyr::mutate(source_doi = "doi: 10.1111/acv.12350") %>%  # add source_doi
@@ -354,16 +345,12 @@ b3_template <- template %>%
     trait_name == "EOO" ~ "IUCN. (2010). IUCN Red List of threatened species. Available at: http://www.iucnredlist.org/")) # add secondary citations for the methods description
 
 
-##--------------------------##
-#### Combine the datasets ####
-##--------------------------##
-
-bland_template <- b1_template %>%
-  dplyr::bind_rows(b2_template, b3_template)
-
 ##--------------------------------------------------##
 #### Create a list of Australian crayfish species ####
 ##--------------------------------------------------##
+
+## This script is not needed for mapping the Bland datasets to the data template.
+## This is the script used to generate a list of Australian crayfish species (that is subsetted below).
 
 ## Read in the AFD checklist.
 afd <- data.table::fread(file.path(out_dir, "afd_May2023_clean.csv"))
@@ -385,6 +372,59 @@ bland_taxa_list <- bland_template %>%
 ## different species so we were unable to give it a known name).
 
 
+##---------------------------------------------------------##
+#### Combine the datasets subset only Australian species ####
+##---------------------------------------------------------##
+
+aus_names <- read_csv(file.path(getwd(), "data", "Bland_2017/bland_taxa_list_updated.csv"), show_col_types = FALSE)
+
+bland_template <- b1_template %>%
+  dplyr::bind_rows(b2_template, b3_template) %>%
+  dplyr::full_join(aus_names, by = "taxon_name") %>% 
+  dplyr::select(-taxname_source.x, -taxon_family.y) %>% # remove repeat columns from merging (retain taxname_source from the aus_names dataset, retain taxon_family from bland_template)
+  dplyr::rename(
+    taxon_family = taxon_family.x,
+    taxname_source = taxname_source.y) %>%  # rename columns to remove x and y
+  dplyr::mutate(entity_type_tax = case_when(
+    notes == "subspecies" ~ "subspecies",
+    .default = as.character(entity_type_tax))) %>% # specify subspecies for entity_type_tax
+  dplyr::filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>%  # include only taxa in the Parastacidae
+  dplyr::filter(!is.na(taxname_source)) %>%  # exclude non-Australian species in the Parastacidae
+  dplyr::mutate(taxon_name_original = case_when(
+    taxon_name == "Cherax albidus" ~ "Cherax albidus",
+    taxon_name == "Geocharax gracilis" ~ "Geocharax gracilis",
+    taxon_name == "Cherax preisii" ~ "Cherax preisii",
+    taxon_name == "Engaeus hemicerratulus" ~ "Engaeus hemicerratulus",
+    taxon_name == "Euastacus australiensis" ~ "Euastacus australiensis",
+    taxon_name == "Euastacus balanesis" ~ "Euastacus balanesis",
+    taxon_name == "Euastacus bidawalis" ~ "Euastacus bidawalis",
+    taxon_name == "Euastacus wiowuru" ~ "Euastacus wiowuru",
+    taxon_name == "Euastacus yarreansis" ~ "Euastacus yarreansis")) %>% # add original name in cases where names are different to current AFD name
+  dplyr::mutate(taxname_issues_description = case_when(
+    taxon_name == "Cherax preisii" ~ "taxon_name_original name misspelled in source, Cherax preissii misspelled as Cherax preisii",
+    taxon_name == "Engaeus hemicerratulus" ~ "taxon_name_original name misspelled in source, Engaeus hemicirratulus misspelled as Engaeus hemicerratulus",
+    taxon_name == "Euastacus australiensis" ~ "taxon_name_original name misspelled in source, Euastacus australasiensis misspelled as Euastacus australiensis",
+    taxon_name == "Euastacus balanesis" ~ "taxon_name_original name misspelled in source, Euastacus balanensis misspelled as Euastacus balanesis",
+    taxon_name == "Euastacus bidawalis" ~ "taxon_name_original name misspelled in source, Euastacus bidawalus misspelled as Euastacus bidawalis",
+    taxon_name == "Euastacus wiowuru" ~ "taxon_name_original name misspelled in source, Euastacus woiwuru misspelled as Euastacus wiowuru",
+    taxon_name == "Euastacus yarreansis" ~ "taxon_name_original name misspelled in source, Euastacus yarraensis misspelled as Euastacus yarreansis")) %>% # describe when names were misspelled
+  dplyr::mutate(taxon_name = case_when(
+    taxon_name == "Cherax albidus" ~ "Cherax destructor albidus",
+    taxon_name == "Geocharax gracilis" ~ "Geocharax tasmanicus",
+    taxon_name == "Cherax preisii" ~ "Cherax preissii",
+    taxon_name == "Engaeus hemicerratulus" ~ "Engaeus hemicirratulus",
+    taxon_name == "Euastacus australiensis" ~ "Euastacus australasiensis",
+    taxon_name == "Euastacus balanesis" ~ "Euastacus balanensis",
+    taxon_name == "Euastacus bidawalis" ~ "Euastacus bidawalus",
+    taxon_name == "Euastacus wiowuru" ~ "Euastacus woiwuru",
+    taxon_name == "Euastacus yarreansis" ~ "Euastacus yarraensis",
+    .default = as.character(taxon_name))) %>% # correct names due subspecies, synonyms, and misspellings
+  dplyr::select(-updated_taxon_name, -notes) %>%
+  dplyr::relocate(taxname_source, .after = taxon_name_original)
+
+### ### ###
+### Below is older code, may not need.
+
 ## Filter only species in the Parastacidae, and match species names to the AFD checklist.
 bland_template <- bland_template %>%
   filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>%
@@ -394,12 +434,24 @@ bland_template <- bland_template %>%
 unique(bland_template$taxname_source)
 sum(bland_template$taxname_source == "AFD", na.rm = TRUE)
 
-## >> Manually check the remaining species against other data sources 
-## For reproducibility, create vectors of species names following your investigations by source and then, add the relevant source in script to the bland_template. Latter preferable, even if it will be hardcoded in the script. 
-## Note this step will be automated once we have the InverTraits taxonomy set up
-## IF species name is not found in AFD and any other sources, then specify taxname_source = "not found"
-## IF species is morphospecies or undescribed species, then specify taxname_source = NA
-
-
 ## Save dataset subset to Parastacidae and with taxname_source specified
 readr::write_csv(bland_template, file.path(dbout_dir, "data.csv"))
+
+
+#### TO DO ####
+
+## Move these text strings from secondary_citation to measurement_remarks
+#Australia fisheries
+#Australian Museum P11920
+#Australian Museum P11968
+#Australian Museum P34019
+#Australian Museum P34039
+#Australian Museum P34045
+#Australian Museum P34075
+#Australian Museum P84271
+#Based on OCL (OCL) **Just need to make this NA in secondary_citation
+#Flora and Fauna Guarantee Act 1988
+#http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/
+#Nat Hist **Need to change this to Natural History Museum, London
+#NHM
+#NHM 1927.4.29.6 Tyers river Gippsland Australia
