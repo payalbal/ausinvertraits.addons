@@ -72,20 +72,19 @@ b1_mod <- b1 %>%
       .default = as.character(secondary_citation))) %>%  # remove notes related to museum specimens from the secondary citation column (so this column is only citations)
   dplyr::mutate(
     Data_Type = case_when(
-      Data_Type == "Plate" ~ "measurement taken from plate",
-      Data_Type == "Museum" ~ "measurement made on museum specimen",
-      Data_Type == "Table" ~ "measurement taken from table",
-      Data_Type == "Table mean" ~ "measurement taken from table mean")) %>%  # describe where the data comes from
+      Data_Type == "Plate" ~ "Measurement taken from plate.",
+      Data_Type == "Museum" ~ "Measurement made on museum specimen.",
+      Data_Type == "Table" ~ "Measurement taken from table.",
+      Data_Type == "Table mean" ~ "measurement taken from table mean.")) %>%  # describe where the data comes from
   dplyr::mutate(
     Types = case_when(
-      Types == "Allotype" ~ "measurement made on allotype",
-      Types == "Holotype" ~ "measurement made on holotype",
-      Types == "Paratype" ~ "measurement made on paratype",
-      Types == "Paratypes" ~ "measurement made on paratypes",
-      .default = as.character(measurement_remarks1))) %>%  # describe what 'types' the measurements came from
+      Types == "Allotype" ~ "Measurement made on allotype.",
+      Types == "Holotype" ~ "Measurement made on holotype.",
+      Types == "Paratype" ~ "Measurement made on paratype.",
+      Types == "Paratypes" ~ "Measurement made on paratypes.")) %>%  # describe what 'types' the measurements came from
   tidyr::unite(
     "measurement_remarks",
-    sep = ", ",
+    sep = " ",
     c("Data_Type", "Types", "measurement_remarks1"),
     na.rm = TRUE,
     remove = FALSE) %>%  # combine information about measurement details into measurement_remarks
@@ -282,9 +281,47 @@ b2_template <- template %>%
   dplyr::mutate(source_key = "Bland_2017") %>%  # add source_key
   dplyr::mutate(source_doi = "doi: 10.1111/acv.12350") %>%  # add source_doi
   dplyr::mutate(source_citation = "Bland, L. M. (2017). Global correlates of extinction risk in freshwater crayfish. Animal Conservation, 20(6), 532-542.") %>% # add source_citation
-  dplyr::mutate(source_type = "article")  # add source_type
+  dplyr::mutate(source_type = "article") %>%  # add source_type
+  tibble::add_column(measurement_remarks2 = NA) %>% # create second measurement_remarks column to capture information from source_citation column that are not citations
+  dplyr::mutate(measurement_remarks2 = case_when(
+    secondary_citation == "Australia fisheries" ~ "Taken from Australia fisheries.",
+    secondary_citation == "Australian Museum P11920" ~ "Taken from Australian Museum specimen P11920.",
+    secondary_citation == "Australian Museum P11968" ~ "Taken from Australian Museum specimen P11968.",
+    secondary_citation == "Australian Museum P34019" ~ "Taken from Australian Museum specimen P34019.",
+    secondary_citation == "Australian Museum P34039" ~ "Taken from Australian Museum specimen P34039.",
+    secondary_citation == "Australian Museum P34045" ~ "Taken from Australian Museum specimen P34045.",
+    secondary_citation == "Australian Museum P34075" ~ "Taken from Australian Museum specimen P34075.",
+    secondary_citation == "Australian Museum P84271" ~ "Taken from Australian Museum specimen P84271.",
+    secondary_citation == "Flora and Fauna Guarantee Act 1988" ~ "Taken from Flora and Fauna Guarantee Act 1988.",
+    secondary_citation == "http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/" ~ "Taken from http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/",
+    secondary_citation == "Nat Hist" ~ "Taken from Natural History Museum (London), specimen.",
+    secondary_citation == "NHM" ~ "Taken from Natural History Museum (London) specimen.",
+    secondary_citation == "NHM 1927.4.29.6 Tyers river Gippsland Australia" ~ "Taken from Natural History Museum (London) specimen 1927.4.29.6 Tyers river Gippsland Australia.")) %>% # capture information from source_citation column that are not citations
+  tidyr::unite(
+    "measurement_remarks",
+    sep = " ",
+    c("measurement_remarks", "measurement_remarks2"),
+    na.rm = TRUE,
+    remove = FALSE) %>%  # combine information about measurement details into measurement_remarks
+  dplyr::mutate(secondary_citation = case_when(
+    secondary_citation == "Australia fisheries" ~ NA,
+    secondary_citation == "Australian Museum P11920" ~ NA,
+    secondary_citation == "Australian Museum P11968" ~ NA,
+    secondary_citation == "Australian Museum P34019" ~ NA,
+    secondary_citation == "Australian Museum P34039" ~ NA,
+    secondary_citation == "Australian Museum P34045" ~ NA,
+    secondary_citation == "Australian Museum P34075" ~ NA,
+    secondary_citation == "Australian Museum P84271" ~ NA,
+    secondary_citation == "Based on OCL (OCL)" ~ NA,
+    secondary_citation == "Flora and Fauna Guarantee Act 1988" ~ NA,
+    secondary_citation == "http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/" ~ NA,
+    secondary_citation == "Nat Hist" ~ NA,
+    secondary_citation == "NHM" ~ NA,
+    secondary_citation == "NHM 1927.4.29.6 Tyers river Gippsland Australia" ~ NA,
+    .default = as.character(secondary_citation))) %>% # remove information from the source_citation column that are not citations
+  dplyr::select(-measurement_remarks2) # remove temporary measurement_remarks column
 
-
+    
 ##-----------------------------##
 #### The open access dataset ####
 ##-----------------------------##
@@ -441,17 +478,3 @@ readr::write_csv(bland_template, file.path(dbout_dir, "data.csv"))
 #### TO DO ####
 
 ## Move these text strings from secondary_citation to measurement_remarks
-#Australia fisheries
-#Australian Museum P11920
-#Australian Museum P11968
-#Australian Museum P34019
-#Australian Museum P34039
-#Australian Museum P34045
-#Australian Museum P34075
-#Australian Museum P84271
-#Based on OCL (OCL) **Just need to make this NA in secondary_citation
-#Flora and Fauna Guarantee Act 1988
-#http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/
-#Nat Hist **Need to change this to Natural History Museum, London
-#NHM
-#NHM 1927.4.29.6 Tyers river Gippsland Australia
