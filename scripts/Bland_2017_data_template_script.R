@@ -173,6 +173,7 @@ b2_mod_refs <- b2 %>%
       trait_name2 == "Ref_Lifespan" ~ "life_span",
       trait_name2 == "Ref_Age" ~ "time_to_maturity")) # add a trait_name column that names the traits that citations are associated with (so that this dataset can be merged later)
 
+
 ## (1c) Create a dataset with the trait names and values, and merge with the secondary citation, and size (maturity and form I) data sets.
 
 b2_mod <- b2 %>%
@@ -241,22 +242,24 @@ b2_template <- template %>%
       trait_name == "fecundity_per_reproductive_event" ~ "all",
       .default = as.character(sex))) %>%   # add sex for the appropriate traits
   dplyr::mutate(entity_type = "species") %>% # add entity_type for all rows
-  dplyr::mutate(value_type = case_when(
-    trait_name == "body_length" ~ "maximum",
-    trait_name == "body_length_form" ~ "minimum",
-    trait_name == "body_length_mat" ~ "mean",
-    trait_name == "Egg_size" ~ "maximum",
-    trait_name == "fecundity_per_reproductive_event" ~ "maximum",
-    trait_name == "life_span" ~ "mean",
-    trait_name == "occipital_carapace_length" ~ "maximum",
-    trait_name == "occipital_carapace_length_form" ~ "minimum",
-    trait_name == "occipital_carapace_length_mat" ~ "mean",
-    trait_name == "time_to_maturity" ~ "mean")) %>%  # specify value_type for numerical traits
-  dplyr::mutate(measurement_remarks = case_when(
-    trait_name == "body_length_mat" ~ "Female size at maturity.",
-    trait_name == "occipital_carapace_length_mat" ~ "Female size at maturity.",
-    trait_name == "body_length" ~ "Body lengths were collected from species descriptions and field guides. Maximum size was used as mean size is generally not available for crayfish species.",
-    trait_name == "occipital_carapace_length" ~ "Occipital carapace lengths were collected from species descriptions and field guides. Maximum size was used as mean size is generally not available for crayfish species.")) %>%  # provide details of measurements
+  dplyr::mutate(
+    value_type = case_when(
+      trait_name == "body_length" ~ "maximum",
+      trait_name == "body_length_form" ~ "minimum",
+      trait_name == "body_length_mat" ~ "mean",
+      trait_name == "Egg_size" ~ "maximum",
+      trait_name == "fecundity_per_reproductive_event" ~ "maximum",
+      trait_name == "life_span" ~ "mean",
+      trait_name == "occipital_carapace_length" ~ "maximum",
+      trait_name == "occipital_carapace_length_form" ~ "minimum",
+      trait_name == "occipital_carapace_length_mat" ~ "mean",
+      trait_name == "time_to_maturity" ~ "mean")) %>%  # specify value_type for numerical traits
+  dplyr::mutate(
+    measurement_remarks = case_when(
+      trait_name == "body_length_mat" ~ "Female size at maturity.",
+      trait_name == "occipital_carapace_length_mat" ~ "Female size at maturity.",
+      trait_name == "body_length" ~ "Body lengths were collected from species descriptions and field guides. Maximum size was used as mean size is generally not available for crayfish species.",
+      trait_name == "occipital_carapace_length" ~ "Occipital carapace lengths were collected from species descriptions and field guides. Maximum size was used as mean size is generally not available for crayfish species.")) %>%  # provide details of measurements
   dplyr::mutate(
     trait_name = case_when(
       trait_name == "body_length_form" ~ "body_length",
@@ -265,67 +268,62 @@ b2_template <- template %>%
       trait_name == "occipital_carapace_length_form" ~ "occipital_carapace_length",
       trait_name == "occipital_carapace_length_mat" ~ "occipital_carapace_length",
       .default = as.character(trait_name))) %>%  # rename traits
-  dplyr::mutate(unit_numeric = case_when(
-    trait_name == "body_length" ~ "mm",
-    trait_name == "fecundity_per_reproductive_event" ~ "offspring",
-    trait_name == "life_span" ~ "days",
-    trait_name == "occipital_carapace_length" ~ "mm",
-    trait_name == "time_to_maturity" ~ "days")) %>%  # specify units for numerical traits
+  dplyr::mutate(
+    unit_numeric = case_when(
+      trait_name == "body_length" ~ "mm",
+      trait_name == "fecundity_per_reproductive_event" ~ "offspring",
+      trait_name == "life_span" ~ "days",
+      trait_name == "occipital_carapace_length" ~ "mm",
+      trait_name == "time_to_maturity" ~ "days")) %>%  # specify units for numerical traits
   dplyr::mutate(value = as.character(value))  %>%  # make the value column a character
-  dplyr::mutate(methods = case_when(
-    trait_name == "body_length" ~ "Measurements were obtained from species descriptions, museum plates, museum specimens, or field specimens.",
-    trait_name == "fecundity_per_reproductive_event" ~ "Maximum number of eggs taken from species descriptions, field guides, and museum specimens.",
-    trait_name == "life_span" ~ "Life span was taken from species descriptions and field guides.",
-    trait_name == "occipital_carapace_length" ~ "Measurements were obtained from species descriptions, museum plates, museum specimens, or field specimens.",
-    trait_name == "time_to_maturity" ~ "Age at maturity was taken from species descriptions and field guides."))  %>%  # specify methods for each trait.
+  dplyr::mutate(
+    methods = case_when(
+      trait_name == "body_length" ~ "Measurements were obtained from species descriptions, museum plates, museum specimens, or field specimens.",
+      trait_name == "fecundity_per_reproductive_event" ~ "Maximum number of eggs taken from species descriptions, field guides, and museum specimens.",
+      trait_name == "life_span" ~ "Life span was taken from species descriptions and field guides.",
+      trait_name == "occipital_carapace_length" ~ "Measurements were obtained from species descriptions, museum plates, museum specimens, or field specimens.",
+      trait_name == "time_to_maturity" ~ "Age at maturity was taken from species descriptions and field guides."))  %>%  # specify methods for each trait.
   dplyr::mutate(source_key = "Bland_2017") %>%  # add source_key
   dplyr::mutate(source_doi = "doi: 10.1111/acv.12350") %>%  # add source_doi
   dplyr::mutate(source_citation = "Bland, L. M. (2017). Global correlates of extinction risk in freshwater crayfish. Animal Conservation, 20(6), 532-542.") %>% # add source_citation
   dplyr::mutate(source_type = "article") %>%  # add source_type
-  tibble::add_column(measurement_remarks2 = NA) %>% # create second measurement_remarks column to capture information from source_citation column that are not citations
-  dplyr::mutate(measurement_remarks2 = case_when(
-    secondary_citation == "Australia fisheries" ~ "Taken from Australia fisheries.",
-    secondary_citation == "Australian Museum P11920" ~ "Taken from Australian Museum specimen P11920.",
-    secondary_citation == "Australian Museum P11968" ~ "Taken from Australian Museum specimen P11968.",
-    secondary_citation == "Australian Museum P34019" ~ "Taken from Australian Museum specimen P34019.",
-    secondary_citation == "Australian Museum P34039" ~ "Taken from Australian Museum specimen P34039.",
-    secondary_citation == "Australian Museum P34045" ~ "Taken from Australian Museum specimen P34045.",
-    secondary_citation == "Australian Museum P34075" ~ "Taken from Australian Museum specimen P34075.",
-    secondary_citation == "Australian Museum P84271" ~ "Taken from Australian Museum specimen P84271.",
-    secondary_citation == "Flora and Fauna Guarantee Act 1988" ~ "Taken from Flora and Fauna Guarantee Act 1988.",
-    secondary_citation == "http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/" ~ "Taken from http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/",
-    secondary_citation == "Nat Hist" ~ "Taken from Natural History Museum (London), specimen.",
-    secondary_citation == "NHM" ~ "Taken from Natural History Museum (London) specimen.",
-    secondary_citation == "NHM 1927.4.29.6 Tyers river Gippsland Australia" ~ "Taken from Natural History Museum (London) specimen 1927.4.29.6 Tyers river Gippsland Australia.")) %>% # capture information from source_citation column that are not citations
+  tibble::add_column(measurement_remarks2 = NA) %>% # create second temporary measurement_remarks column to capture information from the source_citation column that are not citations
+  dplyr::mutate(
+    measurement_remarks2 = case_when(
+      secondary_citation == "Australia fisheries" ~ "Taken from Australia fisheries.",
+      secondary_citation == "Australian Museum P11920" ~ "Taken from Australian Museum specimen P11920.",
+      secondary_citation == "Australian Museum P11968" ~ "Taken from Australian Museum specimen P11968.",
+      secondary_citation == "Australian Museum P34019" ~ "Taken from Australian Museum specimen P34019.",
+      secondary_citation == "Australian Museum P34039" ~ "Taken from Australian Museum specimen P34039.",
+      secondary_citation == "Australian Museum P34045" ~ "Taken from Australian Museum specimen P34045.",
+      secondary_citation == "Australian Museum P34075" ~ "Taken from Australian Museum specimen P34075.",
+      secondary_citation == "Australian Museum P84271" ~ "Taken from Australian Museum specimen P84271.",
+      secondary_citation == "Clarke & Ashcroft" ~ "Taken from Clarke & Ashcroft (citation cannot be traced).",
+      secondary_citation == "Flora and Fauna Guarantee Act 1988" ~ "Taken from Flora and Fauna Guarantee Act 1988.",
+      secondary_citation == "http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/" ~ "Taken from http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/",
+      secondary_citation == "Nat Hist" ~ "Taken from Natural History Museum (London) specimen.",
+      secondary_citation == "NHM" ~ "Taken from Natural History Museum (London) specimen.",
+      secondary_citation == "NHM 1927.4.29.6 Tyers river Gippsland Australia" ~ "Taken from Natural History Museum (London) specimen 1927.4.29.6 Tyers river Gippsland Australia.")) %>% # capture information from source_citation column that are not citations
   tidyr::unite(
     "measurement_remarks",
     sep = " ",
     c("measurement_remarks", "measurement_remarks2"),
     na.rm = TRUE,
-    remove = FALSE) %>%  # combine information about measurement details into measurement_remarks
+    remove = FALSE) %>%  # unite information about measurement details into measurement_remarks
   dplyr::mutate(secondary_citation = case_when(
-    secondary_citation == "Australia fisheries" ~ NA,
-    secondary_citation == "Australian Museum P11920" ~ NA,
-    secondary_citation == "Australian Museum P11968" ~ NA,
-    secondary_citation == "Australian Museum P34019" ~ NA,
-    secondary_citation == "Australian Museum P34039" ~ NA,
-    secondary_citation == "Australian Museum P34045" ~ NA,
-    secondary_citation == "Australian Museum P34075" ~ NA,
-    secondary_citation == "Australian Museum P84271" ~ NA,
-    secondary_citation == "Based on OCL (OCL)" ~ NA,
-    secondary_citation == "Flora and Fauna Guarantee Act 1988" ~ NA,
-    secondary_citation == "http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/" ~ NA,
-    secondary_citation == "Nat Hist" ~ NA,
-    secondary_citation == "NHM" ~ NA,
-    secondary_citation == "NHM 1927.4.29.6 Tyers river Gippsland Australia" ~ NA,
+    secondary_citation %in% c("Australia fisheries", "Australian Museum P11920",
+      "Australian Museum P11968", "Australian Museum P34019", "Australian Museum P34039",
+      "Australian Museum P34045", "Australian Museum P34075", "Australian Museum P84271",
+      "Based on OCL (OCL)", "Clarke & Ashcroft", "Flora and Fauna Guarantee Act 1988",
+      "http://www.arkive.org/giant-freshwater-crayfish/astacopsis-gouldi/", "Nat Hist",
+      "NHM", "NHM 1927.4.29.6 Tyers river Gippsland Australia") ~ NA,
     .default = as.character(secondary_citation))) %>% # remove information from the source_citation column that are not citations
   dplyr::select(-measurement_remarks2) # remove temporary measurement_remarks column
 
-    
+ 
 ##-----------------------------##
 #### The open access dataset ####
 ##-----------------------------##
-
 
 ## (1) Modify the dataset in preparation for the data template.
 
@@ -382,39 +380,14 @@ b3_template <- template %>%
     trait_name == "EOO" ~ "IUCN. (2010). IUCN Red List of threatened species. Available at: http://www.iucnredlist.org/")) # add secondary citations for the methods description
 
 
-##--------------------------------------------------##
-#### Create a list of Australian crayfish species ####
-##--------------------------------------------------##
+##--------------------------------------------------------------------##
+#### Combine the datasets, subset only Australian species, & export ####
+##--------------------------------------------------------------------##
 
-## This script is not needed for mapping the Bland datasets to the data template.
-## This is the script used to generate a list of Australian crayfish species (that is subsetted below).
-
-## Read in the AFD checklist.
-afd <- data.table::fread(file.path(out_dir, "afd_May2023_clean.csv"))
-
-## Create species list.
-bland_taxa_list <- bland_template %>%
-  dplyr::filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>% # filter only rows in the family Parastacidae as all Australian crayfish belong in this family
-  dplyr::select(taxon_name, taxon_family, taxname_source) %>%
-  dplyr::distinct(taxon_name, .keep_all = TRUE) %>%
-  tibble::add_column(updated_taxon_name = "") %>%
-  tibble::add_column(notes = "") %>%
-  mutate(taxname_source = ifelse(taxon_name %in% afd$FULL_NAME, "AFD", taxname_source)) %>% # match species names to the AFD checklist.
-  readr::write_csv(file.path(dbout_dir, "bland_taxa_list.csv")) # export the data as a csv into "outputs" folder
-
-## We then manually checked the names that were not in the AFD checklist (taxname_source was NA).
-## Of these taxa, 23 are not Australian, 7 names were misspellings of species names in AFD, 
-## one species name was current but not in AFD, one name is now considered a subspecies, and 
-## one is a synonym (a further one is a synonym but its name has been synonymised into three 
-## different species so we were unable to give it a known name).
-
-
-##---------------------------------------------------------##
-#### Combine the datasets subset only Australian species ####
-##---------------------------------------------------------##
-
+## Read in file with list of Australian taxa and corrections between Bland and AFD taxon names.
 aus_names <- read_csv(file.path(getwd(), "data", "Bland_2017/bland_taxa_list_updated.csv"), show_col_types = FALSE)
 
+## Combine the three datasets, subset Australian species, correct
 bland_template <- b1_template %>%
   dplyr::bind_rows(b2_template, b3_template) %>%
   dplyr::full_join(aus_names, by = "taxon_name") %>% 
@@ -436,13 +409,14 @@ bland_template <- b1_template %>%
     taxon_name == "Euastacus balanesis" ~ "Euastacus balanesis",
     taxon_name == "Euastacus bidawalis" ~ "Euastacus bidawalis",
     taxon_name == "Euastacus wiowuru" ~ "Euastacus wiowuru",
-    taxon_name == "Euastacus yarreansis" ~ "Euastacus yarreansis")) %>% # add original name in cases where names are different to current AFD name
+    taxon_name == "Euastacus yarreansis" ~ "Euastacus yarreansis")) %>% # add original name to taxon_name_original in cases where names are different to current AFD name
   dplyr::mutate(taxname_issues_description = case_when(
     taxon_name == "Cherax preisii" ~ "taxon_name_original name misspelled in source, Cherax preissii misspelled as Cherax preisii",
     taxon_name == "Engaeus hemicerratulus" ~ "taxon_name_original name misspelled in source, Engaeus hemicirratulus misspelled as Engaeus hemicerratulus",
     taxon_name == "Euastacus australiensis" ~ "taxon_name_original name misspelled in source, Euastacus australasiensis misspelled as Euastacus australiensis",
     taxon_name == "Euastacus balanesis" ~ "taxon_name_original name misspelled in source, Euastacus balanensis misspelled as Euastacus balanesis",
     taxon_name == "Euastacus bidawalis" ~ "taxon_name_original name misspelled in source, Euastacus bidawalus misspelled as Euastacus bidawalis",
+    taxon_name == "Euastacus serratus" ~ "taxon_name_original cannot be traced, name has been synonymised into three different species so current name is unknown",
     taxon_name == "Euastacus wiowuru" ~ "taxon_name_original name misspelled in source, Euastacus woiwuru misspelled as Euastacus wiowuru",
     taxon_name == "Euastacus yarreansis" ~ "taxon_name_original name misspelled in source, Euastacus yarraensis misspelled as Euastacus yarreansis")) %>% # describe when names were misspelled
   dplyr::mutate(taxon_name = case_when(
@@ -457,24 +431,33 @@ bland_template <- b1_template %>%
     taxon_name == "Euastacus yarreansis" ~ "Euastacus yarraensis",
     .default = as.character(taxon_name))) %>% # correct names due subspecies, synonyms, and misspellings
   dplyr::select(-updated_taxon_name, -notes) %>%
-  dplyr::relocate(taxname_source, .after = taxon_name_original)
-
-### ### ###
-### Below is older code, may not need.
-
-## Filter only species in the Parastacidae, and match species names to the AFD checklist.
-bland_template <- bland_template %>%
-  filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>%
-  mutate(taxname_source = ifelse(taxon_name %in% afd$FULL_NAME, "AFD", taxname_source))
-
-## Check the above code.
-unique(bland_template$taxname_source)
-sum(bland_template$taxname_source == "AFD", na.rm = TRUE)
-
-## Save dataset subset to Parastacidae and with taxname_source specified
-readr::write_csv(bland_template, file.path(dbout_dir, "data.csv"))
+  dplyr::relocate(taxname_source, .after = taxon_name_original) %>%
+  readr::write_csv(file.path(dbout_dir, "data.csv")) # save final dataset
 
 
-#### TO DO ####
+##--------------------------------------------------##
+#### Create a list of Australian crayfish species ####
+##--------------------------------------------------##
 
-## Move these text strings from secondary_citation to measurement_remarks
+## NOTE: This section of script is not needed for mapping the Bland datasets to the data template.
+## This script was used to partially generate a list of Australian crayfish species, 
+## (bland_taxa_list_updated.csv). This file was used above to subset the Australian species.
+
+## Read in the AFD checklist.
+afd <- data.table::fread(file.path(out_dir, "afd_May2023_clean.csv"))
+
+## Create species list.
+bland_taxa_list <- bland_template %>%
+  dplyr::filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>% # filter only rows in the family Parastacidae as all Australian crayfish belong in this family
+  dplyr::select(taxon_name, taxon_family, taxname_source) %>%
+  dplyr::distinct(taxon_name, .keep_all = TRUE) %>% #
+  tibble::add_column(updated_taxon_name = "") %>% # add a column that will be manually added to
+  tibble::add_column(notes = "") %>% # add a column that will be manually added to
+  mutate(taxname_source = ifelse(taxon_name %in% afd$FULL_NAME, "AFD", taxname_source)) %>% # match species names to the AFD checklist.
+  readr::write_csv(file.path(dbout_dir, "bland_taxa_list.csv")) # export the data as a csv into "outputs" folder
+
+## We then manually checked the names that were not in the AFD checklist (taxname_source was NA).
+## Of these taxa, 23 are not Australian, 7 names were misspellings of species names in AFD, 
+## one species name was current but not in AFD, one name is now considered a subspecies, and 
+## one is a synonym (a further one is a synonym but its name has been synonymised into three 
+## different species so we were unable to give it a known name).
