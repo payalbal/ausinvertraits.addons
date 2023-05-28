@@ -328,12 +328,32 @@ b2_template <- template %>%
 ## (1) Modify the dataset in preparation for the data template.
 
 b3_mod <- b3 %>%
-  dplyr::select(Binomial, Family, HabitatType, EOO) %>%   # select needed columns
+  dplyr::select(Binomial, Family, HabitatType, EOO:HPD) %>%   # select needed columns
   dplyr::rename(
     taxon_name = Binomial,
     taxon_family = Family,
     microhabitat_activity = HabitatType) %>%  # change column names to match data_template names
   dplyr::mutate(taxon_family = str_to_title(taxon_family)) %>%  # change family names to title case
+  dplyr::mutate(Temp = paste("Mean values of extrinsic factors across species ranges were extracted. Mean annual temperature (degrees C):", Temp, sep = " ")) %>%
+  dplyr::mutate(TempSeas = paste("Mean temperature seasonality (standard deviation):", TempSeas, sep = " ")) %>%
+  dplyr::mutate(Prec = paste("Mean annual precipitation (mm):", Prec, sep = " ")) %>%
+  dplyr::mutate(PrecSeas = paste("Mean precipitation seasonality (coefficient of variation):", PrecSeas, sep = " ")) %>% 
+  dplyr::mutate(ElevMin = paste("Minimum elevation (m):", ElevMin, sep = " ")) %>% 
+  dplyr::mutate(Consumption = paste("Mean water consumption (CDF-standardized water consumption through irrigation, thermoelectric, and manufacturing industries divided by contemporary discharge):", Consumption, sep = " ")) %>% 
+  dplyr::mutate(Fragment = paste("Mean river fragmentation (CDF-standardized proportion of each drainage basin that is accessible from a given grid cell):", Fragment, sep = " ")) %>% 
+  dplyr::mutate(Mercury = paste("Mean mercury deposition (CDF-standardized difference between present-day and pre-industrial Hg deposition):", Mercury, sep = " ")) %>% 
+  dplyr::mutate(Pesticide = paste("Mean pesticide loading (CDF-standardized country-based pesticide application to croplands):", Pesticide, sep = " ")) %>% 
+  dplyr::mutate(Sed = paste("Mean sediment loading (CDF-standardized total suspended solids):", Sed, sep = " ")) %>% 
+  dplyr::mutate(Cropland = paste("Mean cropland coverage (CDF-standardized fraction of land devoted to growing crops):", Cropland, sep = " ")) %>% 
+  dplyr::mutate(Livestock = paste("Livestock density:", Livestock, sep = " ")) %>% 
+  dplyr::mutate(HPD = paste("Mean human population density (People per km2, year 2000):", HPD, sep = " ")) %>% 
+  tidyr::unite(
+    "site_description",
+    sep = ", ",
+    c("Temp", "TempSeas", "Prec", "PrecSeas", "ElevMin", "Consumption", "Fragment", "Mercury", "Pesticide", "Sed", "Cropland", "Livestock", "HPD"),
+    na.rm = TRUE,
+    remove = FALSE) %>%  # combine information on environmental and threat variables into site_description column
+  dplyr::select(taxon_name, taxon_family, site_description, microhabitat_activity, EOO)  %>%   # keep only necessary columns
   dplyr::mutate(microhabitat_shelter = microhabitat_activity) %>%  # duplicate the microhabitat_activity column and call microhabitat_shelter
   tidyr::pivot_longer(cols = microhabitat_activity:microhabitat_shelter,
                       names_to = "trait_name",
@@ -370,7 +390,10 @@ b3_template <- template %>%
     trait_name == "microhabitat_activity" ~ "Species were assigned to four habitat types: (1) streams and rivers, (2) lakes and wetlands, (3) burrows, and (4) caves. Data was taken from Adamowicz & Purvis (2006) to classify habitat type for 490 species, and IUCN assessments (IUCN 2010), field guides, and species descriptions for the remaining species. “Strong burrowers” in the Australian scheme of Riek (1972) were also placed in “burrows”, while weak or moderate burrowers were placed in categories “streams and rivers” or “lakes and wetlands” according to other habitat information.",
     trait_name == "microhabitat_shelter" ~ "Species were assigned to four habitat types: (1) streams and rivers, (2) lakes and wetlands, (3) burrows, and (4) caves. Data was taken from Adamowicz & Purvis (2006) to classify habitat type for 490 species, and IUCN assessments (IUCN 2010), field guides, and species descriptions for the remaining species. “Strong burrowers” in the Australian scheme of Riek (1972) were also placed in “burrows”, while weak or moderate burrowers were placed in categories “streams and rivers” or “lakes and wetlands” according to other habitat information.",
     trait_name == "EOO" ~ "Geographical range size for each species was taken from IUCN (2010) Red List of threatened species.")) %>%  # add methods for the different traits
-  dplyr::mutate(source_key = "Bland_2017") %>% # add source_key
+  dplyr::mutate(site_description = case_when(
+    trait_name == "microhabitat_activity" ~ NA,
+    trait_name == "microhabitat_shelter" ~ NA,
+    .default = as.character(site_description))) %>%  # retain site_description only for EOO
   dplyr::mutate(source_doi = "doi: 10.1111/acv.12350") %>% # add source_doi
   dplyr::mutate(source_citation = "Bland, L. M. (2017). Global correlates of extinction risk in freshwater crayfish. Animal Conservation, 20(6), 532-542.") %>% # add source_citation
   dplyr::mutate(source_type = "article")  %>% # add source_type
@@ -440,7 +463,7 @@ bland_template <- b1_template %>%
 ##--------------------------------------------------##
 
 ## NOTE: This section of script is not needed for mapping the Bland datasets to the data template.
-## This script was used to partially generate a list of Australian crayfish species, 
+## This script was used to partially generate a list of Australian crayfish species 
 ## (bland_taxa_list_updated.csv). This file was used above to subset the Australian species.
 
 ## Read in the AFD checklist.
@@ -461,3 +484,8 @@ bland_taxa_list <- bland_template %>%
 ## one species name was current but not in AFD, one name is now considered a subspecies, and 
 ## one is a synonym (a further one is a synonym but its name has been synonymised into three 
 ## different species so we were unable to give it a known name).
+
+
+#### TO DO (PERHAPS) ####
+
+# 1. Add notes to site description about what other traits are in the dataset.
