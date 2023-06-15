@@ -1,11 +1,11 @@
-##------------------------------##
-## Other databases - Bland_2017 ##
-##------------------------------##
+##---------------------##
+## Bland_2017 datasets ##
+##---------------------##
 
 
-## Script to clean and map the Bland_2017 global crayfish 
-## raw datasets (2) provided by Bland and the open access dataset
-## that accompanies the paper to the IA data_template.
+## Script to clean and map the Bland_2017 global crayfish datasets to the InverTraits
+## data_template to create a data.csv for the database. There are three datasets:
+## two raw datasets provided by Lucie Bland and the open access dataset that accompanies the paper.
 
 
 ##-------------------------##
@@ -407,7 +407,9 @@ b3_template <- template %>%
 #### Combine the datasets, subset only Australian species, & export ####
 ##--------------------------------------------------------------------##
 
-## Read in file with list of Australian taxa and corrections between Bland and AFD taxon names.
+## Read in the file with a list of Australian taxa and corrections between the Bland_2017 and AFD taxon names.
+## bland_taxa_list_updated.csv was created in the associated script Bland_2017_taxa_list.R and then manually modified.
+
 aus_names <- read_csv(file.path(getwd(), "data", "Bland_2017/bland_taxa_list_updated.csv"), show_col_types = FALSE)
 
 ## Combine the three datasets, subset Australian species, correct
@@ -457,35 +459,3 @@ bland_template <- b1_template %>%
   dplyr::relocate(taxname_source, .after = taxon_name_original) %>%
   readr::write_csv(file.path(dbout_dir, "data.csv")) # save final dataset
 
-
-##--------------------------------------------------##
-#### Create a list of Australian crayfish species ####
-##--------------------------------------------------##
-
-## NOTE: This section of script is not needed for mapping the Bland datasets to the data template.
-## This script was used to partially generate a list of Australian crayfish species 
-## (bland_taxa_list_updated.csv). This file was used above to subset the Australian species.
-
-## Read in the AFD checklist.
-afd <- data.table::fread(file.path(out_dir, "afd_May2023_clean.csv"))
-
-## Create species list.
-bland_taxa_list <- bland_template %>%
-  dplyr::filter(taxon_family %in% "Parastacidae", .preserve = FALSE) %>% # filter only rows in the family Parastacidae as all Australian crayfish belong in this family
-  dplyr::select(taxon_name, taxon_family, taxname_source) %>%
-  dplyr::distinct(taxon_name, .keep_all = TRUE) %>% #
-  tibble::add_column(updated_taxon_name = "") %>% # add a column that will be manually added to
-  tibble::add_column(notes = "") %>% # add a column that will be manually added to
-  mutate(taxname_source = ifelse(taxon_name %in% afd$FULL_NAME, "AFD", taxname_source)) %>% # match species names to the AFD checklist.
-  readr::write_csv(file.path(dbout_dir, "bland_taxa_list.csv")) # export the data as a csv into "outputs" folder
-
-## We then manually checked the names that were not in the AFD checklist (taxname_source was NA).
-## Of these taxa, 23 are not Australian, 7 names were misspellings of species names in AFD, 
-## one species name was current but not in AFD, one name is now considered a subspecies, and 
-## one is a synonym (a further one is a synonym but its name has been synonymised into three 
-## different species so we were unable to give it a known name).
-
-
-#### TO DO (PERHAPS) ####
-
-# 1. Add notes to site description about what other traits are in the dataset.
