@@ -33,31 +33,54 @@ afd <- fread(file.path(output_dir, "afd_May2023_clean.csv"))
 afd <- setDT(afd, key = c("FULL_NAME", "COMPLETE_NAME", "CONCEPT_GUID"))
 names(afd)
 
-
+## By order
 length(unique(afd$ORDER))
 afd.orders <- afd[, .N, ORDER]
+message(cat("Number of unique orders in cleaned AFD: "),
+        nrow(afd.orders))
 write.csv(afd.orders, file = file.path(output_dir, "afd_by_order.csv"), row.names = FALSE)
 
 count1 <- afd.orders[which(afd.orders$N <= 1)]
-message(cat("Number of orders with 1 listed species in AFD: "),
+message(cat("Number of orders with 1 listed species in cleaned AFD: "),
         nrow(count1))
-write.csv(count1, file = file.path(output_dir, "count0_1.csv"), row.names = FALSE)
+write.csv(count1, file = file.path(output_dir, "order_count0_1.csv"), row.names = FALSE)
 
 count2 <- afd.orders[which(afd.orders$N > 1 & afd.orders$N <= 5)]
-message(cat("Number of orders with 1-5 listed species in AFD: "),
+message(cat("Number of orders with 1-5 listed species in cleaned AFD: "),
         nrow(count2))
-write.csv(count2, file = file.path(output_dir, "count2_5.csv"), row.names = FALSE)
+write.csv(count2, file = file.path(output_dir, "order_count2_5.csv"), row.names = FALSE)
 
 count3 <- afd.orders[which(afd.orders$N <= 10) , ]
-message(cat("Number of orders with less than or equal to 10 listed species in AFD: "),
+message(cat("Number of orders with less than or equal to 10 listed species in cleaned AFD: "),
         nrow(count3))
-write.csv(count3, file = file.path(output_dir, "count10.csv"), row.names = FALSE)
+write.csv(count3, file = file.path(output_dir, "order_count10.csv"), row.names = FALSE)
 
 
-
+## By family
 length(unique(afd$FAMILY))
 afd.family <- afd[, .N, FAMILY]
-write.csv(afd.orders, file = file.path(output_dir, "afd_by_family.csv"), row.names = FALSE)
+message(cat("Number of unique families in cleaned AFD: "),
+        nrow(afd.family))
+write.csv(afd.family, file = file.path(output_dir, "afd_by_family.csv"), row.names = FALSE)
+
+
+count1 <- afd.family[which(afd.family$N <= 1)]
+message(cat("Number of families with 1 listed species in cleaned AFD: "),
+        nrow(count1))
+write.csv(count1, file = file.path(output_dir, "family_count0_1.csv"), row.names = FALSE)
+
+count2 <- afd.family[which(afd.family$N > 1 & afd.family$N <= 5)]
+message(cat("Number of families with 1-5 listed species in cleaned AFD: "),
+        nrow(count2))
+write.csv(count2, file = file.path(output_dir, "family_count2_5.csv"), row.names = FALSE)
+
+count3 <- afd.family[which(afd.family$N <= 10) , ]
+message(cat("Number of families with less than or equal to 10 listed species in cleaned AFD: "),
+        nrow(count3))
+write.csv(count3, file = file.path(output_dir, "family_count10.csv"), row.names = FALSE)
+
+
+
 
 ## ----------------------------------------- ##
 ## AusInverTraits database summary ####
