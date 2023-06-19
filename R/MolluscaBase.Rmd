@@ -1,0 +1,59 @@
+---
+title: "MolluscaBase"
+author: "Fonti Kar"
+date: "2023-06-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+pacman::p_load(tidyverse, arrow, janitor, scales, datapasta)
+```
+
+```{r}
+afd_may <- read_csv_arrow("data/afd_May2023_clean.csv")
+```
+
+### Filter out Molluscs
+
+Prepare for MatchTool in WoRMs/MolluscaBase
+
+```{r}
+matchtool <- afd_may |> filter(
+  PHYLUM == "MOLLUSCA"
+) |> 
+  select(FAMILY, GENUS, SPECIES, COMPLETE_NAME)
+
+# Split authority
+match_clean <- matchtool |> 
+  mutate(split = map(.x = COMPLETE_NAME,
+                         ~str_split(.x, pattern = ", ")),
+         authority = map(split, 
+                         ~pluck(.x, 1, 2))) |> 
+  select(-split) |> 
+  unnest(cols = "authority")
+
+# Create new authority with common
+match_clean <- afd_may |> 
+  select(FAMILY, GENUS, SPECIES, COMPLETE_NAME) |>  
+  rename(Family = FAMILY, 
+         Genus = GENUS, 
+         species = SPECIES, 
+         ) 
+
+# Split so it has 1500 rows
+chunk <- 1499
+n <- nrow(match_clean)
+r  <- rep(1:ceiling(n/chunk),each=chunk)[1:n]
+d <- split(match_clean,r)
+
+names(d) <- paste0("matchtool_", names(d), ".csv")
+
+# Save each chunk as.c sv
+walk2(.x = d, .y = names(d), 
+     ~write_csv(.x, file = paste0("outputs/csv/", .y)))
+```
+
