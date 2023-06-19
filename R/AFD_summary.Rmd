@@ -1,0 +1,87 @@
+---
+title: "AFD plots"
+author: "Fonti Kar"
+date: "2023-06-19"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+pacman::p_load(tidyverse, arrow, janitor, scales)
+```
+
+```{r}
+afd_may <- read_csv_arrow("data/afd_May2023_clean.csv")
+```
+
+## Order counts
+
+```{r}
+order_counts <- afd_may |> 
+  group_by(ORDER) |> 
+  summarise(n = n()) |> 
+  arrange(n)
+
+order_w_groups <- order_counts |> 
+  mutate(order_group = case_when(
+    n <= 1 ~ "Less than or equal to 1",
+    n >= 2 & n <= 5 ~ "2 to 5 taxa",
+    n >= 6 & n <= 9 ~ "6 to 9 taxa", 
+    n >= 10 ~ "More than or equal to 10"
+   )) 
+
+# Get counts for groups
+order_group_counts <- order_w_groups$order_group |> tabyl() |> 
+  tibble() |> 
+  rename(group = `order_w_groups$order_group`)
+
+
+order_plot <- ggplot(data = order_group_counts, aes(x = group, y = n)) + 
+  geom_col(colour = "#d0b2c9", fill = "#d0b2c9") + 
+  ggtitle("ORDER") + 
+  xlab("") +
+  ylab("Number of taxa") +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+ggsave("afd_May_clean_ORDER_summary", order_plot, path = "output/fig/", device = "png", width = 7, height = 8, bg = "white")
+```
+
+## Family counts
+
+```{r}
+family_counts <- afd_may |> 
+  group_by(FAMILY) |> 
+  summarise(n = n()) |> 
+  arrange(n)
+
+# Create groups
+fam_w_groups <- family_counts |> 
+  mutate(group = case_when(
+    n <= 1 ~ "Less than or equal to 1",
+    n >= 2 & n <= 5 ~ "2 to 5 taxa",
+    n >= 6 & n <= 9 ~ "6 to 9 taxa", 
+    n >= 10 ~ "More than or equal to 10"
+   )) 
+
+# Get counts for groups
+fam_group_counts <- fam_w_groups$group |> tabyl() |> 
+  tibble() |> 
+  rename(group = `fam_w_groups$group`)
+
+
+fam_plot <- ggplot(data = fam_group_counts, aes(x = group, y = n)) + 
+  geom_col(colour = "#db9880", fill = "#db9880") + 
+  scale_y_continuous(breaks = breaks_width(100), limits = c(0,800)) + 
+  ggtitle("FAMILY") + 
+  xlab("") +
+  ylab("Number of taxa") +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+ggsave("afd_May_clean_FAMILY_summary", fam_plot, path = "output/fig/", device = "png", width = 7, height = 8, bg = "white")
+```
+
