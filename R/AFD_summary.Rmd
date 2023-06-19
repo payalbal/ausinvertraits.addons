@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-pacman::p_load(tidyverse, arrow, janitor, scales)
+pacman::p_load(tidyverse, arrow, janitor, scales, datapasta)
 ```
 
 ```{r}
@@ -27,10 +27,10 @@ order_counts <- afd_may |>
 
 order_w_groups <- order_counts |> 
   mutate(order_group = case_when(
-    n <= 1 ~ "Less than or equal to 1",
-    n >= 2 & n <= 5 ~ "2 to 5 taxa",
-    n >= 6 & n <= 9 ~ "6 to 9 taxa", 
-    n >= 10 ~ "More than or equal to 10"
+    n <= 1 ~ "Less than or equal to 1 sp.",
+    n >= 2 & n <= 5 ~ "2 to 5 sp.",
+    n >= 6 & n <= 9 ~ "6 to 9 sp.", 
+    n >= 10 ~ "More than or equal to 10 sp."
    )) 
 
 # Get counts for groups
@@ -43,12 +43,47 @@ order_plot <- ggplot(data = order_group_counts, aes(x = group, y = n)) +
   geom_col(colour = "#d0b2c9", fill = "#d0b2c9") + 
   ggtitle("ORDER") + 
   xlab("") +
-  ylab("Number of taxa") +
+  ylab("Number of sp.") +
   theme_minimal() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 
 ggsave("afd_May_clean_ORDER_summary", order_plot, path = "output/fig/", device = "png", width = 7, height = 8, bg = "white")
+
+# Counts
+order_w_groups |> pull(order_group) |> tabyl()
+
+# Which species by group 
+order_w_groups |> filter(order_group == "Less than or equal to 1 sp.") |> 
+  select(ORDER) |> 
+  write_csv(file = "output/csv/ORDER_less_than_equal1sp.csv")
+
+order_w_groups |> filter(order_group == "2 to 5 sp.") |> 
+  select(ORDER) |> 
+  write_csv(file = "output/csv/ORDER_2to5sp.csv")
+
+order_w_groups |> filter(order_group == "6 to 9 sp.") |> 
+  select(ORDER) |> 
+  write_csv(file = "output/csv/ORDER_6to9sp.csv")
+
+order_w_groups |> filter(order_group == "More than or equal to 10 sp.") |> 
+  select(ORDER)
 ```
+
+```{r}
+order_counts |> 
+  filter(is.na(ORDER))
+
+ggplot(data = order_counts, aes(x = reorder(ORDER, n), y = n)) + 
+  geom_col(colour = "#d0b2c9", fill = "#d0b2c9") + 
+  ggtitle("ORDER") + 
+  xlab("") +
+  ylab("Number of taxa") +
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+order_counts
+```
+
 
 ## Family counts
 
@@ -61,11 +96,30 @@ family_counts <- afd_may |>
 # Create groups
 fam_w_groups <- family_counts |> 
   mutate(group = case_when(
-    n <= 1 ~ "Less than or equal to 1",
-    n >= 2 & n <= 5 ~ "2 to 5 taxa",
-    n >= 6 & n <= 9 ~ "6 to 9 taxa", 
-    n >= 10 ~ "More than or equal to 10"
+    n <= 1 ~ "Less than or equal to 1 sp.",
+    n >= 2 & n <= 5 ~ "2 to 5 sp.",
+    n >= 6 & n <= 9 ~ "6 to 9 sp.", 
+    n >= 10 ~ "More than or equal to 10 sp."
    )) 
+
+# Counts
+fam_w_groups |> pull(group) |> tabyl()
+
+# Which species
+fam_w_groups |> filter(group == "Less than or equal to 1 sp.") |> 
+  select(FAMILY) |> 
+  write_csv(file = "output/csv/FAMILY_less_than_equal1sp.csv")
+
+fam_w_groups |> filter(group == "2 to 5 sp.") |> 
+  select(FAMILY) |> 
+  write_csv(file = "output/csv/FAMILY_2to5sp.csv")
+
+fam_w_groups |> filter(group == "6 to 9 sp.") |> 
+  select(FAMILY) |> 
+  write_csv(file = "output/csv/FAMILY_6to9sp.csv")
+
+fam_w_groups |> filter(group == "More than or equal to 10 sp.") |> 
+  pull(FAMILY)
 
 # Get counts for groups
 fam_group_counts <- fam_w_groups$group |> tabyl() |> 
@@ -78,7 +132,7 @@ fam_plot <- ggplot(data = fam_group_counts, aes(x = group, y = n)) +
   scale_y_continuous(breaks = breaks_width(100), limits = c(0,800)) + 
   ggtitle("FAMILY") + 
   xlab("") +
-  ylab("Number of taxa") +
+  ylab("Number of sp") +
   theme_minimal() + 
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 
