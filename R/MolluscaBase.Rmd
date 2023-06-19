@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-pacman::p_load(tidyverse, arrow, janitor, scales, datapasta)
+pacman::p_load(tidyverse, arrow, janitor)
 ```
 
 ```{r}
@@ -37,7 +37,7 @@ match_clean <- matchtool |>
   unnest(cols = "authority")
 
 # Create new authority with common
-match_clean <- afd_may |> 
+match_clean <- matchtool |> 
   select(FAMILY, GENUS, SPECIES, COMPLETE_NAME) |>  
   rename(Family = FAMILY, 
          Genus = GENUS, 
@@ -50,10 +50,19 @@ n <- nrow(match_clean)
 r  <- rep(1:ceiling(n/chunk),each=chunk)[1:n]
 d <- split(match_clean,r)
 
-names(d) <- paste0("matchtool_", names(d), ".csv")
+names(d) <- paste0("matchtool_", names(d))
 
 # Save each chunk as.c sv
 walk2(.x = d, .y = names(d), 
-     ~write_csv(.x, file = paste0("outputs/csv/", .y)))
+     ~write_excel_csv2(.x, file = paste0("outputs/", .y)))
 ```
+
+### Read in output from matchtool
+
+```{r}
+matched_output <- read_delim("data/matchtool_1_matched.txt", delim = ";")
+
+matched_output
+```
+
 
