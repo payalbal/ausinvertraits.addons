@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-pacman::p_load(tidyverse, arrow, janitor, worrms)
+pacman::p_load(tidyverse, arrow, janitor, worrms, job)
 ```
 
 ```{r}
@@ -32,7 +32,7 @@ matchtool <- afd_may |> filter(
   select(FAMILY, GENUS, SPECIES, COMPLETE_NAME)
 
 # Save Mollusca
-write_csv(matchtool, "outputs/AFD_May_Molluscs.csv") 
+# write_csv(matchtool, "outputs/AFD_May_Molluscs.csv") 
 
 # Split authority
 match_clean <- matchtool |> 
@@ -49,13 +49,6 @@ match_clean <- matchtool |>
          species = SPECIES, 
          ) 
 
-# Create new authority with common
-match_clean <- matchtool |> 
-  select(FAMILY, GENUS, SPECIES, COMPLETE_NAME) |>  
-  rename(Family = FAMILY, 
-         Genus = GENUS, 
-         species = SPECIES, 
-         ) 
 
 # Split so it has 1500 rows
 chunk <- 1499
@@ -84,6 +77,45 @@ write_csv(matched_output_2, "outputs/matchtool_2_matched.csv")
 ### Try use WoRMs API
 
 ```{r}
+species_chunks <- split(match_clean$scientific_name, ceiling(seq_along(match_clean$scientific_name)/120))
+
+# Testing on single case
+species_chunks |> pluck(2,16) |> wm_records_name() |> mutate(search_term = species_chunks |> pluck(2,16))
+
+# Testing for 120 species
+test <- map(species_chunks |> pluck(2),
+    possibly(~wm_records_name(.x) |> mutate(search_term = .x))) |> 
+  discard(.p = ~is.null(.x)) 
+  
+# Testing entire species list
+job({
+output <- map(match_clean$scientific_name,
+    possibly(~wm_records_name(.x) |> 
+               mutate(search_term = .x))) |> 
+  discard(.p = ~is.null(.x)) 
+})
+
+
+
+  
+
+output <- map(species_chunks,
+       possibly(~wm_records_names(name = .x))) 
+  
+
+# Drop NULL returns
+no_nulls <- discard(output, ~is.null(.x))
+
+# Bound within each number
+drop_empty <- map(no_nulls,
+    ~discard(.x, ~nrow(.x) == 0)) |> 
+
+map(drop_empty,
+    ~list_rbind(.x))
+
+API_matches <- drop_empty  |> list_flatten() |> list_rbind()
+
+API_matches |> View()
 
 ```
 
