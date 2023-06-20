@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-pacman::p_load(tidyverse, arrow, janitor)
+pacman::p_load(tidyverse, arrow, janitor, worrms)
 ```
 
 ```{r}
@@ -21,20 +21,33 @@ afd_may <- read_csv_arrow("data/afd_May2023_clean.csv")
 
 Prepare for MatchTool in WoRMs/MolluscaBase
 
+Check First Row Contains Column Names
+Row delimited LF
+Columns delimited ;
+
 ```{r}
 matchtool <- afd_may |> filter(
   PHYLUM == "MOLLUSCA"
 ) |> 
   select(FAMILY, GENUS, SPECIES, COMPLETE_NAME)
 
+# Save Mollusca
+write_csv(matchtool, "outputs/AFD_May_Molluscs.csv") 
+
 # Split authority
 match_clean <- matchtool |> 
   mutate(split = map(.x = COMPLETE_NAME,
                          ~str_split(.x, pattern = ", ")),
+         scientific_name = map(split, 
+                         ~pluck(.x, 1, 1)),
          authority = map(split, 
                          ~pluck(.x, 1, 2))) |> 
   select(-split) |> 
-  unnest(cols = "authority")
+  unnest(cols = c("scientific_name","authority"))  |>  
+  rename(Family = FAMILY, 
+         Genus = GENUS, 
+         species = SPECIES, 
+         ) 
 
 # Create new authority with common
 match_clean <- matchtool |> 
@@ -62,7 +75,15 @@ walk2(.x = d, .y = names(d),
 ```{r}
 matched_output <- read_delim("data/matchtool_1_matched.txt", delim = ";")
 
-matched_output
+matched_output_2 <- read_delim("data/matchtool_2_matched.txt", delim = ";")
+
+write_csv(matched_output, "outputs/matchtool_1_matched.csv") 
+write_csv(matched_output_2, "outputs/matchtool_2_matched.csv") 
 ```
 
+### Try use WoRMs API
+
+```{r}
+
+```
 

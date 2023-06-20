@@ -15,19 +15,19 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Load dependencies 
 
 ```{r}
-
+pacman::p_load(tidyverse, skimr, arrow, janitor)
 ```
 
 ## Read in data
 
 ```{r}
-
+wsc <- read_csv("data/WSC_taxonomic_checklist.csv")
 ```
 
 ## Getting familiar with data
 
 ```{r}
-
+skim(wsc)
 ```
 
 ## Precleaning 
