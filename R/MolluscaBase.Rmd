@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-pacman::p_load(tidyverse, arrow, janitor, worrms, job)
+pacman::p_load(tidyverse, arrow, janitor, worrms, job, readxl)
 ```
 
 ```{r}
@@ -58,16 +58,16 @@ d <- split(match_clean,r)
 
 names(d) <- paste0("matchtool_", names(d))
 
-# Save each chunk as.c sv
-walk2(.x = d, .y = names(d), 
-     ~write_excel_csv2(.x, file = paste0("outputs/", .y)))
+# Save each chunk as .csv
+# walk2(.x = d, .y = names(d), 
+#      ~write_excel_csv2(.x, file = paste0("outputs/", .y, ".csv")))
+
 ```
 
 ### Read in output from matchtool
 
 ```{r}
 matched_output <- read_delim("data/matchtool_1_matched.txt", delim = ";")
-
 matched_output_2 <- read_delim("data/matchtool_2_matched.txt", delim = ";")
 
 write_csv(matched_output, "outputs/matchtool_1_matched.csv") 
@@ -75,6 +75,8 @@ write_csv(matched_output_2, "outputs/matchtool_2_matched.csv")
 ```
 
 ### Try use WoRMs API
+
+Fuzzy match = TRUE
 
 ```{r}
 species_chunks <- split(match_clean$scientific_name, ceiling(seq_along(match_clean$scientific_name)/120))
@@ -96,26 +98,83 @@ output <- map(match_clean$scientific_name,
 })
 
 
+output_df <- output |> list_rbind()
 
+# write_csv(output_df, "outputs/API_WoRMS_matched.csv")
+output_df <- read_csv("outputs/API_WoRMS_matched.csv")
+```
+
+```{r}
+output_df |> 
+  pull(match_type) |> 
+  tabyl()
+
+output_df |> 
+  mutate(match = search_term == scientificname) |> 
+  select(AphiaID:url,match, search_term, scientificname:modified) |>
+  filter(match == FALSE)
+```
+
+Fuzzy match is not true
+
+```{r}
+species_chunks <- split(match_clean$scientific_name, ceiling(seq_along(match_clean$scientific_name)/120))
+
+# Testing on single case
+species_chunks |> pluck(2,16) |> wm_records_name(fuzzy = FALSE) |> mutate(search_term = species_chunks |> pluck(2,16))
+
+# Testing for 120 species
+test <- map(species_chunks |> pluck(2),
+    possibly(~wm_records_name(.x, fuzzy = FALSE) |> mutate(search_term = .x))) |> 
+  discard(.p = ~is.null(.x)) 
   
+# Testing entire species list
+job({
+output_nofuzz <- map(match_clean$scientific_name,
+    possibly(~wm_records_name(.x, fuzzy = FALSE) |> 
+               mutate(search_term = .x))) |> 
+  discard(.p = ~is.null(.x)) 
+})
 
-output <- map(species_chunks,
-       possibly(~wm_records_names(name = .x))) 
+
+output_df <- output |> list_rbind()
+
+# write_csv(output_df, "outputs/API_WoRMS_matched.csv")
+output_df <- read_csv("outputs/API_WoRMS_matched.csv")
+```
+
+Try wm_records_taxamatch()
+
+```{r}
+# Testing on single case
+species_chunks |> pluck(2,16) |> wm_records_taxamatch(marine = FALSE) |> pluck(1) |> mutate(search_term = species_chunks |> pluck(2,16))
+
+# Testing for 120 species
+test <- map(species_chunks |> pluck(2),
+    possibly(~wm_records_taxamatch(.x, marine = FALSE) |> pluck(1) |> mutate(search_term = .x))) |> 
+  discard(.p = ~is.null(.x)) |> 
+  list_rbind() 
+
+# Job takes 2hrs and 40 mins to run  
+
+job({
+  output_df <- map(match_clean$scientific_name,
+                   possibly(~wm_records_taxamatch(.x, marine = FALSE)  |>
+                              pluck(1)  |>
+                              mutate(search_term = .x) |>
+                              discard(.p = ~is.null(.x))
+                   )
+  ) |> 
+    list_rbind()
   
+  saveRDS(output_df, "outputs/worrms_taxamatch")
+})
 
-# Drop NULL returns
-no_nulls <- discard(output, ~is.null(.x))
 
-# Bound within each number
-drop_empty <- map(no_nulls,
-    ~discard(.x, ~nrow(.x) == 0)) |> 
+worrms_taxamatch <- readRDS("outputs/worrms_taxamatch")
 
-map(drop_empty,
-    ~list_rbind(.x))
-
-API_matches <- drop_empty  |> list_flatten() |> list_rbind()
-
-API_matches |> View()
-
+worrms_taxamatch |> 
+  pull(match_type) |> 
+  tabyl()
 ```
 
