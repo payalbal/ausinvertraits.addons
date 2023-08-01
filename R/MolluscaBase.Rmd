@@ -7,9 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
 
-```{r}
 pacman::p_load(tidyverse, arrow, janitor, worrms, job, readxl)
 ```
 
@@ -145,6 +143,16 @@ output_df <- read_csv("outputs/API_WoRMS_matched.csv")
 
 Try wm_records_taxamatch()
 
+There are several types of matches:
+exact all characters match exactly
+exact_subgenus an exact match, but including the subgenus
+phonetic sounds similar as, despite minor differences in spelling (soundex algorithm)
+near_1 perfect match, except for one character. This is a quite reliable match
+near_2 good match, except for two characters. This needs an extra check
+near_3 good match, except for three characters. This definitely needs an extra check
+match_quarantine match with a name that is currently in quarantine. Any name that has been used in the literature should in principle not be quarantined. So best to contact the WoRMS DMT about this
+match_deleted this is a match with a name that has been deleted and no alternative is available. Please contact the WoRMS DMT when you come across this.
+
 ```{r}
 # Testing on single case
 species_chunks |> pluck(2,16) |> wm_records_taxamatch(marine = FALSE) |> pluck(1) |> mutate(search_term = species_chunks |> pluck(2,16))
@@ -173,8 +181,41 @@ job({
 
 worrms_taxamatch <- readRDS("outputs/worrms_taxamatch")
 
+# Types of fuzzy match
 worrms_taxamatch |> 
   pull(match_type) |> 
   tabyl()
+
+# Which are the taxa that were not matched in WoRMS (i.e we are a name but WoRMS does not)
+setdiff(match_clean$scientific_name, worrms_taxamatch$search_term) |> length()
+
+# Which ones that are not exact matches - this maybe ones that we need to update OR we have a newer name or completely unrelated species
+worrms_taxamatch |> 
+  filter(! match_type == "exact") |> 
+  select(search_term, ends_with("name"),  match_type, valid_authority) |> 
+  arrange(match_type) |> 
+  print(n = 100) |> 
+  write_csv(paste0("outputs/AFD_WoRMS_taxamatch_notexactmatchtype", Sys.Date(), "_.csv"))
+```
+
+Read in data sent by Data Management team for all of Australia
+
+```{r}
+aus_worms <- readxl::read_xlsx("data/WoRMS_Mollusca_australia_20230621.xlsx")
+
+names(aus_worms)
+
+# Cross compare with taxamatch data
+setdiff(unique(aus_worms$ScientificName), unique(worrms_taxamatch$scientificname)) |> length()
+setdiff(unique(aus_worms$ScientificName), unique(match_clean$scientific_name)) |> length()
+
+# Locality breakdown
+aus_worms
+```
+
+## Use the distribution API to get the same data above
+
+```{r}
+
 ```
 
