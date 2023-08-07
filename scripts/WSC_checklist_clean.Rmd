@@ -6,22 +6,26 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE,
+                      include=FALSE)
+
+
 ```
 
 # Cleaning the World Spider Catalog
 
+Data can be accessed via the [WSC Data resources](https://wsc.nmbe.ch/dataresources) page. Bulk download is from their "Daily Species Exports" heading
 
 ## Load dependencies 
 
 ```{r}
-pacman::p_load(tidyverse, skimr, arrow, janitor)
+pacman::p_load(tidyverse, skimr, arrow, janitor, worrms, here)
 ```
 
 ## Read in data
 
 ```{r}
-wsc <- read_csv("data/WSC_taxonomic_checklist.csv")
+wsc <- read_csv(here("data/WSC_taxonomic_checklist.csv"))
 ```
 
 ## Getting familiar with data
@@ -32,41 +36,74 @@ skim(wsc)
 
 ## Precleaning 
 
-Structure inconsistencies fixed to align with AFD
+Create a `scientific_name` variable
 
 ```{r}
-
-```
-
-## Remove improper names
-
-```{r}
+wsc_scnm <- wsc |> 
+  mutate(scientific_name = case_when(
+    is.na(subspecies) ~ paste(genus, species),
+    !is.na(subspecies) ~ paste(genus, species, subspecies)
+  )
+  ) |> 
+  select(speciesId:species_lsid, scientific_name, family:distribution)
 
 ```
 
 ## Remove non-Australian species
 
+```{r}
+oz_wsc <- wsc_scnm |> 
+  filter(distribution == "Australia")
+```
+
+## Remove improper names
+
+```{r}
+source(here("scripts/remove_improper_names_v2.R"))
+
+oz_wsc_clean_names <- oz_wsc |> 
+  pull(scientific_name) |> 
+  remove_improper_names_v2()
+```
+
+There were `r length(oz_wsc_clean_names$improper_species)` improper species and `r length(oz_wsc_clean_names$incomplete_species)` species were found.
+
+
 ## Remove marine species
+
+No marine species identified
+
+```{r, eval=FALSE}
+wm_oz_wsc <- map(oz_wsc |> pull(scientific_name),
+    possibly(~ wm_records_names(.x, marine_only = FALSE))
+    )
+```
 
 ## Matches to AFD
 
-Flag and summarise and list
-
 ```{r}
+afd_may <- read_csv(here("data/afd_May2023_clean.csv"))
 
+matches <- intersect(oz_wsc |> pull(scientific_name), afd_may |> pull(FULL_NAME)) 
+
+# Flag in WSC
 ```
 
-Discrepancies in other variables with matches 
+There were `r length(matches)` matches or `r length(matches)/nrow(oz_wsc)` found between Australian taxa in the WSC and the AFD. These include: 
 
-```{r}
-
+```{r, include=TRUE}
+matches
 ```
 
 ## New taxa additions
 
-Flag and summarise and list
-
 ```{r}
+new <- setdiff(oz_wsc |> pull(scientific_name), afd_may |> pull(FULL_NAME)) 
+```
 
+There were `r length(new)` NEW taxa or `r length(new)/nrow(oz_wsc)` found in the WSC that we can add to the AFD. These include: 
+
+```{r, include=TRUE}
+new
 ```
 
