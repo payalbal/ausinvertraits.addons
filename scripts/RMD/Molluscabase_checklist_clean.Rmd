@@ -11,13 +11,17 @@ knitr::opts_chunk$set(echo = TRUE)
 pacman::p_load(tidyverse, arrow, janitor, worrms, job, readxl, skimr)
 ```
 
+MolluscaBase is a subbranch of WoRMs, this means that we can use WoRMS tools to get the data we need.
+
 ```{r}
 afd_may <- read_csv_arrow("data/afd_May2023_clean.csv")
 ```
 
 ### Filter out Molluscs using MatchTool
 
-Prepare for MatchTool in WoRMs/MolluscaBase
+Shows what's in AFD and not in WoRMs
+
+Prepare for MatchTool in WoRMs
 
 Check First Row Contains Column Names
 Row delimited LF
@@ -90,7 +94,7 @@ output <- map(match_clean$scientific_name,
 output_df <- output |> list_rbind()
 
 # write_csv(output_df, "outputs/API_WoRMS_matched.csv")
-output_df <- read_csv("outputs/API_WoRMS_matched.csv")
+matchtool_fuzzy <- read_csv("outputs/API_WoRMS_matched.csv")
 ```
 
 ```{r}
@@ -119,8 +123,10 @@ output_nofuzz <- map(match_clean$scientific_name,
 output_df <- output |> list_rbind()
 
 # write_csv(output_df, "outputs/API_WoRMS_matched.csv")
-output_df <- read_csv("outputs/API_WoRMS_matched.csv")
+no_fuzzy_matchtool <- read_csv("outputs/API_WoRMS_matched.csv")
 ```
+
+## Spotting typos in the AFD
 
 Try `wm_records_taxamatch()`
 
