@@ -232,7 +232,7 @@ marine_worms <- worms[isMarine == 1]
 marine_worms[(! valid_name == scientificname)][,.(valid_name, scientificname)]
 
 
-## >> Exclude marine species using valid_name & scientificnamein WORMS ####
+## >> Exclude marine species as per WORMS using valid_name & scientificnamein WORMS ####
 afd_data <- afd_data[! FULL_NAME %in% marine_worms$valid_name]
 afd_data <- afd_data[! FULL_NAME %in% marine_worms$scientificname]
 length(unique(afd_data$FULL_NAME)); nrow(afd_data)
@@ -261,11 +261,14 @@ write.csv(temp, file = file.path(outdir, "worms_marine_terrestrial.csv"),
        row.names = FALSE)
 
 
+## >> Exclude species listed as marine as per 'ECOLOGY_DESCRIPTIORS' in AFD ####
+afd_data <- afd_data[! FULL_NAME %in% temp$FULL_NAME]
+
 
 ## Save cleaned AFD checklist ####
 afd_data <- setDT(afd_data, key = "FULL_NAME")
 fwrite(afd_data, 
-       file = file.path(outdir, "afd_Apr2023_clean.csv"), 
+       file = file.path(outdir, "afd_May2023_clean.csv"), 
        row.names = FALSE)
 
 
@@ -278,11 +281,11 @@ fwrite(afd_data,
 ## ----------------------------------------------- ##
 source("./scripts/get_AFDsynonyms.R")
 
-afd_data <- fread(file.path(outdir, "afd_Mar2023_clean.csv"))
+afd_data <- fread(file.path(outdir, "afd_May2023_clean.csv"))
 afd_data <- setDT(afd_data, key = "FULL_NAME")
 
 out <- get_AFDsynonyms(unique(afd_data$FULL_NAME), afd_data)
-saveRDS(out, file = "./outputs/afd_synonyms.rds")
+saveRDS(out, file = file.path(outdir, "afd_synonyms.rds"))
 
 
 
@@ -293,7 +296,7 @@ saveRDS(out, file = "./outputs/afd_synonyms.rds")
 ## Identify duplicates ####
 ## ----------------------------------------------- ##
 ## >> List duplicates ####
-afd_data <- fread(file.path(outdir, "afd_Apr2023_clean.csv"))
+afd_data <- fread(file.path(outdir, "afd_May2023_clean.csv"))
 
 ## List duplicates comparing all columns
 nrow(afd_data[duplicated(afd_data),] )
@@ -310,6 +313,10 @@ length(unique(afd_data$COMPLETE_NAME))
 
 ## Set keys
 afd_data <- setDT(afd_data, key = c("FULL_NAME", "COMPLETE_NAME", "CONCEPT_GUID"))
+fwrite(afd_data, 
+       file = file.path(outdir, "afd_May2023_clean.csv"), 
+       row.names = FALSE)
+
 
 
 ## Are there duplicates in FULL_NAME & COMPLETE_NAME?
@@ -344,16 +351,16 @@ readr::write_csv(temp, file.path(outdir, "afd_completename_repeats.csv"))
 
 
 ## >> Resolve duplicates manually ####
-file.path(outdir, "afd_completename_repeats_JRM.csv")
-file.path(outdir, "afd_fullname_repeats_JRM.csv")
+## NOTE: Duplicates will NOT be removed at this stage. 
 
 
 
 
 
 
-
-
+## ----------------------------------------------- ##
+## Data checks (not exhaustive) ####
+## ----------------------------------------------- ##
 ## Counts for number of words
 str_count(afd_data$FULL_NAME, pattern = "\\S+") |> janitor::tabyl()
 
