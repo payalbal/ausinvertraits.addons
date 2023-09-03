@@ -31,7 +31,7 @@ library(APCalign)
 ## Load the list of plant names from AusInverTraits.
 p1 <- read_csv(file.path(getwd(), "data", "plant_scores/plant_names_Aug_2023.csv"), show_col_types = FALSE)
 
-## This plant list was extracted from the database with the following code
+## This plant list was extracted from the database with the following code:
 # plant <- ausinverts$contexts %>% 
 #   dplyr::filter(stringr::str_detect(context_property, "associated plant taxa")) %>% # filter out associated plant taxa context property
 #   tidyr::separate_longer_delim(value, delim = ", ") %>% # separate out plant names
@@ -41,7 +41,7 @@ p1 <- read_csv(file.path(getwd(), "data", "plant_scores/plant_names_Aug_2023.csv
 #   readr::write_csv("plant_names_Aug_2023.csv") # save plant name list
 
 ## Load the plant scoring data file derived from AusTraits by Sophie Yang.
-p2 <- read_csv(file.path(getwd(), "data", "plant_scores/plant_names_Aug_2023.csv"), show_col_types = FALSE)
+p2 <- read_csv(file.path(getwd(), "data", "plant_scores/Jul_2023_plant_scores.csv"), show_col_types = FALSE)
 
 
 ##-------------------------------------##
@@ -52,8 +52,42 @@ p2 <- read_csv(file.path(getwd(), "data", "plant_scores/plant_names_Aug_2023.csv
 ## retrieve the entire APC and APNI name databases and store locally
 resources <- load_taxonomic_resources()
 
-update_invertdb_names <- p1 %>% 
+## query our plant names against the taxonomic resources
+updated_names <- p1 %>% 
   pull(species) %>% 
   create_taxonomic_update_lookup(resources = resources)
 
-update_invertdb_names %>% View
+## view the standardised names data
+updated_names %>% View
+
+## create a new tibble with updated names
+plant_names <- updated_names %>% 
+  dplyr::select(original_name, accepted_name, genus) %>% 
+  dplyr::mutate(updated_name = dplyr::coalesce(accepted_name, genus))  %>% # replace NAs in the accepted_name column, which exist for the genera-only names, with names from the genus column
+  dplyr::left_join(p2, by = join_by(updated_name == taxon_name))  %>% # merge the plant score data file with the updated names
+  dplyr::mutate(score_GM = case_when(score_GM == "#NUM!" ~ NA, .default = as.character(score_GM))) # replace rogue values in the score column
+
+## create list of plant names not in plant scores data file
+missing_names <- plant_names %>%
+  dplyr::filter(!is.na(updated_name)) %>% # remove NAs in name column (these were family names only)
+  dplyr::filter(is.na(score_GM)) %>% # keep rows with NA in the score column (i.e., those that have no score data)
+  dplyr::distinct(updated_name) %>% # keep only unique plant names
+  readr::write_csv(file.path(out_dir, "missing_plant_names_Sep_2023.csv")) # save plant name list
+
+
+## -- Manual name changes needed -- ##
+# Plant family names can't be used
+# Acmena paniculatum to Syzygium paniculatum
+# Caesalpiniaceae
+# Eucalyptus hybrids
+# Otion is now Gompholobium and Aotus
+# Weinmannia racemosa to Pterophylla racemosa = weed
+# Mimosaceae
+
+
+
+##----------------------------------------------##
+#### Match updated names to plant scores data ####
+##----------------------------------------------##
+
+## Join the shortened updated names to the plant scores data file
