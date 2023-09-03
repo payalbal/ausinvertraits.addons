@@ -63,6 +63,8 @@ updated_names %>% View
 
 ## -- Manual name changes needed -- ##
 
+## DONE
+
 # Acmena paniculatum to Syzygium paniculatum
 # Weinmannia racemosa to Pterophylla racemosa (this is a weed)
 # Caesalpiniaceae to Caesalpinioideae
@@ -90,14 +92,14 @@ updated_names %>% View
 
 ## Join the updated names to the plant scores data file
 plant_names <- updated_names %>% 
-  dplyr::select(original_name, accepted_name, genus) %>% 
+  dplyr::select(original_name, accepted_name, genus) %>% # select only relevant columns
   dplyr::mutate(updated_name = dplyr::coalesce(accepted_name, genus))  %>% # replace NAs in the accepted_name column, which exist for the genera-only names, with names from the genus column
   dplyr::left_join(p2, by = join_by(updated_name == taxon_name))  %>% # merge the plant score data file with the updated names
   dplyr::mutate(score_GM = case_when(score_GM == "#NUM!" ~ NA, .default = as.character(score_GM))) # replace rogue values in the score column
 
 ## Create list of plant names not in plant scores data file
 missing_names <- plant_names %>%
-  dplyr::filter(!is.na(updated_name)) %>% # remove NAs in name column (these were family names only)
+  dplyr::filter(!is.na(updated_name)) %>% # remove NAs in name column (these were family or not current genus names only)
   dplyr::filter(is.na(score_GM)) %>% # keep rows with NA in the score column (i.e., those that have no score data)
   dplyr::distinct(updated_name) %>% # keep only unique plant names
   readr::write_csv(file.path(out_dir, "missing_plant_names_Sep_2023.csv")) # save plant name list
