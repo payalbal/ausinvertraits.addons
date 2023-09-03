@@ -70,6 +70,9 @@ updated_names %>% View
 # Bombacaceae to Malvaceae
 # Capparidaceae to Capparaceae
 # Sterculiaceae to Malvaceae
+
+## -- Names that are unknown but need to be left as is -- ##
+
 # Eucalyptus hybrids (not sure what to do with these ones)
 # Otion - not a current genus (is now Gompholobium and Aotus so not able to make a firm change)
 # Stipa - not a current genus
