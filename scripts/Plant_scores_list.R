@@ -75,7 +75,6 @@ updated_names %>% View
 # Stipa - not a current genus
 # Bignonia - not found in Australia (I think)
 
-
 # -- Notes --
 # The plant family names can't be used because there are not plant scores at this level
 # We need to decide when to implement code that will update plant names in the database
@@ -87,8 +86,6 @@ updated_names %>% View
 ##-----------------------------------------##
 
 ## Join the updated names to the plant scores data file
-
-## Create a new tibble with updated names
 plant_names <- updated_names %>% 
   dplyr::select(original_name, accepted_name, genus) %>% 
   dplyr::mutate(updated_name = dplyr::coalesce(accepted_name, genus))  %>% # replace NAs in the accepted_name column, which exist for the genera-only names, with names from the genus column
