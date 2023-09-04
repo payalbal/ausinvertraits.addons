@@ -60,6 +60,8 @@ updated_names <- p1 %>%
 ## View the standardised names data
 updated_names %>% View
 
+## Save the updated and standardised plant names to csv.
+readr::write_csv(updated_names, file.path(out_dir, "updated_associated_plant_names_Sep_2023.csv"))
 
 ## -- Manual name changes needed -- ##
 
@@ -85,10 +87,10 @@ updated_names %>% View
 # We need to decide when to implement code that will update plant names in the database
 
 
-##-----------------------------------------##
-#### Match updated names to plant scores ####
-###    and create list of missing names   ###
-##-----------------------------------------##
+##-------------------------------------------------##
+####  Match updated names to plant scores, make  ####
+## list of missing names, create scores data file ###
+##-------------------------------------------------##
 
 ## Join the updated names to the plant scores data file
 plant_names <- updated_names %>% 
@@ -103,3 +105,9 @@ missing_names <- plant_names %>%
   dplyr::filter(is.na(score_GM)) %>% # keep rows with NA in the score column (i.e., those that have no score data)
   dplyr::distinct(updated_name) %>% # keep only unique plant names
   readr::write_csv(file.path(out_dir, "missing_plant_names_Sep_2023.csv")) # save plant name list
+
+## Create a data set of plant scores of associated plants in AusInverTraits
+plant_score <- plant_names %>%
+  dplyr::filter(!is.na(score_GM)) %>% # filter rows/plants with values for geometric mean score
+  dplyr::select(-accepted_name, -genus) %>% # remove unnecessary columns
+  readr::write_csv(file.path(out_dir, "invertraits_plant_scores_Sep_2023.csv")) # save plant name list

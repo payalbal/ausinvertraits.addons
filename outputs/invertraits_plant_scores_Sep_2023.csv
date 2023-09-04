@@ -1,0 +1,882 @@
+original_name,updated_name,resprouting_binomial,seeding_binomial,min_maturity_primary,avg_maturity_primary,bin_maturity_primary,min_maturity_secondary,avg_maturity_secondary,resprouting_binomial_score,seeding_binomial_score,min_maturity_primary_score,avg_maturity_primary_score,bin_maturity_primary_score,min_maturity_secondary_score,avg_maturity_secondary_score,score_GM
+Acacia acuminata,Acacia acuminata,TRUE,TRUE,NA,5,NA,NA,NA,0.2,0.2,NA,1,NA,NA,NA,0.3419951893
+Acacia acuminata subsp. burkittii,Acacia burkittii,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Acacia aneura,Acacia aneura,TRUE,TRUE,NA,4,10--,NA,NA,0.2,0.2,NA,0.2,1,NA,NA,0.2990697562
+Acacia aulacocarpa,Acacia aulacocarpa,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Acacia baileyana,Acacia baileyana,FALSE,TRUE,2.616279,NA,NA,NA,NA,1,0.2,0.2,NA,NA,NA,NA,0.3419951893
+Acacia binervata,Acacia binervata,TRUE,TRUE,5,NA,NA,NA,NA,0.2,0.2,0.2,NA,NA,NA,NA,0.2
+Acacia blakelyi,Acacia blakelyi,TRUE,TRUE,NA,2,NA,NA,NA,0.2,0.2,NA,0.2,NA,NA,NA,0.2
+Acacia calamifolia,Acacia calamifolia,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Acacia cincinnata,Acacia cincinnata,TRUE,TRUE,NA,12,NA,NA,NA,0.2,0.2,NA,1,NA,NA,NA,0.3419951893
+Acacia concurrens,Acacia concurrens,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Acacia cyclops,Acacia cyclops,FALSE,NA,NA,2,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.4472135955
+Acacia cyperophylla,Acacia cyperophylla,FALSE,NA,NA,NA,10--,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Acacia dealbata,Acacia dealbata,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Acacia deanei,Acacia deanei,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Acacia decurrens,Acacia decurrens,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Acacia doratoxylon,Acacia doratoxylon,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Acacia falcata,Acacia falcata,FALSE,TRUE,1.744186,NA,1--5,NA,NA,1,0.2,0.2,NA,0.2,NA,NA,0.2990697562
+Acacia filicifolia,Acacia filicifolia,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Acacia floribunda,Acacia floribunda,TRUE,TRUE,3,NA,5--20,2.61627907,2.5,0.2,0.2,0.2,NA,1,0.2,0.2,0.2615320972
+Acacia harpophylla,Acacia harpophylla,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Acacia holosericea,Acacia holosericea,FALSE,TRUE,NA,NA,2--3,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Acacia implexa,Acacia implexa,TRUE,TRUE,1,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Acacia ingramii,Acacia ingramii,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Acacia irrorata,Acacia irrorata,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Acacia leiocalyx,Acacia leiocalyx,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Acacia leptostachya,Acacia leptostachya,FALSE,TRUE,NA,NA,1--5,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Acacia ligulata,Acacia ligulata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Acacia linifolia,Acacia linifolia,FALSE,TRUE,1.085271,NA,NA,NA,NA,1,0.2,0.2,NA,NA,NA,NA,0.3419951893
+Acacia longifolia,Acacia longifolia,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Acacia mangium,Acacia mangium,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Acacia mearnsii,Acacia mearnsii,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Acacia melanoxylon,Acacia melanoxylon,TRUE,TRUE,5,NA,5--20,3,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Acacia melanoxylon,Acacia melanoxylon,TRUE,TRUE,5,NA,5--20,3,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Acacia mollissima,Acacia dealbata,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Acacia montana,Acacia montana,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Acacia mucronata,Acacia mucronata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Acacia myrtifolia,Acacia myrtifolia,TRUE,TRUE,2,1.75,5--20,NA,NA,0.2,0.2,0.2,0.2,1,NA,NA,0.2759459323
+Acacia obliquinerva,Acacia obliquinervia,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Acacia obtusifolia,Acacia obtusifolia,TRUE,TRUE,4,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Acacia oswaldii,Acacia oswaldii,TRUE,FALSE,NA,NA,4--5,NA,NA,0.2,1,NA,NA,0.2,NA,NA,0.3419951893
+Acacia paradoxa,Acacia paradoxa,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Acacia parramattensis,Acacia parramattensis,FALSE,TRUE,5,NA,5--20,NA,NA,1,0.2,0.2,NA,1,NA,NA,0.4472135955
+Acacia pendula,Acacia pendula,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Acacia peuce,Acacia peuce,FALSE,NA,NA,NA,10--,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Acacia podalyriifolia,Acacia podalyriifolia,FALSE,TRUE,2.403101,NA,NA,NA,NA,1,0.2,0.2,NA,NA,NA,NA,0.3419951893
+Acacia provincialis,Acacia provincialis,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Acacia pycnantha,Acacia pycnantha,TRUE,TRUE,2,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Acacia ramulosa,Acacia ramulosa,FALSE,NA,NA,NA,6--10,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Acacia retinodes,Acacia retinodes,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Acacia rostellifera,Acacia rostellifera,FALSE,NA,NA,3,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.4472135955
+Acacia saligna,Acacia saligna,TRUE,TRUE,NA,3,NA,NA,NA,0.2,0.2,NA,0.2,NA,NA,NA,0.2
+Acacia shirleyi,Acacia shirleyi,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Acacia sophorae,Acacia longifolia subsp. sophorae,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Acacia spectabilis,Acacia spectabilis,FALSE,NA,NA,NA,1--5,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Acacia spilleriana,Acacia spilleriana,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Acacia terminalis,Acacia terminalis,TRUE,TRUE,1.763566,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Acacia ulicifolia,Acacia ulicifolia,TRUE,TRUE,1.29845,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Aciphylla glacialis,Aciphylla glacialis,TRUE,TRUE,1,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Acmena,Syzygium,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Acmena smithii,Syzygium smithii,TRUE,FALSE,5,NA,5--20,1,NA,0.2,1,0.2,NA,1,0.2,NA,0.3807307877
+Acronychia,Acronychia,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Acronychia imperforata,Acronychia imperforata,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Acrothamnus hookeri,Acrothamnus hookeri,TRUE,FALSE,NA,NA,1--5,NA,NA,0.2,1,NA,NA,0.2,NA,NA,0.3419951893
+Actinotus helianthi,Actinotus helianthi,FALSE,NA,0.7945736,NA,NA,NA,NA,1,NA,0.2,NA,NA,NA,NA,0.4472135955
+Adenanthos,Adenanthos,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Adriana hookeri,Adriana tomentosa var. hookeri,TRUE,TRUE,NA,NA,4--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Aegiceras corniculatum,Aegiceras corniculatum,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Ageratum houstonianum,Ageratum houstonianum,NA,NA,0.7364341,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,0.2
+Agonis flexuosa,Agonis flexuosa,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Alectryon coriaceus,Alectryon coriaceus,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Allocasuarina,Allocasuarina,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Allocasuarina acutivalvis,Allocasuarina acutivalvis,FALSE,NA,NA,5,NA,NA,NA,1,NA,NA,1,NA,NA,NA,1
+Allocasuarina campestris,Allocasuarina campestris,FALSE,NA,NA,5,NA,NA,NA,1,NA,NA,1,NA,NA,NA,1
+Allocasuarina distyla,Allocasuarina distyla,TRUE,TRUE,1.666667,NA,NA,NA,NA,0.2,0.2,0.2,NA,NA,NA,NA,0.2
+Allocasuarina fraseriana,Allocasuarina fraseriana,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Allocasuarina huegeliana,Allocasuarina huegeliana,TRUE,NA,NA,5,NA,NA,NA,0.2,NA,NA,1,NA,NA,NA,0.4472135955
+Allocasuarina humilis,Allocasuarina humilis,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Allocasuarina inophloia,Allocasuarina inophloia,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Allocasuarina littoralis,Allocasuarina littoralis,TRUE,TRUE,3,NA,5--20,2.403100775,3,0.2,0.2,0.2,NA,1,0.2,0.2,0.2615320972
+Allocasuarina luehmannii,Allocasuarina luehmannii,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Allocasuarina muelleriana,Allocasuarina muelleriana,FALSE,TRUE,NA,NA,NA,NA,NA,1,0.2,NA,NA,NA,NA,NA,0.4472135955
+Allocasuarina nana,Allocasuarina nana,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Allocasuarina striata,Allocasuarina striata,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Allocasuarina torulosa,Allocasuarina torulosa,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Allocasuarina verticillata,Allocasuarina verticillata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Alphitonia excelsa,Alphitonia excelsa,TRUE,TRUE,NA,NA,4--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Alphitonia petriei,Alphitonia petriei,FALSE,TRUE,NA,10,0--5,NA,NA,1,0.2,NA,1,0.2,NA,NA,0.4472135955
+Alyxia ruscifolia,Alyxia ruscifolia,TRUE,FALSE,5,NA,NA,NA,NA,0.2,1,0.2,NA,NA,NA,NA,0.3419951893
+Ammobium alatum,Ammobium alatum,FALSE,NA,1,NA,0--1,NA,NA,1,NA,0.2,NA,0.2,NA,NA,0.3419951893
+Amyema,Amyema,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Amyema miquelii,Amyema miquelii,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Amyema miraculosa,Amyema miraculosa,FALSE,TRUE,NA,NA,1--5,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Amyema preisii,Amyema preissii,FALSE,TRUE,NA,NA,1--5,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Amyema preissii,Amyema preissii,FALSE,TRUE,NA,NA,1--5,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Amyema quandang,Amyema quandang,FALSE,TRUE,NA,NA,1--5,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Amyena,Amyema,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Amyena miquelii,Amyema miquelii,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Amyena preissii,Amyema preissii,FALSE,TRUE,NA,NA,1--5,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Andersonia heterophylla,Andersonia heterophylla,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Angianthus brachypappus,Angianthus brachypappus,FALSE,NA,NA,NA,0--1,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Angophora,Angophora,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Angophora bakeri,Angophora bakeri,TRUE,TRUE,1,NA,NA,0.9689922481,1,0.2,0.2,0.2,NA,NA,0.2,0.2,0.2
+Angophora costata,Angophora costata,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Angophora floribunda,Angophora floribunda,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Angophora hispida,Angophora hispida,TRUE,TRUE,1,NA,NA,0.6201550388,NA,0.2,0.2,0.2,NA,NA,0.2,NA,0.2
+Angophora intermedia,Angophora floribunda,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Angophora subvaleutina,Angophora subvelutina,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Angophora subvelutina,Angophora subvelutina,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Angophora woodsiana,Angophora woodsiana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Aotus,Aotus,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Aotus ericoides,Aotus ericoides,TRUE,TRUE,2,NA,5--20,2,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Aotus lanigera,Aotus lanigera,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Apophyllum anomalum,Capparis anomala,FALSE,FALSE,NA,NA,5--20,NA,NA,1,1,NA,NA,1,NA,NA,1
+Argyrodendron peralatum,Argyrodendron peralatum,NA,NA,NA,NA,20--,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Arthropodium milleflorum,Arthropodium milleflorum,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Asperula gunnii,Asperula gunnii,TRUE,TRUE,1,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Astroloma xerophyllum,Astroloma xerophyllum,FALSE,TRUE,NA,4,0--4,NA,NA,1,0.2,NA,0.2,0.2,NA,NA,0.2990697562
+Astrotricha longifolia,Astrotricha longifolia,TRUE,TRUE,2,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Atalaya hemiglauca,Atalaya hemiglauca,TRUE,FALSE,NA,NA,6--10,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Atriplex,Atriplex,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Backhousia myrtifolia,Backhousia myrtifolia,TRUE,FALSE,NA,NA,1--5,NA,NA,0.2,1,NA,NA,0.2,NA,NA,0.3419951893
+Baeckea,Baeckea,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Baeckea behrii,Hysterobaeckea behrii,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Baeckea frutescens,Baeckea frutescens,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Baeckea gunniana,Baeckea gunniana,TRUE,FALSE,5,NA,1--5,NA,NA,0.2,1,0.2,NA,0.2,NA,NA,0.2990697562
+Baeckea imbricata,Baeckea imbricata,TRUE,NA,2,NA,NA,NA,2,0.2,NA,0.2,NA,NA,NA,0.2,0.2
+Baeckea stenophylla,Baeckea frutescens,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Baeckia gunniana,Baeckea gunniana,TRUE,FALSE,5,NA,1--5,NA,NA,0.2,1,0.2,NA,0.2,NA,NA,0.2990697562
+Banksia,Banksia,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Banksia attenuata,Banksia attenuata,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Banksia brownii,Banksia brownii,FALSE,TRUE,NA,5.5,NA,NA,NA,1,0.2,NA,1,NA,NA,NA,0.5848035476
+Banksia ericifolia,Banksia ericifolia,FALSE,TRUE,3.430233,NA,NA,NA,NA,1,0.2,0.2,NA,NA,NA,NA,0.3419951893
+Banksia integrifolia,Banksia integrifolia,TRUE,TRUE,7,NA,NA,NA,NA,0.2,0.2,1,NA,NA,NA,NA,0.3419951893
+Banksia marginata,Banksia marginata,TRUE,TRUE,2,NA,5--20,2,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Banksia menziesii,Banksia menziesii,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Banksia prionotes,Banksia prionotes,FALSE,TRUE,NA,3,NA,NA,NA,1,0.2,NA,0.2,NA,NA,NA,0.3419951893
+Banksia serrata,Banksia serrata,TRUE,TRUE,2,NA,5--20,2,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Banksia spinulosa,Banksia spinulosa,TRUE,TRUE,NA,NA,5--20,2.364341085,NA,0.2,0.2,NA,NA,1,0.2,NA,0.2990697562
+Beaufortia elegans,Beaufortia elegans,FALSE,TRUE,NA,2,0--2,NA,NA,1,0.2,NA,0.2,0.2,NA,NA,0.2990697562
+Bombax ceiba,Bombax ceiba,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Boronia,Boronia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Boronia granitica,Boronia granitica,FALSE,TRUE,3,NA,NA,NA,NA,1,0.2,0.2,NA,NA,NA,NA,0.3419951893
+Boronia ledifolia,Boronia ledifolia,TRUE,TRUE,1.647287,NA,5--20,NA,0.3,0.2,0.2,0.2,NA,1,NA,0.2,0.2759459323
+Boronia megastigma,Boronia megastigma,FALSE,NA,NA,2,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.4472135955
+Boronia rosmarinifolia,Boronia rosmarinifolia,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Borya,Borya,NA,NA,NA,NA,20--,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Bossiaea eriocarpa,Bossiaea eriocarpa,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Bossiaea foliosa,Bossiaea foliosa,TRUE,TRUE,10,NA,5--20,NA,NA,0.2,0.2,1,NA,1,NA,NA,0.4472135955
+Bossiaea rhombifolia,Bossiaea rhombifolia,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Bossiaea walkeri,Bossiaea walkeri,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Brachichiton populneus,Brachychiton populneus,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Brachychiton,Brachychiton,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Brachychiton acerifolius,Brachychiton acerifolius,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Brachychiton populneus,Brachychiton populneus,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Brachyscome,Brachyscome,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Brachyscome decipiens,Brachyscome decipiens,TRUE,NA,1,NA,0--1,NA,1,0.2,NA,0.2,NA,0.2,NA,0.2,0.2
+Brachyscome nivalis,Brachyscome nivalis,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Brachyscome rigidula,Brachyscome rigidula,TRUE,FALSE,1,NA,1--5,NA,NA,0.2,1,0.2,NA,0.2,NA,NA,0.2990697562
+Brachyscome scapiformis,Brachyscome spathulata,TRUE,TRUE,1,NA,1--5,NA,1,0.2,0.2,0.2,NA,0.2,NA,0.2,0.2
+Brachyscome scapigera,Brachyscome scapigera,TRUE,NA,1,NA,1--5,NA,1,0.2,NA,0.2,NA,0.2,NA,0.2,0.2
+Brachyscome sp. aff. tadgellii,Brachyscome barkerae,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Brachyscome spathulata,Brachyscome spathulata,TRUE,TRUE,1,NA,1--5,NA,1,0.2,0.2,0.2,NA,0.2,NA,0.2,0.2
+Brachyscome stolonifera,Brachyscome stolonifera,FALSE,NA,NA,NA,1--5,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Buchanania obovata,Buchanania obovata,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Bursaria,Bursaria,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Bursaria spinosa,Bursaria spinosa,TRUE,FALSE,2,NA,5--20,0.988372093,2,0.2,1,0.2,NA,1,0.2,0.2,0.3419951893
+Caladenia carnea,Caladenia carnea,TRUE,FALSE,1,NA,1--5,0.6976744186,1,0.2,1,0.2,NA,0.2,0.2,0.2,0.2615320972
+Calandrinia,Calandrinia,NA,NA,NA,NA,0--1,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Calandrinia balonensis,Calandrinia balonensis,FALSE,NA,NA,NA,0--1,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Callistemon,Callistemon,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Callistemon pallidus,Callistemon pallidus,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Callistemon salignus,Callistemon salignus,TRUE,TRUE,1,NA,NA,NA,1,0.2,0.2,0.2,NA,NA,NA,0.2,0.2
+Callistemon sieberi,Callistemon sieberi,TRUE,TRUE,4,NA,1--5,4,4,0.2,0.2,0.2,NA,0.2,1,1,0.3419951893
+Callistemon viminalis,Callistemon viminalis,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Callitris columellaris,Callitris columellaris,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Callitris endlicheri,Callitris endlicheri,FALSE,TRUE,7,NA,5--20,NA,NA,1,0.2,1,NA,1,NA,NA,0.668740305
+Callitris preissii,Callitris preissii,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Callitris rhomboidea,Callitris rhomboidea,FALSE,TRUE,5,NA,5--20,NA,NA,1,0.2,0.2,NA,1,NA,NA,0.4472135955
+Callitris verrucosa,Callitris verrucosa,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Calophyllum inophyllum,Calophyllum inophyllum,TRUE,NA,NA,NA,10--,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Calophyllum soulattri,Calophyllum soulattri,TRUE,NA,NA,NA,10--,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Calothamnus blepharospermus,Calothamnus blepharospermus,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Calothamnus quadrifidus acerosus,Calothamnus quadrifidus,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Calothamnus villosus,Calothamnus villosus,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Calotis multicaulis,Calotis multicaulis,FALSE,NA,NA,NA,0--1,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Calytrix,Calytrix,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Calytrix brachychaeta,Calytrix brownii,TRUE,TRUE,NA,NA,4--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Calytrix tetragona,Calytrix tetragona,TRUE,TRUE,2.693798,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Canavalia rosea,Canavalia rosea,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Cantharospermum reticulatum,Cajanus reticulatus,FALSE,NA,NA,NA,1,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Canthium odoratum,Psydrax odorata,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Capparis mitchellii,Capparis mitchellii,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Cardwellia sublimis,Cardwellia sublimis,TRUE,NA,NA,NA,10--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Carex,Carex,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Carpobrotus,Carpobrotus,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Cassia,Cassia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Cassia circinnata,Senna circinnata,FALSE,NA,NA,NA,1--5,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Cassia eremophila,Senna artemisioides subsp. x coriacea,NA,NA,NA,NA,2--3,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Cassinia,Cassinia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Cassinia aculeata,Cassinia aculeata,TRUE,TRUE,2.635659,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Cassinia aureonitens,Cassinia aureonitens,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Cassinia compacta,Cassinia compacta,FALSE,FALSE,5,NA,NA,NA,NA,1,1,0.2,NA,NA,NA,NA,0.5848035476
+Cassinia trinerva,Cassinia trinerva,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Cassinia uncata,Cassinia uncata,FALSE,TRUE,NA,NA,NA,NA,NA,1,0.2,NA,NA,NA,NA,NA,0.4472135955
+Casuarina,Casuarina,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Casuarina cristata,Casuarina cristata,FALSE,FALSE,NA,NA,5--20,NA,NA,1,1,NA,NA,1,NA,NA,1
+Casuarina cunninghamiana,Casuarina cunninghamiana,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Casuarina cunninghamiana subsp. cunninghamiana,Casuarina cunninghamiana subsp. cunninghamiana,TRUE,FALSE,3,NA,5--20,NA,NA,0.2,1,0.2,NA,1,NA,NA,0.4472135955
+Casuarina equisetifolia,Casuarina equisetifolia,FALSE,NA,NA,NA,6--10,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Casuarina glauca,Casuarina glauca,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Casuarina nana,Allocasuarina nana,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Casuarina obesa,Casuarina obesa,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Casuarina pauper,Casuarina pauper,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Casuarina suberosa,Allocasuarina littoralis,TRUE,TRUE,3,NA,5--20,2.403100775,3,0.2,0.2,0.2,NA,1,0.2,0.2,0.2615320972
+Celmisia,Celmisia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Celmisia costiniana,Celmisia costiniana,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Celmisia longifolia,Celmisia longifolia,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Ceratopetalum apetalum,Ceratopetalum apetalum,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Ceratopetalum gummiferum,Ceratopetalum gummiferum,TRUE,FALSE,1,NA,5--20,0.9689922481,NA,0.2,1,0.2,NA,1,0.2,NA,0.3807307877
+Chamelaucium uncinatum,Chamelaucium uncinatum,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Chionogentias,Gentianella,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Choretrum glomeratum,Choretrum glomeratum,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Choretrum spicatum,Choretrum spicatum,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Choretum glomeratum,Choretrum glomeratum,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Chrysopogon fallax,Chrysopogon fallax,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Claoxylon australe,Claoxylon australe,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Clerodendrum floribundum,Clerodendrum floribundum,TRUE,TRUE,NA,NA,2--3,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Conospermum,Conospermum,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Conospermum taxifolium,Conospermum taxifolium,TRUE,TRUE,4,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Coronidium monticola,Coronidium monticola,TRUE,NA,NA,NA,NA,0.3100775194,NA,0.2,NA,NA,NA,NA,0.2,NA,0.2
+Correa alba,Correa alba,FALSE,TRUE,NA,NA,5--20,NA,NA,1,0.2,NA,NA,1,NA,NA,0.5848035476
+Corymbia gummifera,Corymbia gummifera,TRUE,TRUE,3,NA,5--20,3.023255814,3,0.2,0.2,0.2,NA,1,1,0.2,0.3419951893
+Corymbia intermedia,Corymbia intermedia,TRUE,TRUE,5,NA,NA,NA,NA,0.2,0.2,0.2,NA,NA,NA,NA,0.2
+Corymbia polycarpa,Corymbia polycarpa,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Corymbia terminalis,Corymbia terminalis,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Corymbia tessellaris,Corymbia tessellaris,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Corymbia torelliana,Corymbia torelliana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Craspedia,Craspedia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Craspedia alba,Craspedia alba,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Craspedia costiniana,Craspedia costiniana,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Craspedia jamesii,Craspedia aurantia var. jamesii,TRUE,TRUE,1,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Craspedia lamicola,Craspedia lamicola,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Craspedia maxgrayi,Craspedia maxgrayi,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Cryptostemma calendula,Arctotheca calendula,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,0.2
+Cyclophyllum multiflorum,Cyclophyllum multiflorum,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Cymbidium canaliculatum,Cymbidium canaliculatum,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Cymbidium suave,Cymbidium suave,TRUE,NA,NA,NA,5--20,1.782945736,NA,0.2,NA,NA,NA,1,0.2,NA,0.3419951893
+Darlingia darlingiana,Darlingia darlingiana,TRUE,NA,NA,NA,5--10,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Darwinia,Darwinia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Davesia,Daviesia,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Davidsonia pruriens,Davidsonia pruriens,TRUE,NA,NA,NA,5--10,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Daviesia,Daviesia,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Daviesia corymbosa,Daviesia corymbosa,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Daviesia corymbosa var. virgata,Daviesia leptophylla,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Daviesia divaricata,Daviesia divaricata,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Daviesia latifolia,Daviesia latifolia,TRUE,TRUE,4,NA,5--20,2,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Daviesia mimosoides,Daviesia mimosoides,TRUE,TRUE,2,NA,5--20,NA,2,0.2,0.2,0.2,NA,1,NA,0.2,0.2759459323
+Daviesia polyphylla,Daviesia polyphylla,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Daviesia squarrosa,Daviesia squarrosa,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Daviesia umbellulata,Daviesia umbellulata,TRUE,TRUE,4,NA,NA,NA,NA,0.2,0.2,0.2,NA,NA,NA,NA,0.2
+Dendrobium speciosum,Dendrobium speciosum,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Dendrobium speciosum var. grandiflorum,Dendrobium speciosum subsp. grandiflorum,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Dendrobium speciosum var. hillii,Dendrobium speciosum subsp. hillii,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Deschampsia,Deschampsia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Dicrastylis,Dicrastylis,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Dillwynia,Dillwynia,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Dillwynia brunioides,Dillwynia brunioides,FALSE,TRUE,7,NA,NA,NA,NA,1,0.2,1,NA,NA,NA,NA,0.5848035476
+Dillwynia floribunda,Dillwynia floribunda,FALSE,TRUE,2,NA,NA,NA,NA,1,0.2,0.2,NA,NA,NA,NA,0.3419951893
+Dillwynia floribunda var. teretifolia,Dillwynia floribunda,FALSE,TRUE,2,NA,NA,NA,NA,1,0.2,0.2,NA,NA,NA,NA,0.3419951893
+Dillwynia glaberrima,Dillwynia glaberrima,TRUE,TRUE,5,NA,5--20,NA,2,0.2,0.2,0.2,NA,1,NA,0.2,0.2759459323
+Dillwynia peduncularis,Dillwynia retorta,FALSE,TRUE,1.647287,NA,5--20,NA,NA,1,0.2,0.2,NA,1,NA,NA,0.4472135955
+Dillwynia retorta,Dillwynia retorta,FALSE,TRUE,1.647287,NA,5--20,NA,NA,1,0.2,0.2,NA,1,NA,NA,0.4472135955
+Dillwynia sericea,Dillwynia sericea,TRUE,TRUE,NA,NA,5--20,NA,2,0.2,0.2,NA,NA,1,NA,0.2,0.2990697562
+Dodonaea,Dodonaea,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Dodonaea triquetra,Dodonaea triquetra,TRUE,TRUE,1.22093,3,5--20,NA,NA,0.2,0.2,0.2,0.2,1,NA,NA,0.2759459323
+Dodonaea viscosa,Dodonaea viscosa,TRUE,TRUE,3,4,4--5,NA,NA,0.2,0.2,0.2,0.2,0.2,NA,NA,0.2
+Dodonea viscosa,Dodonaea viscosa,TRUE,TRUE,3,4,4--5,NA,NA,0.2,0.2,0.2,0.2,0.2,NA,NA,0.2
+Doryphora sassafras,Doryphora sassafras,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Drosera,Drosera,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Drosera auriculata,Drosera auriculata,TRUE,TRUE,1,NA,1--5,0.2,NA,0.2,0.2,0.2,NA,0.2,0.2,NA,0.2
+Drosera binata,Drosera binata,TRUE,NA,1,NA,1--5,0.3294573643,0.1,0.2,NA,0.2,NA,0.2,0.2,0.2,0.2
+Drosera gunniana,Drosera,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Drosera peltata,Drosera peltata,TRUE,TRUE,1,NA,1--5,0.3,NA,0.2,0.2,0.2,NA,0.2,0.2,NA,0.2
+Drosera whittakeri,Drosera whittakeri,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Dryandra cirsioides,Banksia cirsioides,FALSE,NA,NA,6,NA,NA,NA,1,NA,NA,1,NA,NA,NA,1
+Drypetes deplanchei,Drypetes deplanchei,TRUE,TRUE,NA,NA,6--10,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Ecdeiocolea monostachya,Ecdeiocolea monostachya,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Elaeocarpus angustifolius,Elaeocarpus angustifolius,TRUE,NA,NA,NA,10--,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Elaeodendron australe,Elaeodendron australe,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Epacris,Epacris,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Epacris gunnii,Epacris gunnii,TRUE,TRUE,2,NA,1--5,2,2,0.2,0.2,0.2,NA,0.2,0.2,0.2,0.2
+Epacris microphylla,Epacris microphylla,TRUE,TRUE,1.666667,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Epacris obtusifolia,Epacris obtusifolia,TRUE,TRUE,3,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Epacris paludosa,Epacris paludosa,TRUE,FALSE,1,5,1--5,NA,1,0.2,1,0.2,1,0.2,NA,0.2,0.3419951893
+Epacris petrophila,Epacris petrophila,FALSE,FALSE,NA,NA,1--5,NA,NA,1,1,NA,NA,0.2,NA,NA,0.5848035476
+Epilobium gunnianum,Epilobium gunnianum,TRUE,TRUE,1,NA,0--1,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Eremophila,Eremophila,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Eremophila alternifolia,Eremophila alternifolia,TRUE,NA,NA,NA,4--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Eremophila bignoniiflora,Eremophila bignoniiflora,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Eremophila drummondii,Eremophila drummondii,NA,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,0.2
+Eremophila freelingii,Eremophila freelingii,TRUE,FALSE,NA,NA,4--5,NA,NA,0.2,1,NA,NA,0.2,NA,NA,0.3419951893
+Eremophila gilesii,Eremophila gilesii,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Eremophila glabra,Eremophila glabra,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Eremophila ionantha,Eremophila ionantha,NA,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,0.2
+Eremophila latrobei,Eremophila latrobei,TRUE,FALSE,NA,NA,4--5,NA,NA,0.2,1,NA,NA,0.2,NA,NA,0.3419951893
+Eremophila longifolia,Eremophila longifolia,TRUE,TRUE,NA,NA,4--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Eremophila maculata,Eremophila maculata,FALSE,FALSE,NA,NA,NA,NA,NA,1,1,NA,NA,NA,NA,NA,1
+Eremophila oppositifolia subsp. angustifolia,Eremophila oppositifolia subsp. angustifolia,NA,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,0.2
+Eremophila polyclada,Eremophila polyclada,FALSE,FALSE,NA,NA,6--10,NA,NA,1,1,NA,NA,1,NA,NA,1
+Eremophila scoparia,Eremophila scoparia,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Eremophila serrulata,Eremophila serrulata,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Eremophila sturtii,Eremophila sturtii,TRUE,FALSE,NA,NA,4--5,NA,NA,0.2,1,NA,NA,0.2,NA,NA,0.3419951893
+Erigeron paludicola,Pappochroma paludicola,TRUE,NA,NA,NA,0--1,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Erigeron setosus,Pappochroma setosum,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Eriostemon,Eriostemon,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Eriostemon australasius,Eriostemon australasius,TRUE,TRUE,4,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Eriostemon linearis,Philotheca linearis,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Erythrophleum chlorostachys,Erythrophleum chlorostachys,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus,Eucalyptus,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Eucalyptus ?calycogona,Eucalyptus calycogona,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus acmenioides,Eucalyptus acmenoides,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus acmenoides,Eucalyptus acmenoides,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus agglomerata,Eucalyptus agglomerata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus alba,Eucalyptus alba,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Eucalyptus albens,Eucalyptus albens,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus amplifolia,Eucalyptus amplifolia,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus amygdalina,Eucalyptus amygdalina,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus andrewsii,Eucalyptus andrewsii,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus angulosa,Eucalyptus angulosa,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus annulata,Eucalyptus annulata,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus argillacea,Eucalyptus argillacea,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus argophloia,Eucalyptus argophloia,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus aromaphloia,Eucalyptus aromaphloia,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus baileyana,Eucalyptus baileyana,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus bakeri,Eucalyptus bakeri,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus baxteri,Eucalyptus baxteri,TRUE,TRUE,2,NA,5--20,NA,2,0.2,0.2,0.2,NA,1,NA,0.2,0.2759459323
+Eucalyptus bigalerita,Eucalyptus bigalerita,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus blakelyi,Eucalyptus blakelyi,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus boiryoides,Eucalyptus botryoides,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Eucalyptus bosistoana,Eucalyptus bosistoana,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus botryoides,Eucalyptus botryoides,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Eucalyptus brachyandra,Eucalyptus brachyandra,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus brachycalyx,Eucalyptus brachycalyx,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus brassiana,Eucalyptus brassiana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus brevifolia,Eucalyptus brevifolia,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus bridgesiana,Eucalyptus bridgesiana,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus burgessiana,Eucalyptus burgessiana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus calcicultrix,Eucalyptus porosa,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus caleyi,Eucalyptus caleyi,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus caliginosa,Eucalyptus caliginosa,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus calophylla,Corymbia calophylla,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus calycogona,Eucalyptus calycogona,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus camadulensis,Eucalyptus camaldulensis,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus camaldulensis,Eucalyptus camaldulensis,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus cambageana,Eucalyptus cambageana,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Eucalyptus camfieldii,Eucalyptus camfieldii,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus campaspe,Eucalyptus campaspe,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Eucalyptus capitellata,Eucalyptus capitellata,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus cephalocarpa,Eucalyptus cephalocarpa,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus cinerea,Eucalyptus cinerea,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus citriodora,Corymbia citriodora,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus cladocalyx,Eucalyptus cladocalyx,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus cloeziana,Eucalyptus cloeziana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus cneorifolia,Eucalyptus cneorifolia,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus coccifera,Eucalyptus coccifera,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus conglobata,Eucalyptus conglobata,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus conglomerata,Eucalyptus conglomerata,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus cornuta,Eucalyptus cornuta,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus cosmophylla,Eucalyptus cosmophylla,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus crebra,Eucalyptus crebra,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus cunninghamii,Eucalyptus cunninghamii,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus curtisii,Eucalyptus curtisii,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus cylindriflora,Eucalyptus cylindriflora,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus cypellocarpa,Eucalyptus cypellocarpa,TRUE,TRUE,5,NA,5--20,3,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Eucalyptus dalrympleana,Eucalyptus dalrympleana,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus dealbata,Eucalyptus dealbata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus deanei,Eucalyptus deanei,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus decipiens,Eucalyptus decipiens,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus delegatensis,Eucalyptus delegatensis,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus dichromophloia,Corymbia dichromophloia,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus diversicolor,Eucalyptus diversicolor,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus diversifolia,Eucalyptus diversifolia,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus dives,Eucalyptus dives,TRUE,TRUE,2,NA,5--20,NA,2,0.2,0.2,0.2,NA,1,NA,0.2,0.2759459323
+Eucalyptus dongarraensis,Eucalyptus obtusiflora subsp. dongarraensis,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus drepanophylla,Eucalyptus crebra,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus dumosa,Eucalyptus dumosa,TRUE,TRUE,5,NA,5--20,NA,5,0.2,0.2,0.2,NA,1,NA,1,0.3807307877
+Eucalyptus dundasii,Eucalyptus dundasii,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Eucalyptus dunnii,Eucalyptus dunnii,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus dwyeri,Eucalyptus dwyeri,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Eucalyptus elata,Eucalyptus elata,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus eudesmioides,Eucalyptus eudesmioides,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus eugenioides,Eucalyptus eugenioides,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus exserta,Eucalyptus exserta,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus fasciculosa,Eucalyptus fasciculosa,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus fibrosa,Eucalyptus fibrosa,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus floribunda,Corymbia confertiflora,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Eucalyptus foecunda,Eucalyptus foecunda,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus forrestiana,Eucalyptus forrestiana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus gamophylla,Eucalyptus gamophylla,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus globoidea,Eucalyptus globoidea,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus globulus,Eucalyptus globulus,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus globulus subsp. bicostata,Eucalyptus globulus subsp. bicostata,TRUE,TRUE,7,NA,5--20,NA,7,0.2,0.2,1,NA,1,NA,1,0.5253055609
+Eucalyptus gomphocephala,Eucalyptus gomphocephala,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus gongylocarpa,Eucalyptus gongylocarpa,TRUE,NA,NA,NA,10--,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus goniocalyx,Eucalyptus goniocalyx,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus gracilis,Eucalyptus gracilis,TRUE,TRUE,5,NA,5--20,NA,5,0.2,0.2,0.2,NA,1,NA,1,0.3807307877
+Eucalyptus grandis,Eucalyptus grandis,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus griffithsii,Eucalyptus griffithsii,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus gummifera,Corymbia gummifera,TRUE,TRUE,3,NA,5--20,3.023255814,3,0.2,0.2,0.2,NA,1,1,0.2,0.3419951893
+Eucalyptus haemastoma,Eucalyptus haemastoma,TRUE,TRUE,3,NA,5--20,2.69379845,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Eucalyptus hemiphloia,Eucalyptus moluccana,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus houseana,Eucalyptus houseana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus howittiana,Eucalyptus howittiana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus incrassata,Eucalyptus incrassata,TRUE,TRUE,5,NA,5--20,NA,5,0.2,0.2,0.2,NA,1,NA,1,0.3807307877
+Eucalyptus intermedia,Corymbia intermedia,TRUE,TRUE,5,NA,NA,NA,NA,0.2,0.2,0.2,NA,NA,NA,NA,0.2
+Eucalyptus intertexta,Eucalyptus intertexta,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus jacksonii,Eucalyptus jacksonii,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus jensenii,Eucalyptus jensenii,TRUE,NA,NA,NA,10--,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus jutsonii,Eucalyptus jutsonii,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Eucalyptus kitsoniana,Eucalyptus kitsoniana,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus largiflorens,Eucalyptus largiflorens,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus leptocalyx,Eucalyptus leptocalyx,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus leptophleba,Eucalyptus leptophleba,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus leptopoda,Eucalyptus leptopoda,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus lesouefi,Eucalyptus lesouefii,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Eucalyptus lesouefii,Eucalyptus lesouefii,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Eucalyptus leucoxylon,Eucalyptus leucoxylon,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus longifolia,Eucalyptus longifolia,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus loxophleba,Eucalyptus loxophleba,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus luehmanniana,Eucalyptus luehmanniana,TRUE,FALSE,2,NA,NA,2,NA,0.2,1,0.2,NA,NA,0.2,NA,0.2990697562
+Eucalyptus macarthuri,Eucalyptus macarthurii,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus macrandra,Eucalyptus macrandra,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus macrorhyncha,Eucalyptus macrorhyncha,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus maculata,Corymbia maculata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus major,Eucalyptus major,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus mannifera maculosa,Eucalyptus mannifera subsp. mannifera,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus mannifera subsp. maculosa,Eucalyptus mannifera subsp. mannifera,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus marginata,Eucalyptus marginata,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus melanophloia,Eucalyptus melanophloia,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus melliodora,Eucalyptus melliodora,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus microcarpa,Eucalyptus microcarpa,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus microcorys,Eucalyptus microcorys,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus microneura,Eucalyptus microneura,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus microtheca,Eucalyptus microtheca,TRUE,NA,NA,NA,10--,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus miniata,Eucalyptus miniata,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus moluccana,Eucalyptus moluccana,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus muelleriana,Eucalyptus muelleriana,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus nigra,Eucalyptus eugenioides,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus niphophila,Eucalyptus pauciflora subsp. niphophila,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus nitens,Eucalyptus nitens,TRUE,TRUE,6,NA,5--20,NA,NA,0.2,0.2,1,NA,1,NA,NA,0.4472135955
+Eucalyptus nitida,Eucalyptus nitida,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus normantonensis,Eucalyptus normantonensis,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus obliqua,Eucalyptus obliqua,TRUE,TRUE,2,NA,5--20,NA,2,0.2,0.2,0.2,NA,1,NA,0.2,0.2759459323
+Eucalyptus oblonga,Eucalyptus globoidea,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus occidentalis,Eucalyptus occidentalis,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus occidentalis x Eucalyptus rudis,Eucalyptus,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Eucalyptus occidentalis x Eucalyptus utilis,Eucalyptus,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Eucalyptus ochrophloia,Eucalyptus ochrophloia,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus odontocarpa,Eucalyptus odontocarpa,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus odorata,Eucalyptus odorata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus oldfieldii,Eucalyptus oldfieldii,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus oleosa,Eucalyptus oleosa,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus oligantha,Eucalyptus oligantha,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus orgadophila,Eucalyptus orgadophila,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus ovata,Eucalyptus ovata,TRUE,NA,5,NA,5--20,3,NA,0.2,NA,0.2,NA,1,0.2,NA,0.2990697562
+Eucalyptus pachyphylla,Eucalyptus pachyphylla,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus panda,Eucalyptus panda,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus paniculata,Eucalyptus paniculata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus papuana,Corymbia papuana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus pauciflora,Eucalyptus pauciflora,TRUE,TRUE,6,NA,5--20,NA,NA,0.2,0.2,1,NA,1,NA,NA,0.4472135955
+Eucalyptus pauciflora subsp. niphophila,Eucalyptus pauciflora subsp. niphophila,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus phoenicea,Eucalyptus phoenicea,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus pileata,Eucalyptus pileata,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus pilularis,Eucalyptus pilularis,TRUE,TRUE,5,NA,5--20,4.031007752,NA,0.2,0.2,0.2,NA,1,1,NA,0.3807307877
+Eucalyptus piperita,Eucalyptus piperita,TRUE,TRUE,NA,NA,NA,3.023255814,NA,0.2,0.2,NA,NA,NA,1,NA,0.3419951893
+Eucalyptus planchoniana,Eucalyptus planchoniana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus platypus,Eucalyptus platypus,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus platypus var. heterophylla,Eucalyptus utilis,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Eucalyptus polyanthemos,Eucalyptus polyanthemos,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus populnea,Eucalyptus populnea,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus porosa,Eucalyptus porosa,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus propinqua,Eucalyptus propinqua,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus pruinosa,Eucalyptus pruinosa,TRUE,NA,NA,NA,10--,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus pseudoglobulus,Eucalyptus globulus subsp. pseudoglobulus,TRUE,TRUE,7,NA,5--20,NA,7,0.2,0.2,1,NA,1,NA,1,0.5253055609
+Eucalyptus pulchella,Eucalyptus pulchella,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus pulverulenta,Eucalyptus pulverulenta,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus punctata,Eucalyptus punctata,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus pyriformis,Eucalyptus pyriformis,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus pyrophora,Corymbia terminalis,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus racemosa,Eucalyptus racemosa,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus radiata,Eucalyptus radiata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus radiata subsp. robertsonii,Eucalyptus radiata subsp. robertsonii,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus raveretiana,Eucalyptus raveretiana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus redunca,Eucalyptus redunca,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus regnans,Eucalyptus regnans,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus resinifera,Eucalyptus resinifera,TRUE,TRUE,NA,NA,NA,3.682170543,NA,0.2,0.2,NA,NA,NA,1,NA,0.3419951893
+Eucalyptus robertsonii,Eucalyptus radiata subsp. robertsonii,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus robusta,Eucalyptus robusta,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus robusta x Eucalyptus resinifera,Eucalyptus,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Eucalyptus rodwayi,Eucalyptus rodwayi,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus rossii,Eucalyptus rossii,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus rostrata,Eucalyptus camaldulensis subsp. camaldulensis,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus roycei,Eucalyptus roycei,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus rubida,Eucalyptus rubida,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus rudis,Eucalyptus rudis,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus saligna,Eucalyptus saligna,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus salmonophloia,Eucalyptus salmonophloia,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus salubris,Eucalyptus salubris,FALSE,TRUE,NA,NA,NA,NA,NA,1,0.2,NA,NA,NA,NA,NA,0.4472135955
+Eucalyptus seeana,Eucalyptus seeana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus sheathiana,Eucalyptus sheathiana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus siderophloia,Eucalyptus siderophloia,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus sideroxylon,Eucalyptus sideroxylon,TRUE,TRUE,3,NA,NA,NA,3,0.2,0.2,0.2,NA,NA,NA,0.2,0.2
+Eucalyptus sieberi,Eucalyptus sieberi,TRUE,NA,4,NA,5--20,NA,4,0.2,NA,0.2,NA,1,NA,1,0.4472135955
+Eucalyptus similis,Eucalyptus similis,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus simmondsii,Eucalyptus nitida,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus socialis,Eucalyptus socialis,TRUE,TRUE,5,NA,5--20,NA,5,0.2,0.2,0.2,NA,1,NA,1,0.3807307877
+Eucalyptus sphaerocarpa,Eucalyptus sphaerocarpa,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus sporadica,Eucalyptus sporadica,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus squamosa,Eucalyptus squamosa,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus stellulata,Eucalyptus stellulata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus striaticalyx,Eucalyptus striaticalyx,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Eucalyptus stricta,Eucalyptus stricta,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus tectifera,Eucalyptus tectifica,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus tectifica,Eucalyptus tectifica,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus tenuipes,Eucalyptus tenuipes,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus tenuiramis,Eucalyptus tenuiramis,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus tereticornis,Eucalyptus tereticornis,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus tereticornis,Eucalyptus tereticornis,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus terminalis,Corymbia terminalis,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus tessellaris,Corymbia tessellaris,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus tessellaris,Corymbia tessellaris,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus tetradonta,Eucalyptus tetrodonta,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus tetragona,Eucalyptus tetrodonta,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus tetraptera,Eucalyptus tetraptera,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus tetrodonta,Eucalyptus tetrodonta,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus thozetiana,Eucalyptus thozetiana,TRUE,FALSE,NA,NA,10--,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Eucalyptus tindaliae,Eucalyptus tindaliae,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus torquata,Eucalyptus torquata,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus trachyphloia,Corymbia trachyphloia,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Eucalyptus transcontinentalis,Eucalyptus transcontinentalis,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Eucalyptus umbra,Eucalyptus umbra,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus uncinata,Eucalyptus uncinata,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eucalyptus viminalis,Eucalyptus viminalis,TRUE,TRUE,5,NA,5--20,3,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Eucalyptus viminalis subsp. viminalis,Eucalyptus viminalis subsp. viminalis,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Eucalyptus wandoo,Eucalyptus wandoo,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Eucalyptus willisii,Eucalyptus willisii,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Eucalyptus woollsiana,Eucalyptus woollsiana,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Euchiton argentifolius,Argyrotegium mackayi,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Euphrasia collina subsp. diversicolor,Euphrasia collina subsp. diversicolor,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Euphrasia crassiuscula,Euphrasia crassiuscula,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Euroschinus falcata,Euroschinus falcata,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Eutaxia,Eutaxia,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Ewartia nubigena,Ewartia nubigena,TRUE,FALSE,NA,NA,1--5,NA,NA,0.2,1,NA,NA,0.2,NA,NA,0.3419951893
+Exocarpos cupressiformis,Exocarpos cupressiformis,TRUE,TRUE,5,NA,5--20,1.182170543,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Ficus benjamina,Ficus benjamina,TRUE,NA,NA,NA,6--10,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Ficus macrophylla,Ficus macrophylla,TRUE,NA,NA,NA,5--20,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Ficus opposita,Ficus opposita,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Ficus rubiginosa,Ficus rubiginosa,TRUE,TRUE,3,NA,5--20,2.713178295,2.7,0.2,0.2,0.2,NA,1,0.2,0.2,0.2615320972
+Ficus watkinsiana,Ficus watkinsiana,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Flindersia brayleyana,Flindersia brayleyana,TRUE,NA,NA,NA,0--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Flindersia maculosa,Flindersia maculosa,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Gahnia,Gahnia,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Gahnia erythrocarpa,Gahnia erythrocarpa,TRUE,NA,3,NA,NA,1.763565891,NA,0.2,NA,0.2,NA,NA,0.2,NA,0.2
+Gahnia lanigera,Gahnia lanigera,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Gahnia sieberiana,Gahnia sieberiana,TRUE,TRUE,2,NA,5--20,NA,2,0.2,0.2,0.2,NA,1,NA,0.2,0.2759459323
+Gastrolobium grandiflorum,Gastrolobium grandiflorum,TRUE,NA,NA,NA,2--3,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Gastrolobium spinosum,Gastrolobium spinosum,FALSE,TRUE,NA,3,NA,NA,NA,1,0.2,NA,0.2,NA,NA,NA,0.3419951893
+Geijera parviflora,Geijera parviflora,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Gentianella diemensis,Gentianella diemensis,FALSE,NA,NA,NA,1--5,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Gentianella muelleriana,Gentianella muelleriana,FALSE,TRUE,NA,NA,1--5,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Glischrocaryon roei,Glischrocaryon roei,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Gompholobium,Gompholobium,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Goodenia,Goodenia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Goodenia paniculata,Goodenia paniculata,TRUE,NA,1,NA,0--1,NA,0.5,0.2,NA,0.2,NA,0.2,NA,0.2,0.2
+Grevillea,Grevillea,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Grevillea australis,Grevillea australis,TRUE,TRUE,10,NA,5--20,NA,NA,0.2,0.2,1,NA,1,NA,NA,0.4472135955
+Grevillea buxifolia,Grevillea buxifolia,TRUE,FALSE,1.666667,NA,NA,NA,NA,0.2,1,0.2,NA,NA,NA,NA,0.3419951893
+Grevillea eriostachya,Grevillea eriostachya,TRUE,TRUE,NA,NA,4--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Grevillea juncifolia,Grevillea juncifolia,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Grevillea lanigera,Grevillea lanigera,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Grevillea nematophylla,Grevillea nematophylla,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Grevillea petrophiloides,Grevillea petrophiloides,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Grevillea pinaster,Grevillea pinaster,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Grevillea pterosperma,Grevillea pterosperma,TRUE,TRUE,NA,NA,6--10,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Guioa lasioneura,Guioa lasioneura,TRUE,TRUE,NA,NA,5--10,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Guioa semiglauca,Guioa semiglauca,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Gunniopsis,Gunniopsis,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Hakea,Hakea,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Hakea erinacea,Hakea erinacea,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Hakea rugosa,Hakea rugosa,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Hakea ruscifolia,Hakea ruscifolia,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Hakea teretifolia,Hakea teretifolia,TRUE,TRUE,2.965116,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Hakea trifurcata,Hakea trifurcata,TRUE,TRUE,NA,4,NA,NA,NA,0.2,0.2,NA,0.2,NA,NA,NA,0.2
+Hardenbergia,Hardenbergia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Harmogia densifolia,Harmogia densifolia,TRUE,TRUE,4,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Helichrysum alpinum,Ozothamnus alpinus,TRUE,TRUE,5,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Helichrysum bracteatum,Xerochrysum bracteatum,FALSE,TRUE,NA,0.75,1,NA,NA,1,0.2,NA,0.2,0.2,NA,NA,0.2990697562
+Helichrysum scorpioides,Coronidium scorpioides,TRUE,TRUE,1,NA,1--5,0.5,NA,0.2,0.2,0.2,NA,0.2,0.2,NA,0.2
+Helipterum albicans,Leucochrysum albicans,FALSE,NA,NA,NA,0--1,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Helipterum anthemoides,Rhodanthe anthemoides,TRUE,NA,1,NA,0--1,NA,1,0.2,NA,0.2,NA,0.2,NA,0.2,0.2
+Hibbertia,Hibbertia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Hibbertia linearis,Hibbertia linearis,TRUE,TRUE,1.395349,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Hibbertia scandens,Hibbertia scandens,TRUE,TRUE,1,NA,5--10,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Hibiscus,Hibiscus,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Hibiscus rhodopetalus,Abelmoschus moschatus subsp. tuberosus,TRUE,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Hibiscus tiliaceus,Hibiscus tiliaceus,TRUE,TRUE,NA,NA,4--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Hovea montana,Hovea montana,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Hymenosporum flavum,Hymenosporum flavum,TRUE,FALSE,NA,NA,10--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Hypocalymma angustifolium,Hypocalymma angustifolium,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Hypochaeris glabra,Hypochaeris glabra,NA,NA,1,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,0.2
+Hypochaeris radicata,Hypochaeris radicata,NA,NA,1,NA,NA,0.1937984496,1,NA,NA,0.2,NA,NA,0.2,0.2,0.2
+Isopogon anemonifolius,Isopogon anemonifolius,TRUE,TRUE,2,NA,5--20,1.744186047,NA,0.2,0.2,0.2,NA,1,0.2,NA,0.2759459323
+Jacksonia,Jacksonia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Jacksonia scoparia,Jacksonia scoparia,TRUE,TRUE,4,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Juncus,Juncus,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Kennedia prorepens,Kennedia prorepens,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Kennedia rubicunda,Kennedia rubicunda,TRUE,TRUE,0.6782946,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Kunzea,Kunzea,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Kunzea ambigua,Kunzea ambigua,FALSE,NA,1.879845,NA,1--5,NA,NA,1,NA,0.2,NA,0.2,NA,NA,0.3419951893
+Kunzea ericoides,Kunzea ericoides,TRUE,TRUE,2,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Kunzea muelleri,Kunzea muelleri,TRUE,TRUE,5,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Lambertia formosa,Lambertia formosa,TRUE,TRUE,2,NA,NA,1.375968992,2,0.2,0.2,0.2,NA,NA,0.2,0.2,0.2
+Lantana camara,Lantana camara,NA,NA,NA,NA,0--5,0.3100775194,NA,NA,NA,NA,NA,0.2,0.2,NA,0.2
+Leptomeria acida,Leptomeria acida,TRUE,TRUE,3,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Leptomeria preissiana,Leptomeria preissiana,NA,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,0.2
+Leptorhynchos squamatus,Leptorhynchos squamatus,TRUE,FALSE,1,NA,1--5,NA,1,0.2,1,0.2,NA,0.2,NA,0.2,0.2759459323
+Leptorhynchos squamatus subsp. squamatus,Leptorhynchos squamatus subsp. squamatus,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Leptorhynchos tenuifolius,Leptorhynchos tenuifolius,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Leptospermum,Leptospermum,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Leptospermum attenuatum,Leptospermum trinervium,TRUE,TRUE,1,NA,1--5,0.3294573643,0.5,0.2,0.2,0.2,NA,0.2,0.2,0.2,0.2
+Leptospermum brachyandrum,Leptospermum brachyandrum,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Leptospermum brevipes,Leptospermum brevipes,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Leptospermum continentale,Leptospermum continentale,TRUE,TRUE,2,NA,1--5,NA,2,0.2,0.2,0.2,NA,0.2,NA,0.2,0.2
+Leptospermum coriaceum,Leptospermum coriaceum,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Leptospermum ericoides,Kunzea ericoides,TRUE,TRUE,2,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Leptospermum erubescens,Leptospermum erubescens,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+"Leptospermum erubescens,",Leptospermum erubescens,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Leptospermum flavescens,Leptospermum polygalifolium subsp. polygalifolium,TRUE,NA,3,NA,1--5,NA,NA,0.2,NA,0.2,NA,0.2,NA,NA,0.2
+Leptospermum grandifolium,Leptospermum grandifolium,TRUE,TRUE,3,NA,5--20,NA,3,0.2,0.2,0.2,NA,1,NA,0.2,0.2759459323
+Leptospermum juniperinum,Leptospermum juniperinum,TRUE,TRUE,2,NA,1--5,NA,2,0.2,0.2,0.2,NA,0.2,NA,0.2,0.2
+Leptospermum laevigatum,Leptospermum laevigatum,TRUE,TRUE,5,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Leptospermum lanigerum,Leptospermum lanigerum,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Leptospermum microcarpum,Leptospermum microcarpum,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Leptospermum myrsinoides,Leptospermum myrsinoides,TRUE,TRUE,2,NA,1--5,NA,2,0.2,0.2,0.2,NA,0.2,NA,0.2,0.2
+Leptospermum myrtifolium,Leptospermum myrtifolium,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Leptospermum parvifolium,Leptospermum parvifolium,TRUE,NA,4,NA,5--20,1.744186047,NA,0.2,NA,0.2,NA,1,0.2,NA,0.2990697562
+Leptospermum polygalifolium,Leptospermum polygalifolium,TRUE,TRUE,NA,NA,1--5,1.821705426,NA,0.2,0.2,NA,NA,0.2,0.2,NA,0.2
+Leptospermum rupestre,Leptospermum rupestre,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Leptospermum scoparium,Leptospermum scoparium,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Leptospermum squarrosum,Leptospermum squarrosum,TRUE,NA,3,NA,1--5,NA,NA,0.2,NA,0.2,NA,0.2,NA,NA,0.2
+Leptospermum trinervium,Leptospermum trinervium,TRUE,TRUE,1,NA,1--5,0.3294573643,0.5,0.2,0.2,0.2,NA,0.2,0.2,0.2,0.2
+Leucochrysum albicans,Leucochrysum albicans,FALSE,NA,NA,NA,0--1,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Leucochrysum albicans subsp. alpinum,Leucochrysum alpinum,TRUE,TRUE,NA,NA,0--1,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Leucopogon,Leucopogon,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Leucopogon margarodes,Leucopogon margarodes,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Leucopogon montanus,Acrothamnus montanus,TRUE,FALSE,5,NA,1--5,NA,NA,0.2,1,0.2,NA,0.2,NA,NA,0.2990697562
+Levenhookia stipitata,Levenhookia stipitata,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Lomandra longifolia,Lomandra longifolia,TRUE,FALSE,1,NA,1--5,0.6589147287,1,0.2,1,0.2,NA,0.2,0.2,0.2,0.2615320972
+Lomatia,Lomatia,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Lomatia fraseri,Lomatia fraseri,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Lomatia silaifolia,Lomatia silaifolia,TRUE,TRUE,1,NA,5--20,0.9496124031,1,0.2,0.2,0.2,NA,1,0.2,0.2,0.2615320972
+Lophostemon confertus,Lophostemon confertus,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Lophostemon grandiflorus,Lophostemon grandiflorus,TRUE,NA,NA,NA,10--,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Lophostemon suaveolens,Lophostemon suaveolens,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Macrozamia communis,Macrozamia communis,TRUE,NA,10,NA,20--,NA,NA,0.2,NA,1,NA,1,NA,NA,0.5848035476
+Macrozamia riedlei,Macrozamia riedlei,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Mallotus paniculatus,Mallotus paniculatus,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Mallotus philippensis,Mallotus philippensis,TRUE,TRUE,NA,NA,6--10,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Maytenus silvestris,Denhamia silvestris,TRUE,FALSE,NA,NA,5--20,2,NA,0.2,1,NA,NA,1,0.2,NA,0.4472135955
+Melaleuca,Melaleuca,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Melaleuca acacioides,Melaleuca acacioides,TRUE,NA,NA,NA,6--10,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Melaleuca acuminata,Melaleuca acuminata,TRUE,TRUE,NA,4,1--5,NA,NA,0.2,0.2,NA,0.2,0.2,NA,NA,0.2
+Melaleuca armillaris,Melaleuca armillaris,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Melaleuca bracteata,Melaleuca bracteata,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Melaleuca bracteata,Melaleuca bracteata,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Melaleuca cajuputi,Melaleuca cajuputi,TRUE,NA,NA,NA,6--10,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Melaleuca dealbata,Melaleuca dealbata,TRUE,NA,NA,NA,6--10,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Melaleuca decora,Melaleuca decora,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Melaleuca ericifolia,Melaleuca ericifolia,TRUE,FALSE,NA,NA,1--5,NA,NA,0.2,1,NA,NA,0.2,NA,NA,0.3419951893
+Melaleuca glomerata,Melaleuca glomerata,TRUE,NA,NA,NA,6--10,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Melaleuca huegelii,Melaleuca huegelii,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Melaleuca lanceolata,Melaleuca lanceolata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Melaleuca leucadendra,Melaleuca leucadendra,TRUE,TRUE,NA,NA,6--10,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Melaleuca linariifolia,Melaleuca linariifolia,TRUE,TRUE,4,NA,5--20,1.821705426,4,0.2,0.2,0.2,NA,1,0.2,1,0.3419951893
+Melaleuca lineariifolia,Melaleuca linariifolia,TRUE,TRUE,4,NA,5--20,1.821705426,4,0.2,0.2,0.2,NA,1,0.2,1,0.3419951893
+Melaleuca nervosa,Melaleuca nervosa,TRUE,TRUE,NA,NA,6--10,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Melaleuca nodosa,Melaleuca nodosa,TRUE,TRUE,4,NA,NA,1.763565891,NA,0.2,0.2,0.2,NA,NA,0.2,NA,0.2
+Melaleuca pauperiflora,Melaleuca pauperiflora,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Melaleuca pubescens,Melaleuca lanceolata,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Melaleuca quinquenervia,Melaleuca quinquenervia,TRUE,NA,1,NA,NA,NA,0.2,0.2,NA,0.2,NA,NA,NA,0.2,0.2
+Melaleuca sieberi,Melaleuca sieberi,TRUE,TRUE,2,NA,NA,2,NA,0.2,0.2,0.2,NA,NA,0.2,NA,0.2
+Melaleuca staphyloides,Melaleuca styphelioides,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Melaleuca styphelioides,Melaleuca styphelioides,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Melaleuca subfalcata,Melaleuca subfalcata,FALSE,TRUE,NA,NA,NA,NA,NA,1,0.2,NA,NA,NA,NA,NA,0.4472135955
+Melaleuca thymifolia,Melaleuca thymifolia,TRUE,TRUE,1,NA,NA,NA,0.4,0.2,0.2,0.2,NA,NA,NA,0.2,0.2
+Melaleuca uncinata,Melaleuca uncinata,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Melaleuca viridiflora,Melaleuca viridiflora,TRUE,TRUE,NA,NA,4--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Melalueca,Melaleuca,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Melastoma affine,Melastoma affine,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Melastoma polyanthum,Melastoma affine,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Melicope elleryana,Melicope elleryana,TRUE,TRUE,NA,NA,6--10,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Melicope micrococca,Melicope micrococca,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Melicope platynema,Brombya platynema,NA,NA,NA,NA,5--10,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Micromyrtus,Micromyrtus,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Micromyrtus hexamera,Micromyrtus hexamera,FALSE,NA,NA,NA,1--5,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Micromyrtus sessilis,Micromyrtus sessilis,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Microseris lanceolata,Microseris lanceolata,TRUE,TRUE,1,NA,0--1,NA,1,0.2,0.2,0.2,NA,0.2,NA,0.2,0.2
+Mirbelia,Mirbelia,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Mircoseris lanceolata,Microseris lanceolata,TRUE,TRUE,1,NA,0--1,NA,1,0.2,0.2,0.2,NA,0.2,NA,0.2,0.2
+Muellerina eucalyptoides,Muellerina eucalyptoides,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Murraya paniculata,Murraya paniculata,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Myoporum,Myoporum,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Myoporum insulare,Myoporum insulare,TRUE,TRUE,1,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Myoporum platycarpum,Myoporum platycarpum,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Myoporum viscosum,Myoporum viscosum,FALSE,NA,NA,NA,1--5,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Neopaxia australasica,Montia australasica,TRUE,TRUE,1,NA,0--1,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Nothofagus cunninghamii,Nothofagus cunninghamii,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Nuytsia floribunda,Nuytsia floribunda,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Olearia,Olearia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Olearia phlogopappa,Olearia phlogopappa,TRUE,NA,2,NA,1--5,NA,NA,0.2,NA,0.2,NA,0.2,NA,NA,0.2
+Olearia phlogopappa var. subrepanda,Olearia brevipedunculata,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Olearina,Olearia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Orites excelsus,Orites excelsus,FALSE,FALSE,NA,NA,NA,NA,NA,1,1,NA,NA,NA,NA,NA,1
+Orites lancifolius,Orites lancifolius,TRUE,FALSE,5,NA,5--20,NA,NA,0.2,1,0.2,NA,1,NA,NA,0.4472135955
+Orites revolutus,Orites revolutus,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Orthrosanthus,Orthrosanthus,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Oxylobium,Oxylobium,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Oxylobium aciculiferum,Podolobium aciculiferum,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Oxylobium ellipticum,Oxylobium ellipticum,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Oxylobium ilicifolium,Podolobium ilicifolium,TRUE,TRUE,NA,NA,5--20,0.7364341085,NA,0.2,0.2,NA,NA,1,0.2,NA,0.2990697562
+Ozothamnus cupressoides,Ozothamnus cupressoides,FALSE,TRUE,NA,NA,1--5,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Ozothamnus diosmifolius,Ozothamnus diosmifolius,TRUE,FALSE,1.937984,NA,1--5,NA,NA,0.2,1,0.2,NA,0.2,NA,NA,0.2990697562
+Ozothamnus ferrugineus,Ozothamnus ferrugineus,FALSE,TRUE,2,NA,1--5,NA,NA,1,0.2,0.2,NA,0.2,NA,NA,0.2990697562
+Ozothamnus hookeri,Ozothamnus hookeri,TRUE,NA,2,NA,1--5,NA,NA,0.2,NA,0.2,NA,0.2,NA,NA,0.2
+Ozothamnus obcordatus,Ozothamnus obcordatus,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Ozothamnus thyrsoideus,Ozothamnus thyrsoideus,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Passiflora,Passiflora,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Patersonia,Patersonia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Patersonia occidentalis,Patersonia occidentalis,TRUE,NA,NA,3,NA,NA,NA,0.2,NA,NA,0.2,NA,NA,NA,0.2
+Pentachondra pumila,Pentachondra pumila,FALSE,FALSE,NA,NA,1--5,NA,NA,1,1,NA,NA,0.2,NA,NA,0.5848035476
+Persoonia lanceolata,Persoonia lanceolata,FALSE,FALSE,2.093023,NA,NA,NA,NA,1,1,0.2,NA,NA,NA,NA,0.5848035476
+Persoonia mollis var. livens,Persoonia mollis subsp. livens,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Persoonia mollis var. revoluta,Persoonia mollis subsp. revoluta,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Persoonia virgata,Persoonia virgata,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Phebalium,Phebalium,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Phebalium ovatifolium,Nematolepis ovatifolia,FALSE,FALSE,NA,NA,5--20,NA,NA,1,1,NA,NA,1,NA,NA,1
+Phebalium squamulosum,Phebalium squamulosum,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Philotheca,Philotheca,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Philotheca spicata,Philotheca spicata,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Phyllota grandiflora,Phyllota grandiflora,TRUE,NA,NA,NA,NA,0.7170542636,NA,0.2,NA,NA,NA,NA,0.2,NA,0.2
+Phyllota phylicoides,Phyllota phylicoides,TRUE,TRUE,4,NA,NA,1.666666667,NA,0.2,0.2,0.2,NA,NA,0.2,NA,0.2
+Physalis peruviana,Physalis peruviana,NA,NA,2.713178,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,0.2
+Physalis perviana,Physalis peruviana,NA,NA,2.713178,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,0.2
+Pimelea,Pimelea,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Pimelea axiflora,Pimelea axiflora,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Pimelea ligustrina,Pimelea ligustrina,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Planchonia careya,Planchonia careya,TRUE,FALSE,NA,NA,6--10,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Platylobium,Platylobium,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Pleiogynium cerasiferum,Pleiogynium timoriense,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Poa costiniana,Poa costiniana,TRUE,TRUE,1,NA,1--5,NA,1,0.2,0.2,0.2,NA,0.2,NA,0.2,0.2
+Poa hiemata,Poa hiemata,TRUE,NA,1,NA,1--5,NA,1,0.2,NA,0.2,NA,0.2,NA,0.2,0.2
+Poa labillardierei,Poa labillardierei,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Podolepis,Podolepis,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Podolepis canescens,Podolepis canescens,FALSE,NA,NA,NA,0--1,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Podolepis neglecta,Podolepis neglecta,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Podolepis robusta,Podolepis robusta,TRUE,NA,1,NA,1--5,NA,1,0.2,NA,0.2,NA,0.2,NA,0.2,0.2
+Podolobium alpestre,Podolobium alpestre,TRUE,TRUE,5,NA,5--20,NA,NA,0.2,0.2,0.2,NA,1,NA,NA,0.2990697562
+Pongamia pinnata,Millettia pinnata,TRUE,TRUE,NA,NA,10--,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Portulaceae,Portulaca,NA,NA,NA,NA,0--1,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Prasophyllum alpinum,Prasophyllum alpinum,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Prasophyllum fimbria,Prasophyllum fimbria,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Prostanthera cuneata,Prostanthera cuneata,TRUE,TRUE,5,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Prostanthera cuneata,Prostanthera cuneata,TRUE,TRUE,5,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Prostanthera lasianthos,Prostanthera lasianthos,TRUE,TRUE,5,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Psoralea patens,Cullen patens,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Psydrax odorata,Psydrax odorata,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Ptilotus,Ptilotus,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Pultenaea,Pultenaea,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Pultenaea acerosa,Pultenaea acerosa,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Pultenaea blakelyi,Pultenaea blakelyi,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Pultenaea daphnoides,Pultenaea daphnoides,FALSE,TRUE,1.666667,NA,5--20,NA,NA,1,0.2,0.2,NA,1,NA,NA,0.4472135955
+Pultenaea elliptica,Pultenaea tuberculata,TRUE,TRUE,1.182171,NA,NA,NA,2,0.2,0.2,0.2,NA,NA,NA,0.2,0.2
+Pultenaea ferruginea,Pultenaea ferruginea,FALSE,TRUE,NA,NA,NA,NA,NA,1,0.2,NA,NA,NA,NA,NA,0.4472135955
+Pultenaea flexilis,Pultenaea flexilis,FALSE,TRUE,1.705426,NA,5--20,NA,NA,1,0.2,0.2,NA,1,NA,NA,0.4472135955
+Pultenaea glabra,Pultenaea glabra,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Pultenaea largiflorens,Pultenaea largiflorens,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Pultenaea microphylla,Pultenaea microphylla,TRUE,TRUE,NA,NA,5--20,3,NA,0.2,0.2,NA,NA,1,0.2,NA,0.2990697562
+Pultenaea stipularis,Pultenaea stipularis,FALSE,NA,1.744186,NA,NA,NA,NA,1,NA,0.2,NA,NA,NA,NA,0.4472135955
+Pultenaea tenella,Pultenaea tenella,TRUE,TRUE,NA,NA,5--20,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Pultenaea tuberculata,Pultenaea tuberculata,TRUE,TRUE,1.182171,NA,NA,NA,2,0.2,0.2,0.2,NA,NA,NA,0.2,0.2
+Pultenaea villosa,Pultenaea villosa,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Ranunculus victoriensis,Ranunculus victoriensis,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Rapanea variabilis,Myrsine variabilis,TRUE,FALSE,2,NA,5--20,2.364341085,NA,0.2,1,0.2,NA,1,0.2,NA,0.3807307877
+Rhadinothamnus anceps,Rhadinothamnus anceps,FALSE,NA,NA,1,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.4472135955
+Rhodanthe anthemoides,Rhodanthe anthemoides,TRUE,NA,1,NA,0--1,NA,1,0.2,NA,0.2,NA,0.2,NA,0.2,0.2
+Rhodanthe charsleyae,Rhodanthe charsleyae,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Richea continentis,Richea continentis,FALSE,TRUE,NA,NA,1--5,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Rubus fruticosus,Rubus anglocandicans,NA,NA,1,NA,NA,0.7364341085,1,NA,NA,0.2,NA,NA,0.2,0.2,0.2
+Rubus hillii,Rubus moluccanus var. moluccanus,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Rubus moorei,Rubus moorei,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Rubus parvifolius,Rubus parvifolius,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Rubus rosifolius,Rubus rosifolius,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Santalum acuminatum,Santalum acuminatum,TRUE,TRUE,NA,NA,6--10,NA,NA,0.2,0.2,NA,NA,1,NA,NA,0.3419951893
+Scaevola,Scaevola,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Scaevola spinescens,Scaevola spinescens,TRUE,TRUE,NA,NA,4--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Schizomeria ovata,Schizomeria ovata,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Schoenia cassiniana,Schoenia cassiniana,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Scleria,Scleria,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Scolopia braunii,Scolopia braunii,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Senecio gunnii,Senecio gunnii,TRUE,TRUE,1,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Senecio pinnatifolius,Senecio pinnatifolius,TRUE,TRUE,NA,NA,0--1,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Senecio pinnatifolius var. pleiocephalus,Senecio pinnatifolius var. alpinus,TRUE,TRUE,1,NA,1--5,NA,1,0.2,0.2,0.2,NA,0.2,NA,0.2,0.2
+Sida cordifolia,Sida cordifolia,TRUE,FALSE,NA,NA,5--20,NA,NA,0.2,1,NA,NA,1,NA,NA,0.5848035476
+Sloanea woollsii,Sloanea woollsii,FALSE,FALSE,NA,NA,NA,NA,NA,1,1,NA,NA,NA,NA,NA,1
+Solanum centrale,Solanum centrale,TRUE,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Solanum cinereum,Solanum cinereum,FALSE,TRUE,NA,NA,1--5,NA,NA,1,0.2,NA,NA,0.2,NA,NA,0.3419951893
+Solanum dioicum,Solanum dioicum,TRUE,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Solanum ellipticum,Solanum ellipticum,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Solanum esuriale,Solanum esuriale,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Solanum hoplopetalum,Solanum hoplopetalum,NA,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,0.2
+Solanum lucani,Solanum lucani,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Solanum mauritianum,Solanum mauritianum,NA,NA,1,NA,NA,0.6976744186,1,NA,NA,0.2,NA,NA,0.2,0.2,0.2
+Solanum nummularium,Solanum nummularium,NA,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,0.2
+Solanum parvifolium,Solanum parvifolium,FALSE,NA,NA,NA,5--20,NA,NA,1,NA,NA,NA,1,NA,NA,1
+Solanum petrophilum,Solanum petrophilum,TRUE,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Solanum quadriloculatum,Solanum quadriloculatum,TRUE,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Solanum sturtianum,Solanum sturtianum,TRUE,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Stackhousia pulvinaris,Stackhousia pulvinaris,TRUE,FALSE,1,NA,1--5,NA,NA,0.2,1,0.2,NA,0.2,NA,NA,0.2990697562
+Stemodia florulenta,Stemodia florulenta,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Stipa setacea,Austrostipa setacea,TRUE,NA,1,NA,1--5,NA,NA,0.2,NA,0.2,NA,0.2,NA,NA,0.2
+Stylidium,Stylidium,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Stylidium armeria,Stylidium armeria,TRUE,TRUE,NA,NA,1--5,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Stylidium bulbiferum,Stylidium bulbiferum,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Stylidium graminifolium,Stylidium graminifolium,TRUE,TRUE,1,NA,1--5,0.5813953488,NA,0.2,0.2,0.2,NA,0.2,0.2,NA,0.2
+Stypandra glauca,Stypandra glauca,TRUE,NA,NA,NA,1--5,NA,NA,0.2,NA,NA,NA,0.2,NA,NA,0.2
+Styphelia,Styphelia,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Swainsona,Swainsona,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Swainsona galegifolia,Swainsona galegifolia,TRUE,NA,2,NA,1--5,NA,NA,0.2,NA,0.2,NA,0.2,NA,NA,0.2
+Syncarpia glomulifera,Syncarpia glomulifera,TRUE,TRUE,NA,NA,20--,5.03875969,NA,0.2,0.2,NA,NA,1,1,NA,0.4472135955
+Synima cordieri,Synima cordierorum,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Syzigium,Syzygium,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Syzigium tierneyanum,Syzygium tierneyanum,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Syzygium,Syzygium,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Syzygium australe,Syzygium australe,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Syzygium oleosum,Syzygium oleosum,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Syzygium paniculatum,Syzygium paniculatum,TRUE,NA,NA,NA,NA,NA,2,0.2,NA,NA,NA,NA,NA,0.2,0.2
+Syzygium smithii,Syzygium smithii,TRUE,FALSE,5,NA,5--20,1,NA,0.2,1,0.2,NA,1,0.2,NA,0.3807307877
+Syzygium wilsonii subsp. wilsonii,Syzygium wilsonii subsp. wilsonii,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Taraxacum,Taraxacum,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Terminalia catappa,Terminalia catappa,TRUE,NA,NA,NA,6--10,NA,NA,0.2,NA,NA,NA,1,NA,NA,0.4472135955
+Terminalia hadleyana,Terminalia hadleyana,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Themeda australis,Themeda triandra,TRUE,TRUE,1,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Thryptomene,Thryptomene,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Thryptomene australis,Thryptomene australis,FALSE,NA,NA,1.916666667,NA,NA,NA,1,NA,NA,0.2,NA,NA,NA,0.4472135955
+Thysanotus,Thysanotus,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Toona australis,Toona ciliata,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Trachymene glaucifolia,Trachymene glaucifolia,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Trema tomentosa,Trema tomentosa,TRUE,TRUE,NA,NA,2--3,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Tribulus occidentalis,Tribulus occidentalis,FALSE,NA,NA,NA,0--1,NA,NA,1,NA,NA,NA,0.2,NA,NA,0.4472135955
+Trichodesma zeylanicum,Trichodesma zeylanicum,TRUE,TRUE,NA,NA,1,NA,NA,0.2,0.2,NA,NA,0.2,NA,NA,0.2
+Tristania suaveolens,Lophostemon suaveolens,TRUE,TRUE,NA,NA,NA,NA,NA,0.2,0.2,NA,NA,NA,NA,NA,0.2
+Tristaniopsis,Tristaniopsis,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Tristaniopsis laurina,Tristaniopsis laurina,TRUE,FALSE,2,NA,5--20,2.015503876,NA,0.2,1,0.2,NA,1,0.2,NA,0.3807307877
+Velleia spathulata,Velleia spathulata,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Verticordia acerosa,Verticordia acerosa,TRUE,NA,NA,NA,NA,NA,NA,0.2,NA,NA,NA,NA,NA,NA,0.2
+Verticordia picta,Verticordia picta,FALSE,TRUE,NA,NA,NA,NA,NA,1,0.2,NA,NA,NA,NA,NA,0.4472135955
+Verticordia serrata,Verticordia serrata,FALSE,NA,NA,NA,NA,NA,NA,1,NA,NA,NA,NA,NA,NA,1
+Viminaria juncea,Viminaria juncea,FALSE,TRUE,1.763566,NA,1--5,NA,NA,1,0.2,0.2,NA,0.2,NA,NA,0.2990697562
+Wahlenbergia,Wahlenbergia,NA,NA,2,NA,1--5,NA,NA,NA,NA,0.2,NA,0.2,NA,NA,0.2
+Wahlenbergia ceracea,Wahlenbergia ceracea,TRUE,TRUE,1,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Wahlenbergia gloriosa,Wahlenbergia gloriosa,TRUE,TRUE,1,NA,1--5,NA,NA,0.2,0.2,0.2,NA,0.2,NA,NA,0.2
+Waterhousea,Syzygium,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Xanthorrhoea,Xanthorrhoea,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
+Xanthorrhoea australis,Xanthorrhoea australis,TRUE,TRUE,1,NA,5--20,NA,1,0.2,0.2,0.2,NA,1,NA,0.2,0.2759459323
+Xanthorrhoea johnsonii,Xanthorrhoea johnsonii,TRUE,FALSE,2,NA,5--20,NA,NA,0.2,1,0.2,NA,1,NA,NA,0.4472135955
+Xanthorrhoea minor,Xanthorrhoea minor,TRUE,NA,NA,NA,5--20,0.7364341085,NA,0.2,NA,NA,NA,1,0.2,NA,0.3419951893
+Xanthorrhoea preissii,Xanthorrhoea preissii,TRUE,FALSE,NA,NA,NA,NA,NA,0.2,1,NA,NA,NA,NA,NA,0.4472135955
+Xerochrysum bracteatum,Xerochrysum bracteatum,FALSE,TRUE,NA,0.75,1,NA,NA,1,0.2,NA,0.2,0.2,NA,NA,0.2990697562
+Xerochrysum subundulatum,Xerochrysum subundulatum,TRUE,TRUE,NA,NA,0--1,NA,1,0.2,0.2,NA,NA,0.2,NA,0.2,0.2
+Xyris,Xyris,NA,NA,NA,NA,1--5,NA,NA,NA,NA,NA,NA,0.2,NA,NA,0.2
+Zieria,Zieria,NA,NA,NA,NA,5--20,NA,NA,NA,NA,NA,NA,1,NA,NA,1
