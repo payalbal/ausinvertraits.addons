@@ -23,8 +23,8 @@ out_dir <- file.path(getwd(), "outputs")
 library(tidyverse)
 
 ## Install package to match and update Australian plant species names 
-#install.packages("remotes")
-#remotes::install_github("traitecoevo/APCalign")
+# install.packages("remotes")
+# remotes::install_github("traitecoevo/APCalign")
 
 library(APCalign)
 
@@ -41,7 +41,7 @@ p1 <- read_csv(file.path(getwd(), "data", "plant_scores/plant_names_Aug_2023.csv
 #   readr::write_csv("plant_names_Aug_2023.csv") # save plant name list
 
 ## Load the plant scoring data file derived from AusTraits by Sophie Yang.
-p2 <- read_csv(file.path(getwd(), "data", "plant_scores/Jul_2023_plant_scores.csv"), show_col_types = FALSE)
+p2 <- read_csv(file.path(getwd(), "data", "plant_scores/SCORE_plant_recovery_traits_updated_sep_2023.csv"), show_col_types = FALSE)
 
 
 ##-------------------------------------##
@@ -96,8 +96,7 @@ readr::write_csv(updated_names, file.path(out_dir, "updated_associated_plant_nam
 plant_names <- updated_names %>% 
   dplyr::select(original_name, accepted_name, genus) %>% # select only relevant columns
   dplyr::mutate(updated_name = dplyr::coalesce(accepted_name, genus))  %>% # replace NAs in the accepted_name column, which exist for the genera-only names, with names from the genus column
-  dplyr::left_join(p2, by = join_by(updated_name == taxon_name))  %>% # merge the plant score data file with the updated names
-  dplyr::mutate(score_GM = case_when(score_GM == "#NUM!" ~ NA, .default = as.character(score_GM))) # replace rogue values in the score column
+  dplyr::left_join(p2, by = join_by(updated_name == taxon_name)) # merge the plant score data file with the updated names
 
 ## Create list of plant names not in plant scores data file
 missing_names <- plant_names %>%
@@ -110,4 +109,4 @@ missing_names <- plant_names %>%
 plant_score <- plant_names %>%
   dplyr::filter(!is.na(score_GM)) %>% # filter rows/plants with values for geometric mean score
   dplyr::select(-accepted_name, -genus) %>% # remove unnecessary columns
-  readr::write_csv(file.path(out_dir, "invertraits_plant_scores_Sep_2023.csv")) # save plant name list
+  readr::write_csv(file.path(out_dir, "invertraits_plant_scores_14Sep2023.csv")) # save plant name list
