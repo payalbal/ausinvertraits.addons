@@ -8,73 +8,187 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-pacman::p_load(tidyverse, arrow, janitor, worrms, job, readxl, skimr)
+pacman::p_load(tidyverse, arrow, janitor, worrms, job, writexl, skimr)
 ```
 
-MolluscaBase is a subbranch of WoRMs, this means that we can use WoRMS tools to get the data we need.
+[MolluscaBase](https://www.molluscabase.org/index.php) is a branch of the [World Register of Marine Species](https://www.marinespecies.org/) (WoRMs), this means that we can use WoRMS tools to get the data we need - score!
+
 
 ```{r}
+# Read in AFD
 afd_may <- read_csv_arrow("data/afd_May2023_clean.csv")
 ```
 
-### Filter out Molluscs using MatchTool
+## MatchTool
 
-Shows what's in AFD and not in WoRMs
+MatchTool is available on [MolluscaBase](https://www.molluscabase.org/aphia.php?p=match) and [WoRMS](https://www.marinespecies.org/aphia.php?p=match), to match a user's taxonomic list to their database to verify any changes taxonomic updates/typos. 
 
-Prepare for MatchTool in WoRMs
+This is a great method to shows what's in AFD and not in MolluscaBase/WoRMs, but first we need to prepare our data for these tools. 
 
-Check First Row Contains Column Names
-Row delimited LF
-Columns delimited ;
+### Filter out Molluscs from AFD
+
+Here we are filtering out data for Molluscs only.
 
 ```{r}
-matchtool <- afd_may |> filter(
+# Filter to Molluscs and select the column we need
+molluscs_afd <- afd_may |> filter(
   PHYLUM == "MOLLUSCA"
 ) |> 
-  select(FAMILY, GENUS, SPECIES, COMPLETE_NAME)
+  select(COMPLETE_NAME)
+
+nrow(molluscs_afd)
+print(molluscs_afd, n = 6)
 
 # Save Mollusca
 # write_csv(matchtool, "outputs/AFD_May_Molluscs.csv") 
+```
 
-# Split authority
-match_clean <- matchtool |> 
+Here we are creating our own scientific name and authority variable as this was not included as a separate column in the AFD dataset.
+
+```{r}
+# Split COMPLETE_NAME to create authority and scientific name
+molluscs_afd_authority <- molluscs_afd |> 
   mutate(split = map(.x = COMPLETE_NAME,
                          ~str_split(.x, pattern = ", ")),
          scientific_name = map(split, 
                          ~pluck(.x, 1, 1)),
          authority = map(split, 
                          ~pluck(.x, 1, 2))) |> 
-  select(-split) |> 
-  unnest(cols = c("scientific_name","authority"))  |>  
-  rename(Family = FAMILY, 
-         Genus = GENUS, 
-         species = SPECIES, 
-         ) 
+  select(-c(split, COMPLETE_NAME)) |> 
+  unnest(cols = c("scientific_name","authority")) 
 
-
-# Split so it has 1500 rows
-chunk <- 1499
-n <- nrow(match_clean)
-r  <- rep(1:ceiling(n/chunk),each=chunk)[1:n]
-d <- split(match_clean,r)
-
-names(d) <- paste0("matchtool_", names(d))
-
-# Save each chunk as .csv
-# walk2(.x = d, .y = names(d), 
-#      ~write_excel_csv2(.x, file = paste0("outputs/", .y, ".csv")))
-
-species_chunks <- split(match_clean$scientific_name, ceiling(seq_along(match_clean$scientific_name)/120))
+molluscs_afd_authority |> print(n = 6)
 ```
 
-#### Read in output from matchtool
+One limitation to the Matchtool on the website is that it can only accept files of 1499 rows (1500 technically but column headers is count as one!). So here we are splitting the dataset into chunks of 1499 rows and export as an Excel file (a hack from Frank Koehler so the commas in the authority doesn't affect the matches). 
 
 ```{r}
-matched_output <- read_delim("data/matchtool_1_matched.txt", delim = ";")
-matched_output_2 <- read_delim("data/matchtool_2_matched.txt", delim = ";")
+# Split so it has 1500 rows in total 
+chunk <- 1499
+n <- nrow(molluscs_afd_authority)
+r  <- rep(1:ceiling(n/chunk),each=chunk)[1:n]
+d <- split(molluscs_afd_authority,r)
 
-write_csv(matched_output, "outputs/matchtool_1_matched.csv") 
-write_csv(matched_output_2, "outputs/matchtool_2_matched.csv") 
+d
+
+# Assign the list with useful names
+names(d) <- paste0("May_AFD_Mollusca_matchtool_", names(d))
+
+names(d)
+
+# Save each chunk as .csv
+walk2(.x = d, .y = names(d),
+     ~write_xlsx(.x, path = paste0("outputs/", .y, ".xlsx")))
+```
+
+Once I exported these files, we have to go to the [Matchtool on MB website]([MolluscaBase](https://www.molluscabase.org/aphia.php?p=match) ). 
+
+I uploaded these and selected the following options: 
+
+- Check Match authority
+- Match up to ScientificName
+- Check Match against MolluscaBase
+- Selected authority in addition to defaults in Outputs
+
+In the preview mode, the app shows you what variable your column headers are likely to be:
+
+scientific_name ~ ScientificName
+authority ~ ScientificNameAuthor
+
+Matching takes a few moments once complete, you can save the output as.
+
+If there are an ambiguous matches, the tool allows you to try clarify them by providing species name + authority to select from the drop down menu.
+
+### Read in output from matchtool
+
+```{r}
+matched_output_1 <- read_xlsx("data/may_afd_mollusca_matchtool_1_matched.xlsx") |> 
+  select(-3) |> 
+  rename(afd_scientific_name = scientific_name)
+
+matched_output_2 <- read_xlsx("data/may_afd_mollusca_matchtool_2_matched.xlsx") |> 
+  select(-3) |> 
+  rename(afd_scientific_name = scientific_name)
+
+# Bind these together
+mb_output_matchtools <- bind_rows(matched_output_1, matched_output_2) |> 
+  clean_names()
+```
+
+### Investigate output from MatchTools
+
+Match type categories: 
+
+- `exact` all characters match exactly
+- `exact_subgenus` an exact match, but including the subgenus
+- `phonetic` sounds similar as, despite minor differences in spelling (soundex algorithm)
+- `near_1` perfect match, except for one character. This is a quite reliable match
+- `near_2` good match, except for two characters. This needs an extra check
+- `near_3` good match, except for three characters. This definitely needs an extra check
+- `match_quarantine` match with a name that is currently in quarantine. Any name that has been used in the - literature should in principle not be quarantined. So best to contact the WoRMS DMT about this
+- `match_deleted` this is a match with a name that has been deleted and no alternative is available. Please contact the WoRMS DMT when you come across this.
+
+
+```{r}
+mb_output_matchtools |> 
+  pull(match_type) |> 
+  tabyl()
+```
+
+#### Taxa MolluscaBase can add
+
+Send this to Frank Koehler
+
+```{r}
+mb_output_matchtools |> 
+  filter(is.na(match_type)) 
+
+mb_output_matchtools |> 
+  filter(is.na(match_type)) |> 
+  nrow()
+```
+
+#### Taxa AFD can correct
+
+Send these to Matt and Hayley at AFD to correct
+
+```{r}
+mb_output_matchtools |> 
+  filter(str_detect(match_type, "near")) 
+
+mb_output_matchtools |> 
+  filter(str_detect(match_type, "near"))  |> 
+  nrow()
+```
+
+#### Phonetic taxa
+
+Visually inspect these to see how close they are.
+These look like typos to me by the AFD, needs to be checked by JM or JK
+Once confirmed, send these to Matt and Hayley at AFD to correct
+
+```{r}
+mb_output_matchtools |> 
+  filter(match_type == "phonetic")  |> 
+  select(ends_with("name"))
+```
+
+#### Ambiguous taxa
+
+These need to be followed up with JM/JK or Frank. 
+Exporting these and putting into MatchTool again shows there are 2 possible `near_3` matches
+
+```{r}
+mb_output_matchtools |> 
+  filter(match_type == "ambiguous") 
+
+mb_output_matchtools |> 
+  filter(match_type == "ambiguous") |> nrow()
+
+mb_output_matchtools |> 
+  filter(match_type == "ambiguous") |> 
+  select(afd_scientific_name, authority) |> 
+  write_xlsx("outputs/May_AFD_ambiguous_molluscs_matchtool.xlsx")
 ```
 
 #### Try use WoRMs API for MatchTool
@@ -82,6 +196,9 @@ write_csv(matched_output_2, "outputs/matchtool_2_matched.csv")
 Fuzzy match = TRUE
 
 ```{r}
+species_chunks <- split(match_clean$scientific_name, ceiling(seq_along(match_clean$scientific_name)/120))
+
+
 # Testing entire species list
 job({
 output <- map(match_clean$scientific_name,
@@ -98,7 +215,7 @@ matchtool_fuzzy <- read_csv("outputs/API_WoRMS_matched.csv")
 ```
 
 ```{r}
-output_df |> 
+matchtool_fuzzy |> 
   pull(match_type) |> 
   tabyl()
 
