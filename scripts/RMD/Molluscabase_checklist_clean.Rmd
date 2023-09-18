@@ -113,6 +113,9 @@ matched_output_2 <- read_xlsx("data/may_afd_mollusca_matchtool_2_matched.xlsx") 
 # Bind these together
 mb_output_matchtools <- bind_rows(matched_output_1, matched_output_2) |> 
   clean_names()
+
+# Check that these are the same as input
+nrow(mb_output_matchtools) == nrow(molluscs_afd_authority)
 ```
 
 ### Investigate output from MatchTools
@@ -137,29 +140,33 @@ mb_output_matchtools |>
 
 #### Taxa MolluscaBase can add
 
-Send this to Frank Koehler
-
 ```{r}
 mb_output_matchtools |> 
   filter(is.na(match_type)) 
 
-mb_output_matchtools |> 
+n_mb_additions <- mb_output_matchtools |> 
   filter(is.na(match_type)) |> 
   nrow()
 ```
 
+We found `r n_mb_additions` names that exist in the AFD that are not in MolluscaBase. Send these to Frank Koehler.
+
 #### Taxa AFD can correct
 
-Send these to Matt and Hayley at AFD to correct
+These need to be checked but, from a quick look, these look like typos by the AFD.
 
 ```{r}
 mb_output_matchtools |> 
-  filter(str_detect(match_type, "near")) 
+  filter(str_detect(match_type, "near")) |> 
+  select(ends_with("name")) |> 
+  print(n = 50)
 
-mb_output_matchtools |> 
+n_typos <- mb_output_matchtools |> 
   filter(str_detect(match_type, "near"))  |> 
   nrow()
 ```
+
+We found `r n_typos` AFD names (`r round((n_typos/nrow(molluscs_afd_authority))*100 , digits = 2)`% of Molluscs) that can be corrected. Send these to Matt and Hayley at AFD
 
 #### Phonetic taxa
 
@@ -176,7 +183,10 @@ mb_output_matchtools |>
 #### Ambiguous taxa
 
 These need to be followed up with JM/JK or Frank. 
-Exporting these and putting into MatchTool again shows there are 2 possible `near_3` matches
+Exporting these and putting into MatchTool again shows there are 2 possible `near_3` matches: 
+
+- Turbonilla scalarina Brazier, 1894 accepted as Turbonilla beddomei (Petterd, 1884) [near_3]
+- Turbonilla subconica W. H. Turton, 1932 [near_3]
 
 ```{r}
 mb_output_matchtools |> 
@@ -191,59 +201,7 @@ mb_output_matchtools |>
   write_xlsx("outputs/May_AFD_ambiguous_molluscs_matchtool.xlsx")
 ```
 
-#### Try use WoRMs API for MatchTool
-
-Fuzzy match = TRUE
-
-```{r}
-species_chunks <- split(match_clean$scientific_name, ceiling(seq_along(match_clean$scientific_name)/120))
-
-
-# Testing entire species list
-job({
-output <- map(match_clean$scientific_name,
-    possibly(~wm_records_name(.x) |> 
-               mutate(search_term = .x))) |> 
-  discard(.p = ~is.null(.x)) 
-})
-
-
-output_df <- output |> list_rbind()
-
-# write_csv(output_df, "outputs/API_WoRMS_matched.csv")
-matchtool_fuzzy <- read_csv("outputs/API_WoRMS_matched.csv")
-```
-
-```{r}
-matchtool_fuzzy |> 
-  pull(match_type) |> 
-  tabyl()
-
-output_df |> 
-  mutate(match = search_term == scientificname) |> 
-  select(AphiaID:url,match, match_type, search_term, scientificname:modified) |>
-  filter(match == FALSE)
-```
-
-Fuzzy match != TRUE
-
-```{r}
-# Testing entire species list
-job({
-output_nofuzz <- map(match_clean$scientific_name,
-    possibly(~wm_records_name(.x, fuzzy = FALSE) |> 
-               mutate(search_term = .x))) |> 
-  discard(.p = ~is.null(.x)) 
-})
-
-
-output_df <- output |> list_rbind()
-
-# write_csv(output_df, "outputs/API_WoRMS_matched.csv")
-no_fuzzy_matchtool <- read_csv("outputs/API_WoRMS_matched.csv")
-```
-
-## Spotting typos in the AFD
+## WoRMS API in replacement of MatchTool
 
 Try `wm_records_taxamatch()`
 
@@ -262,7 +220,7 @@ There are several types of matches:
 # Job takes 2hrs and 40 mins to run  
 
 # job({
-#   output_df <- map(match_clean$scientific_name,
+#   output_df <- map(molluscs_afd_authority$scientific_name,
 #                    possibly(~wm_records_taxamatch(.x, marine = FALSE)  |>
 #                               pluck(1)  |>
 #                               mutate(search_term = .x) |>
@@ -276,24 +234,46 @@ There are several types of matches:
 
 worrms_taxamatch <- readRDS("outputs/worrms_taxamatch")
 
-# Types of fuzzy match
+# Breakdown of match_type
 worrms_taxamatch |> 
   pull(match_type) |> 
   tabyl()
 
-# Which are the taxa that were not matched in WoRMS (i.e AFD has a name that WoRMS does not)
-setdiff(match_clean$scientific_name, worrms_taxamatch$search_term) |> length()
+# Taxa that were not matched in WoRMS (i.e AFD has a name that WoRMS does not, to Frank Koelher)
+api_match_not_found <- setdiff(molluscs_afd_authority$scientific_name, worrms_taxamatch$search_term)
+api_match_not_found |> length()
+# For some reason, there were differences from the is.na(match_type) of the manual version above
+# I suppose WoRMS and MolluscaBase is not completely synced?
+setdiff(mb_output_matchtools |> 
+          filter(is.na(match_type)) |> 
+          pull(afd_scientific_name), api_match_not_found)
 
-# Which ones that are not exact matches - this maybe ones that we need to update OR we have a newer name or completely unrelated species
+# Taxa to correct in the AFD
+# Not that this has grouped the above 'ambigious taxa' here (Turbonilla subcarina) and other duplicated taxa
 worrms_taxamatch |> 
-  filter(! match_type == "exact") |> 
-  select(search_term, ends_with("name"),  match_type, valid_authority) |> 
-  arrange(match_type) |> 
-  print(n = 100) |> 
-  write_csv(paste0("outputs/AFD_WoRMS_taxamatch_notexactmatchtype", Sys.Date(), "_.csv"))
+  filter(str_detect(match_type, "near")) |> 
+  select(search_term, scientificname) |> 
+  distinct()
+
+worrms_taxamatch |> 
+  filter(duplicated(search_term))
+
+# Phonetic taxa (1 taxa missing from manual above)
+worrms_taxamatch |> 
+  filter(match_type == "phonetic") |> 
+  select(search_term, scientificname) |> 
+  distinct()
+
+# This is WoRMs being out of date I think
+setdiff(mb_output_matchtools |> 
+          filter(match_type == "phonetic")  |> 
+          pull(afd_scientific_name), 
+        worrms_taxamatch |> 
+          filter(match_type == "phonetic") |> 
+          pull(search_term)) 
 ```
 
-## Read in data sent by Data Management team for all of Australia
+## Read in data sent by Data Management team for all of Molluscs in Australia
 
 [Distribution tool](https://www.marinespecies.org/aphia.php?p=checklist). 
 
@@ -306,6 +286,7 @@ Distribution status: Valid
 Synonyms: Only accepted names
 
 Note: Manual download is capped at 1000 taxa so we have to email the [WoRMS Data Management Team (DMT](mailto::info@marinespecies.org) to request for a Excel Spreadsheet download. 
+
 There is currently no programmatic way to achieve this unfortunately. DMT sends a version where: 
 Select Geounit: "Australia (Nation)", Type: specimen, Rank: lower or equal to Mollusca, Synonyms, Sort by synonyms
 
@@ -313,17 +294,16 @@ The DMT pointed to this [Shiny app](http://rshiny.vsc.vliz.be:52038/standardized
 
 
 ```{r}
-aus_molluscs <- readxl::read_xlsx("data/WoRMS_Mollusca_australia_20230621.xlsx")
+aus_molluscs <- read_xlsx("data/WoRMS_Mollusca_australia_20230621.xlsx")
 
 skim(aus_molluscs)
 ```
 
-### Obtainx synonyms WoRMs synonyms API
+### Obtain synonyms using WoRMs synonyms API
 
-API returns synoynms by AphiaID, valid_AphiaID is the currently accepted one
-s
+API returns synoynms by `AphiaID`, `valid_AphiaID` is the currently accepted one
 ```{r}
-# job::job({aus_moll_syn_check <- map(test,
+# job::job({aus_moll_syn_check <- map(aus_molluscs$AphiaID,
 #                                     possibly(~wm_synonyms(.x) |>
 #                                                mutate(search_AphiaID = .x))
 #                                     )
@@ -349,15 +329,56 @@ aus_molluscs |>
 # Exclude synonyms
 aus_molluscs_nosyns <- aus_molluscs |> 
   filter(! AphiaID %in% syns)
+
+# Display invalid records
+aus_molluscs_nosyns |> 
+  count(isValid)
+
+aus_molluscs_nosyns |> 
+  filter(isValid == 0) |> 
+  select(ScientificName)
+
+# Exclude invalid records
+aus_molluscs_valid <- aus_molluscs_nosyns |> 
+  filter(! isValid == 0)
 ```
 
-### Obtain more detailed records for remaining taxa
+### Filter out duplicated rows from Australia data
 
-Using the `wm_records_taxamatch` API. We can retrieve for indepth variables (habitat, taxonomy status) for further exclusions. 
+```{r}
+# Checking number of rows
+length(aus_molluscs_valid$ScientificName) # 5686
+length(unique(aus_molluscs_valid$ScientificName)) # 5349 This implies there are duplicates
+
+# Filter out duplicates
+aus_molluscs_valid |> 
+  filter(duplicated(ScientificName)) 
+
+# Checking number of rows match
+length(aus_molluscs_valid$ScientificName) - length(unique(aus_molluscs_valid$ScientificName)) == aus_molluscs_valid |> 
+  filter(duplicated(ScientificName)) |> 
+  nrow()
+
+# Excluding duplicates 
+aus_molluscs_valid <- aus_molluscs_valid |> 
+  filter(!duplicated(ScientificName)) 
+
+# Checks
+unique(aus_molluscs_valid$ScientificName) |> 
+  length()
+
+aus_molluscs_valid$ScientificName |> 
+  length()
+```
+
+
+### Obtain additional information taxa
+
+Using the `wm_records_taxamatch` API. We can retrieve for in depth variables for habitat and taxonomy status for further data cleaning. 
 
 ```{r}
 # job({
-#   output_df <- map(unique(aus_molluscs_valid$ScientificName),
+#   output_df <- map(aus_molluscs_valid$ScientificName,
 #                    possibly(~wm_records_taxamatch(.x, marine = FALSE)  |>
 #                               pluck(1)  |>
 #                               mutate(search_term = .x) |>
@@ -366,14 +387,11 @@ Using the `wm_records_taxamatch` API. We can retrieve for indepth variables (hab
 #   ) |>
 #     list_rbind()
 # 
-#   saveRDS(output_df, "outputs/worrms_Australia_taxamatch_remove_marine")
+#   saveRDS(output_df, "outputs/worrms_Australia_wm_records_taxamatch")
 # })
 
-output_df <- readRDS("outputs/worrms_Australia_taxamatch_remove_marine")
+output_df <- readRDS("outputs/worrms_Australia_wm_records_taxamatch")
 
-# Checking number of rows
-length(aus_molluscs_valid$ScientificName) # ] 5686
-length(unique(aus_molluscs_valid$ScientificName)) # 5349
 nrow(output_df) # 5866
 ```
 
@@ -384,12 +402,17 @@ nrow(output_df) # 5866
 output_df |> 
   filter(duplicated(search_term)) |> 
   nrow() 
+
+output_df |> 
+  filter(duplicated(search_term)) |> 
+  select(search_term, ends_with("name"), authority, match_type, valid_authority)  |> 
+  count(match_type)
 ```
 
 ## Unaccepted names
 
+Narrow down to accepted names only 
 ```{r}
-# Exclude unaccepted names
 output_df |> 
   pull(status) |> 
   tabyl()
@@ -400,6 +423,8 @@ accepted_molluscs <- output_df |>
 
 ## Extinct taxa
 
+Narrow down to extant taxa only 
+
 ```{r}
 # Exclude extinct taxa
 accepted_noextinct_molluscs <- accepted_molluscs |> 
@@ -408,7 +433,7 @@ accepted_noextinct_molluscs <- accepted_molluscs |>
 
 ## Higher taxonomy
 
-Taxon that cannot be identified down to species is not useful for our backbone
+Exclude taxon that cannot be identified down to species is not useful for our backbone
 
 ```{r}
 # Exclude higher taxon rank
@@ -416,19 +441,21 @@ accepted_noextinct_molluscs |>
   pull(rank) |> 
   tabyl()
 
-# Fix NA in rank
+# Summarise Taxon rank
 accepted_noextinct_molluscs |> 
   mutate(rank2 = case_when(is.na(rank) ~ "Species",
                           TRUE ~ rank))  |> 
   pull(rank) |> 
   tabyl()
 
+# Checking
 accepted_noextinct_molluscs |> 
   mutate(rank2 = case_when(is.na(rank) ~ "Species",
                           TRUE ~ rank))  |> 
-  pull(rank2) |>  # Can see no NA
-  tabyl()
+  pull(rank2) |> 
+  tabyl()  # Can see no NA
 
+# Making the fix
 accepted_noextinct_molluscs_rankfixed <- accepted_noextinct_molluscs |> 
   mutate(rank_fixed = case_when(is.na(rank) ~ "Species",
                           TRUE ~ rank))
@@ -514,7 +541,7 @@ strictly_marines <- accepted_noextinct_molluscs_sp |>
   distinct() |> 
   pull(scientificname)
 
-# Excluding strictly marines should equal to Taxon found in at least one habitat that we want to keep
+# Excluding strictly marines should be equal to Taxon found in at least one habitat that we want to keep
 accepted_noextinct_molluscs_sp |> 
   filter(! scientificname %in% strictly_marines) |> 
   distinct() |> 
@@ -603,7 +630,7 @@ length(matches) + length(new)
 ```{r}
 # Cross compare with Taxamatch data
 setdiff(new, unique(worrms_taxamatch$scientificname)) |> length()
-setdiff(new, unique(match_clean$scientific_name)) |> length()
+setdiff(new, unique(molluscs_afd_authority$scientific_name)) |> length()
 
 # Locality breakdown
 aus_molluscs |> tabyl(Locality)
