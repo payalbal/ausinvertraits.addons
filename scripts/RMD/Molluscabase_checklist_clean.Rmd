@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
-pacman::p_load(tidyverse, arrow, janitor, worrms, job, writexl, skimr)
+pacman::p_load(tidyverse, arrow, janitor, worrms, job, writexl, skimr, here, readxl)
 ```
 
 [MolluscaBase](https://www.molluscabase.org/index.php) is a branch of the [World Register of Marine Species](https://www.marinespecies.org/) (WoRMs), this means that we can use WoRMS tools to get the data we need - score!
@@ -16,7 +16,7 @@ pacman::p_load(tidyverse, arrow, janitor, worrms, job, writexl, skimr)
 
 ```{r}
 # Read in AFD
-afd_may <- read_csv_arrow("data/afd_May2023_clean.csv")
+afd_may <- read_csv_arrow(here("data/afd_May2023_clean.csv"))
 ```
 
 ## MatchTool
@@ -77,8 +77,8 @@ names(d) <- paste0("May_AFD_Mollusca_matchtool_", names(d))
 names(d)
 
 # Save each chunk as .csv
-walk2(.x = d, .y = names(d),
-     ~write_xlsx(.x, path = paste0("outputs/", .y, ".xlsx")))
+# walk2(.x = d, .y = names(d),
+#      ~write_xlsx(.x, path = here(paste0("outputs/", .y, ".xlsx")))
 ```
 
 Once I exported these files, we have to go to the [Matchtool on MB website]([MolluscaBase](https://www.molluscabase.org/aphia.php?p=match) ). 
@@ -102,11 +102,11 @@ If there are an ambiguous matches, the tool allows you to try clarify them by pr
 ### Read in output from matchtool
 
 ```{r}
-matched_output_1 <- read_xlsx("data/may_afd_mollusca_matchtool_1_matched.xlsx") |> 
+matched_output_1 <- read_xlsx(here("data/may_afd_mollusca_matchtool_1_matched.xlsx")) |> 
   select(-3) |> 
   rename(afd_scientific_name = scientific_name)
 
-matched_output_2 <- read_xlsx("data/may_afd_mollusca_matchtool_2_matched.xlsx") |> 
+matched_output_2 <- read_xlsx(here("data/may_afd_mollusca_matchtool_2_matched.xlsx")) |> 
   select(-3) |> 
   rename(afd_scientific_name = scientific_name)
 
@@ -195,10 +195,10 @@ mb_output_matchtools |>
 mb_output_matchtools |> 
   filter(match_type == "ambiguous") |> nrow()
 
-mb_output_matchtools |> 
-  filter(match_type == "ambiguous") |> 
-  select(afd_scientific_name, authority) |> 
-  write_xlsx("outputs/May_AFD_ambiguous_molluscs_matchtool.xlsx")
+# mb_output_matchtools |> 
+#   filter(match_type == "ambiguous") |> 
+#   select(afd_scientific_name, authority) |> 
+#   write_xlsx(here("outputs/May_AFD_ambiguous_molluscs_matchtool.xlsx"))
 ```
 
 ## WoRMS API in replacement of MatchTool
@@ -232,7 +232,7 @@ There are several types of matches:
 #   saveRDS(output_df, "outputs/worrms_taxamatch")
 # })
 
-worrms_taxamatch <- readRDS("outputs/worrms_taxamatch")
+worrms_taxamatch <- readRDS(here("outputs/worrms_taxamatch"))
 
 # Breakdown of match_type
 worrms_taxamatch |> 
@@ -294,7 +294,7 @@ The DMT pointed to this [Shiny app](http://rshiny.vsc.vliz.be:52038/standardized
 
 
 ```{r}
-aus_molluscs <- read_xlsx("data/WoRMS_Mollusca_australia_20230621.xlsx")
+aus_molluscs <- read_xlsx(here("data/WoRMS_Mollusca_australia_20230621.xlsx"))
 
 skim(aus_molluscs)
 ```
@@ -312,10 +312,10 @@ API returns synoynms by `AphiaID`, `valid_AphiaID` is the currently accepted one
 # discard(.p = ~is.null(.x)) |> 
 #   bind_rows()
 # 
-# saveRDS(aus_moll_syn_check_df, "outputs/Worms_Aus_synonyms")
+# saveRDS(aus_moll_syn_check_df, here("outputs/Worms_Aus_synonyms"))
 # })
 
-aus_moll_syn_check <- readRDS("outputs/Worms_Aus_synonyms")
+aus_moll_syn_check <- readRDS(here("outputs/Worms_Aus_synonyms"))
 
 # Select synonym ids
 syns <- aus_moll_syn_check |> 
@@ -390,26 +390,12 @@ Using the `wm_records_taxamatch` API. We can retrieve for in depth variables for
 #   saveRDS(output_df, "outputs/worrms_Australia_wm_records_taxamatch")
 # })
 
-output_df <- readRDS("outputs/worrms_Australia_wm_records_taxamatch")
+output_df <- readRDS(here("outputs/worrms_Australia_wm_records_taxamatch"))
 
-nrow(output_df) # 5866
+nrow(output_df) # 5515
 ```
 
-## Duplicated records
-
-```{r}
-# What is duplicated
-output_df |> 
-  filter(duplicated(search_term)) |> 
-  nrow() 
-
-output_df |> 
-  filter(duplicated(search_term)) |> 
-  select(search_term, ends_with("name"), authority, match_type, valid_authority)  |> 
-  count(match_type)
-```
-
-## Unaccepted names
+#### Unaccepted names
 
 Narrow down to accepted names only 
 ```{r}
@@ -421,7 +407,7 @@ accepted_molluscs <- output_df |>
   filter(status == "accepted")
 ```
 
-## Extinct taxa
+#### Extinct taxa
 
 Narrow down to extant taxa only 
 
@@ -431,7 +417,7 @@ accepted_noextinct_molluscs <- accepted_molluscs |>
   filter(!isExtinct == TRUE) 
 ```
 
-## Higher taxonomy
+#### Higher taxonomy
 
 Exclude taxon that cannot be identified down to species is not useful for our backbone
 
@@ -441,35 +427,11 @@ accepted_noextinct_molluscs |>
   pull(rank) |> 
   tabyl()
 
-# Summarise Taxon rank
-accepted_noextinct_molluscs |> 
-  mutate(rank2 = case_when(is.na(rank) ~ "Species",
-                          TRUE ~ rank))  |> 
-  pull(rank) |> 
-  tabyl()
-
-# Checking
-accepted_noextinct_molluscs |> 
-  mutate(rank2 = case_when(is.na(rank) ~ "Species",
-                          TRUE ~ rank))  |> 
-  pull(rank2) |> 
-  tabyl()  # Can see no NA
-
-# Making the fix
-accepted_noextinct_molluscs_rankfixed <- accepted_noextinct_molluscs |> 
-  mutate(rank_fixed = case_when(is.na(rank) ~ "Species",
-                          TRUE ~ rank))
-
-# Exclude higher taxon 
-accepted_noextinct_molluscs_rankfixed |> 
-  pull(rank_fixed) |> 
-  tabyl()
-
-accepted_noextinct_molluscs_sp <- accepted_noextinct_molluscs_rankfixed |> 
-  filter(!rank_fixed == "Genus")
+accepted_noextinct_molluscs_sp <- accepted_noextinct_molluscs |> 
+  filter(!rank == "Genus")
 ```
 
-### Excluding Marine taxa
+#### Excluding Marine taxa
 
 There are habitat flags in WoRMS that can tell us whether a species is marine/brackish/terrestrial/freshwater or a combination of these. 
 
@@ -483,6 +445,11 @@ Criterion on what data we want to keep:
 - Any combination of the above (T/F/W) that are also found in marine environments (e.g. `isMarine` == 1 & `isBrackish` == 1)
 - Any combination of the above (T/F/W) and their status in marine environment is unknown (e.g. `isMarine` = NA & `isFreshwater` == 1)
 
+```{r figurename, echo=FALSE, fig.cap="Venn diagram showing what data we want to keep", out.width = '90%'}
+knitr::include_graphics("images/Taxa_to_Keep.png")
+```
+
+
 ```{r}
 nrow(accepted_noextinct_molluscs_sp)
 
@@ -490,19 +457,19 @@ nrow(accepted_noextinct_molluscs_sp)
 accepted_noextinct_molluscs_sp |> 
   filter(isMarine == 0 | is.na(isMarine)) |> 
   distinct() |> 
-  nrow() # 118
+  nrow() # 117
 
 # Taxon found in at least one habitat that we want to keep
 # This is what we want
 accepted_noextinct_molluscs_sp |> 
   filter(isTerrestrial == TRUE | isFreshwater == TRUE | isBrackish == TRUE) |> 
   distinct() |> 
-  nrow() #119
+  nrow() #118
 
-accepted_noextinct_molluscs_sp |> 
-  filter(isTerrestrial == TRUE | isFreshwater == TRUE | isBrackish == TRUE) |> 
-  distinct() |> 
-  View()
+# accepted_noextinct_molluscs_sp |> 
+#   filter(isTerrestrial == TRUE | isFreshwater == TRUE | isBrackish == TRUE) |> 
+#   distinct() |> 
+#   View()
 
 # Difference
 setdiff(accepted_noextinct_molluscs_sp |> 
@@ -531,10 +498,10 @@ accepted_noextinct_molluscs_sp |>
   distinct() |> 
     nrow()
   
-accepted_noextinct_molluscs_sp |> 
-  filter(isMarine == TRUE & isTerrestrial == FALSE & isFreshwater == FALSE & isBrackish == FALSE) |> 
-  distinct() |> 
-  View()
+# accepted_noextinct_molluscs_sp |> 
+#   filter(isMarine == TRUE & isTerrestrial == FALSE & isFreshwater == FALSE & isBrackish == FALSE) |> 
+#   distinct() |> 
+#   View()
 
 strictly_marines <- accepted_noextinct_molluscs_sp |> 
   filter(isMarine == TRUE & isTerrestrial == FALSE & isFreshwater == FALSE & isBrackish == FALSE) |> 
@@ -545,7 +512,7 @@ strictly_marines <- accepted_noextinct_molluscs_sp |>
 accepted_noextinct_molluscs_sp |> 
   filter(! scientificname %in% strictly_marines) |> 
   distinct() |> 
-  nrow() #130
+  nrow() #129
 
 # Difference
 diff_taxa <- setdiff(accepted_noextinct_molluscs_sp |> 
@@ -568,7 +535,7 @@ accepted_noextinct_molluscs_sp |>
   select(scientificname, search_term, starts_with("is")) |> 
   distinct() # BAM this matches with taxon above found in at least one habitat that we want to keep
 
-# BAM this matches with taxon above found in at least one habitat that we want to
+# To prove this:
 setdiff(accepted_noextinct_molluscs_sp |> 
           filter(!scientificname %in% strictly_marines) |> 
           filter(!is.na(isBrackish))  |> 
@@ -594,23 +561,21 @@ setdiff(
           pull(scientificname)
 )
 
-
+# Narrow down to taxon we want
 accepted_keep_taxa <- accepted_noextinct_molluscs_sp |> 
   filter(isTerrestrial == TRUE | isFreshwater == TRUE | isBrackish == TRUE) |> 
   distinct() 
-
-# Cool code
-# accepted_noextinct_molluscs_sp |> 
-#   filter(isMarine == FALSE | if_any(isBrackish:isFreshwater, ~ . == 1)) |> 
-#   select(scientificname, search_term, starts_with("is"))  |> 
-#   distinct()
 ```
 
 ## Matches to AFD
 ```{r}
 matches <- intersect(accepted_keep_taxa
  |> pull(scientificname), afd_may |> pull(FULL_NAME))
+```
 
+There were `r length(matches)` matches with the AFD or (`r round(length(matches)/nrow(aus_molluscs)*100, 2)`) of the Australian Molluscs data provided by the Data Management Team. These are: 
+
+```{r}
 matches
 ```
 
@@ -618,21 +583,12 @@ matches
 
 ```{r}
 new <- setdiff(accepted_keep_taxa |> pull(scientificname), afd_may |> pull(FULL_NAME))
+```
 
+We found `r length(new)` new taxa we can add to our taxonomic checklist. These are: 
+
+```{r}
 new
 ```
 
-```{r}
-# Checks
-length(matches) + length(new)
-```
-
-```{r}
-# Cross compare with Taxamatch data
-setdiff(new, unique(worrms_taxamatch$scientificname)) |> length()
-setdiff(new, unique(molluscs_afd_authority$scientific_name)) |> length()
-
-# Locality breakdown
-aus_molluscs |> tabyl(Locality)
-```
 
