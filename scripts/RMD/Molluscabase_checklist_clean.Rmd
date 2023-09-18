@@ -12,7 +12,9 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(
+  echo = TRUE,
+  messages = FALSE)
 
 pacman::p_load(tidyverse, arrow, janitor, worrms, job, writexl, skimr, here, readxl)
 ```
@@ -105,7 +107,7 @@ Matching takes a few moments once complete, you can save the output as.
 
 If there are an ambiguous matches, the tool allows you to try clarify them by providing species name + authority to select from the drop down menu.
 
-### Read in output from matchtool
+### Read in output from Matchtool
 
 ```{r}
 matched_output_1 <- read_xlsx(here("data/may_afd_mollusca_matchtool_1_matched.xlsx")) |> 
@@ -207,20 +209,11 @@ mb_output_matchtools |>
 #   write_xlsx(here("outputs/May_AFD_ambiguous_molluscs_matchtool.xlsx"))
 ```
 
-## WoRMS API in replacement of MatchTool
+### WoRMS API in replacement of MatchTool
 
-Try `wm_records_taxamatch()`
+Instead of the manual approach above, there is a R package (`{worrms}`) that interfaces directly with the WoRMs API.
 
-There are several types of matches:
-
-- `exact` all characters match exactly
-- `exact_subgenus` an exact match, but including the subgenus
-- `phonetic` sounds similar as, despite minor differences in spelling (soundex algorithm)
-- `near_1` perfect match, except for one character. This is a quite reliable match
-- `near_2` good match, except for two characters. This needs an extra check
-- `near_3` good match, except for three characters. This definitely needs an extra check
-- `match_quarantine` match with a name that is currently in quarantine. Any name that has been used in the - literature should in principle not be quarantined. So best to contact the WoRMS DMT about this
-- `match_deleted` this is a match with a name that has been deleted and no alternative is available. Please contact the WoRMS DMT when you come across this.
+The code equivalent to the above is the function: `wm_records_taxamatch()`
 
 ```{r}
 # Job takes 2hrs and 40 mins to run  
@@ -279,25 +272,33 @@ setdiff(mb_output_matchtools |>
           pull(search_term)) 
 ```
 
-## Read in data sent by Data Management team for all of Molluscs in Australia
+There are some discrepancies between the two methods. 
+For example: there were differences from the `is.na(match_type)` of the manual version above. I suspect the two systems are not completely in sync. This code approach will also return all ambiguous taxa as additional rows. 
 
-[Distribution tool](https://www.marinespecies.org/aphia.php?p=checklist). 
+**Recommendation: Use manual approach**
 
-Select Geounit: "Australia (Nation)"
-Type: specimen
-Rank: lower or equal to Mollusca
-Extant only: TRUE
-Marine: FALSE
-Distribution status: Valid
-Synonyms: Only accepted names
+## Data of All Australian Molluscs using Distribution Tool 
 
-Note: Manual download is capped at 1000 taxa so we have to email the [WoRMS Data Management Team (DMT](mailto::info@marinespecies.org) to request for a Excel Spreadsheet download. 
+The[Distribution tool](https://www.marinespecies.org/aphia.php?p=checklist).  that allows users to download all records that occurs in Australia. 
 
-There is currently no programmatic way to achieve this unfortunately. DMT sends a version where: 
+Unfortunately, manual download is capped at 1000 taxa so we have to email the [WoRMS Data Management Team (DMT](mailto::info@marinespecies.org) to request for a Excel Spreadsheet download. 
+
+Options to select if you were using the website:
+
+- Select Geounit: "Australia (Nation)"
+- Type: specimen
+- Rank: lower or equal to Mollusca
+- Extant only: TRUE
+- Marine: FALSE
+- Distribution status: Valid
+- Synonyms: Only accepted names
+
+**Note:** There is currently no programmatic way to achieve this. DMT sends a version where: 
 Select Geounit: "Australia (Nation)", Type: specimen, Rank: lower or equal to Mollusca, Synonyms, Sort by synonyms
 
 The DMT pointed to this [Shiny app](http://rshiny.vsc.vliz.be:52038/standardized_distributions_test/) to get distribution related data, but unfortunately only works for marine 'zones'. 
 
+### Read in data sent by Data Management team for all of Molluscs in Australia
 
 ```{r}
 aus_molluscs <- read_xlsx(here("data/WoRMS_Mollusca_australia_20230621.xlsx"))
@@ -573,7 +574,7 @@ accepted_keep_taxa <- accepted_noextinct_molluscs_sp |>
   distinct() 
 ```
 
-## Matches to AFD
+####  Matches to AFD
 ```{r}
 matches <- intersect(accepted_keep_taxa
  |> pull(scientificname), afd_may |> pull(FULL_NAME))
@@ -585,7 +586,7 @@ There were `r length(matches)` matches with the AFD or (`r round(length(matches)
 matches
 ```
 
-## New taxon additions
+####  New taxon additions
 
 ```{r}
 new <- setdiff(accepted_keep_taxa |> pull(scientificname), afd_may |> pull(FULL_NAME))

@@ -1643,7 +1643,7 @@ them by providing species name + authority to select from the drop down
 menu.</p>
 </div>
 <div id="read-in-output-from-matchtool" class="section level3">
-<h3>Read in output from matchtool</h3>
+<h3>Read in output from Matchtool</h3>
 <pre class="r"><code>matched_output_1 &lt;- read_xlsx(here(&quot;data/may_afd_mollusca_matchtool_1_matched.xlsx&quot;)) |&gt; 
   select(-3) |&gt; 
   rename(afd_scientific_name = scientific_name)</code></pre>
@@ -1840,31 +1840,12 @@ putting into MatchTool again shows there are 2 possible
 #   write_xlsx(here(&quot;outputs/May_AFD_ambiguous_molluscs_matchtool.xlsx&quot;))</code></pre>
 </div>
 </div>
-</div>
-<div id="worms-api-in-replacement-of-matchtool" class="section level2">
-<h2>WoRMS API in replacement of MatchTool</h2>
-<p>Try <code>wm_records_taxamatch()</code></p>
-<p>There are several types of matches:</p>
-<ul>
-<li><code>exact</code> all characters match exactly</li>
-<li><code>exact_subgenus</code> an exact match, but including the
-subgenus</li>
-<li><code>phonetic</code> sounds similar as, despite minor differences
-in spelling (soundex algorithm)</li>
-<li><code>near_1</code> perfect match, except for one character. This is
-a quite reliable match</li>
-<li><code>near_2</code> good match, except for two characters. This
-needs an extra check</li>
-<li><code>near_3</code> good match, except for three characters. This
-definitely needs an extra check</li>
-<li><code>match_quarantine</code> match with a name that is currently in
-quarantine. Any name that has been used in the - literature should in
-principle not be quarantined. So best to contact the WoRMS DMT about
-this</li>
-<li><code>match_deleted</code> this is a match with a name that has been
-deleted and no alternative is available. Please contact the WoRMS DMT
-when you come across this.</li>
-</ul>
+<div id="worms-api-in-replacement-of-matchtool" class="section level3">
+<h3>WoRMS API in replacement of MatchTool</h3>
+<p>Instead of the manual approach above, there is a R package
+(<code>{worrms}</code>) that interfaces directly with the WoRMs API.</p>
+<p>The code equivalent to the above is the function:
+<code>wm_records_taxamatch()</code></p>
 <pre class="r"><code># Job takes 2hrs and 40 mins to run  
 
 # job({
@@ -1970,25 +1951,42 @@ setdiff(mb_output_matchtools |&gt;
           filter(match_type == &quot;phonetic&quot;) |&gt; 
           pull(search_term)) </code></pre>
 <pre><code>## [1] &quot;Velepalaina dunkiensis&quot;</code></pre>
+<p>There are some discrepancies between the two methods. For example:
+there were differences from the <code>is.na(match_type)</code> of the
+manual version above. I suspect the two systems are not completely in
+sync. This code approach will also return all ambiguous taxa as
+additional rows.</p>
+<p><strong>Recommendation: Use manual approach</strong></p>
 </div>
-<div id="read-in-data-sent-by-data-management-team-for-all-of-molluscs-in-australia" class="section level2">
-<h2>Read in data sent by Data Management team for all of Molluscs in
-Australia</h2>
-<p><a href="https://www.marinespecies.org/aphia.php?p=checklist">Distribution
-tool</a>.</p>
-<p>Select Geounit: “Australia (Nation)” Type: specimen Rank: lower or
-equal to Mollusca Extant only: TRUE Marine: FALSE Distribution status:
-Valid Synonyms: Only accepted names</p>
-<p>Note: Manual download is capped at 1000 taxa so we have to email the
-<a href="mailto::info@marinespecies.org">WoRMS Data Management Team
-(DMT</a> to request for a Excel Spreadsheet download.</p>
-<p>There is currently no programmatic way to achieve this unfortunately.
-DMT sends a version where: Select Geounit: “Australia (Nation)”, Type:
-specimen, Rank: lower or equal to Mollusca, Synonyms, Sort by
-synonyms</p>
+</div>
+<div id="data-of-all-australian-molluscs-using-distribution-tool" class="section level2">
+<h2>Data of All Australian Molluscs using Distribution Tool</h2>
+<p>The<a href="https://www.marinespecies.org/aphia.php?p=checklist">Distribution
+tool</a>. that allows users to download all records that occurs in
+Australia.</p>
+<p>Unfortunately, manual download is capped at 1000 taxa so we have to
+email the <a href="mailto::info@marinespecies.org">WoRMS Data Management
+Team (DMT</a> to request for a Excel Spreadsheet download.</p>
+<p>Options to select if you were using the website:</p>
+<ul>
+<li>Select Geounit: “Australia (Nation)”</li>
+<li>Type: specimen</li>
+<li>Rank: lower or equal to Mollusca</li>
+<li>Extant only: TRUE</li>
+<li>Marine: FALSE</li>
+<li>Distribution status: Valid</li>
+<li>Synonyms: Only accepted names</li>
+</ul>
+<p><strong>Note:</strong> There is currently no programmatic way to
+achieve this. DMT sends a version where: Select Geounit: “Australia
+(Nation)”, Type: specimen, Rank: lower or equal to Mollusca, Synonyms,
+Sort by synonyms</p>
 <p>The DMT pointed to this <a href="http://rshiny.vsc.vliz.be:52038/standardized_distributions_test/">Shiny
 app</a> to get distribution related data, but unfortunately only works
 for marine ‘zones’.</p>
+<div id="read-in-data-sent-by-data-management-team-for-all-of-molluscs-in-australia" class="section level3">
+<h3>Read in data sent by Data Management team for all of Molluscs in
+Australia</h3>
 <pre class="r"><code>aus_molluscs &lt;- read_xlsx(here(&quot;data/WoRMS_Mollusca_australia_20230621.xlsx&quot;))</code></pre>
 <pre><code>## Warning: Expecting logical in S1819 / R1819C19: got &#39;mislocalised&#39;</code></pre>
 <pre><code>## Warning: Expecting logical in T1819 / R1819C20: got &#39;Hedley, C. (1913). Studies
@@ -2444,6 +2442,7 @@ for marine ‘zones’.</p>
 </tr>
 </tbody>
 </table>
+</div>
 <div id="obtain-synonyms-using-worms-synonyms-api" class="section level3">
 <h3>Obtain synonyms using WoRMs synonyms API</h3>
 <p>API returns synoynms by <code>AphiaID</code>,
@@ -2803,10 +2802,8 @@ accepted_keep_taxa &lt;- accepted_noextinct_molluscs_sp |&gt;
   filter(isTerrestrial == TRUE | isFreshwater == TRUE | isBrackish == TRUE) |&gt; 
   distinct() </code></pre>
 </div>
-</div>
-</div>
-<div id="matches-to-afd" class="section level2">
-<h2>Matches to AFD</h2>
+<div id="matches-to-afd" class="section level4">
+<h4>Matches to AFD</h4>
 <pre class="r"><code>matches &lt;- intersect(accepted_keep_taxa
  |&gt; pull(scientificname), afd_may |&gt; pull(FULL_NAME))</code></pre>
 <p>There were 79 matches with the AFD or (1.38%) of the Australian
@@ -2853,8 +2850,8 @@ Molluscs data provided by the Data Management Team. These are:</p>
 ## [77] &quot;Sigaloeista gracilis&quot;           &quot;Sigaloeista ramula&quot;            
 ## [79] &quot;Torrecystis capensis&quot;</code></pre>
 </div>
-<div id="new-taxon-additions" class="section level2">
-<h2>New taxon additions</h2>
+<div id="new-taxon-additions" class="section level4">
+<h4>New taxon additions</h4>
 <pre class="r"><code>new &lt;- setdiff(accepted_keep_taxa |&gt; pull(scientificname), afd_may |&gt; pull(FULL_NAME))</code></pre>
 <p>We found 39 new taxa we can add to our taxonomic checklist. These
 are:</p>
@@ -2879,6 +2876,8 @@ are:</p>
 ## [35] &quot;Pettancylus petterdi&quot;             &quot;Pravonitor septentrionalis&quot;      
 ## [37] &quot;Retroterra dichroma&quot;              &quot;Retroterra nana&quot;                 
 ## [39] &quot;Sinotaia guangdungensis&quot;</code></pre>
+</div>
+</div>
 </div>
 
 
