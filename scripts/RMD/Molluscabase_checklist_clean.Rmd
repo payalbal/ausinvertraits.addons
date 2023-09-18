@@ -2,7 +2,13 @@
 title: "MolluscaBase"
 author: "Fonti Kar"
 date: "2023-06-19"
-output: html_document
+output: 
+   html_document:
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+    toc_depth: 3
+    theme: lumen
 ---
 
 ```{r setup, include=FALSE}
@@ -573,7 +579,7 @@ matches <- intersect(accepted_keep_taxa
  |> pull(scientificname), afd_may |> pull(FULL_NAME))
 ```
 
-There were `r length(matches)` matches with the AFD or (`r round(length(matches)/nrow(aus_molluscs)*100, 2)`) of the Australian Molluscs data provided by the Data Management Team. These are: 
+There were `r length(matches)` matches with the AFD or (`r round(length(matches)/nrow(aus_molluscs)*100, 2)`%) of the Australian Molluscs data provided by the Data Management Team. These are: 
 
 ```{r}
 matches
