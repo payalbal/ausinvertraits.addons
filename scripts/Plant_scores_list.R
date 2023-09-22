@@ -61,7 +61,7 @@ standardised_names <- p1 %>%
 standardised_names %>% View
 
 ## Save the updated and standardised plant names to csv.
-readr::write_csv(standardised_names, file.path(out_dir, "updated_associated_plant_names_14Sep2023.csv"))
+readr::write_csv(standardised_names, file.path(out_dir, "apc_updated_associated_plant_names_invertraits_14sep2023.csv"))
 
 ## -- Manual name changes needed -- ##
 
