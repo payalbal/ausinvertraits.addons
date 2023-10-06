@@ -16,13 +16,13 @@
 getwd()
 setwd(...) # set this to R project directory if needed
 
-out_dir <- file.path(getwd(), "outputs")
-dbout_dir <- file.path(out_dir, "other_dbs/Driscoll_2020")
+out_dir <- file.path(getwd(), "outputs/other_dbs/Driscoll_2020")
 
 ## Load required package
 library(tidyverse)
 
 ## Load the Driscoll_2020 dataset
+
 d1 <- read_csv(file.path(getwd(), "data", "Driscoll_2020/Eyre_Peninsula_SA_beetles.csv"), show_col_types = FALSE)
 
 ## Load the data template
@@ -41,8 +41,14 @@ template <- read_csv(file.path(getwd(), "data", "Driscoll_2020/data_template.csv
 #### Modify the dataset in preparation for the data template ####
 ##-------------------------------------------------------------##
 
+
+## (1) Modify the dataset in preparation for the data template.
+
 d1_mod <- d1 %>%
-  dplyr::filter(is.na(introduced)) %>% # drop introduced taxa
+  dplyr::select(species, taxon_name_original, taxname_source, family, size, bodylength_mm, 
+                flightless, trophicgroup, above_on_below, trophicgroupdetail, food, 
+                usual_habitat_adult, usual_habitat_larvae, introduced, Wing_Type,
+                Feeding_Group, pronotum_width) %>% # select and reorder columns
   dplyr::rename(
     taxon_name = species,
     taxon_family = family,
@@ -243,5 +249,5 @@ d1_template <- template %>%
   dplyr::mutate(source_doi = "doi: 10.1111/een.12798") %>%  # add source_doi
   dplyr::mutate(source_citation = "Driscoll, D. A., Smith, A. L., Blight, S., & Sellar, I. (2020). Interactions among body size, trophic level, and dispersal traits predict beetle detectability and occurrence responses to fire. Ecological Entomology, 45(2), 300-310.") %>%  # add source_citation
   dplyr::mutate(source_type = "article") %>% # add source_type
-  readr::write_csv(file.path(dbout_dir, "data.csv")) # save final dataset
+  readr::write_csv(file.path(out_dir, "data.csv")) # save final dataset
 
