@@ -1,0 +1,45 @@
+﻿Pdetect,mean_freq_in_occupied_patches,no.patches_occupied,prop.patches,Freqveg,Freqspace,Pres_AbsVeg,Pres_Abs_space,finalgroup,veg_geog_both,species,analyses,order,Correct_name,taxon_name,taxon_name_original,taxname_source,taxon_family,Name_previously_given_if different,Size,Ecology,Flying,sizecat,Notes,Code
+0.966957899,0.068576389,24,0.8,RF,NS,NS,NS,RF(freq),veg,Agonica_simsoni_,both,21,Agonica simsoni,Agonica simsoni,,AFD,CARABIDAE,,8,carn,n,med,,
+0.950470404,0.060688406,23,0.766666667,ScrubRF,NS,ScrubRF,NS,scrub(both),veg,Aridius_nodifer_,both,24,Aridius nodifer,Aridius nodifer,,AFD,LATRIDIIDAE,,2,fung,y,small,,
+0.969573733,0.070175439,19,0.633333333,ScrubRF,more_forest,ScrubRF,NS,"scrub(both),more_forest(freq)",both,Aspidophorus_humeralis_,both,33,Aspidiphorus humeralis,Aspidiphorus humeralis,,AFD,SPHINDIDAE,Aspidophorus humeralis (misspelling),1.2,fung,y,small,,
+0.999967774,0.19384058,23,0.766666667,NS,more_forest,RF,NS,"more_forest(freq),Rfocc",both,Austronemadus_TFIC_sp_03,both,22,Austronemadus TFIC sp 03,,Austronemadus TFIC sp 03,,LEIODIDAE,,3.5,scav,y,small,,OT23
+0.921110188,0.051535088,19,0.633333333,RF,NS,RF,NS,RF(both),veg,Brycopia_hexagona_,both,35,Brycopia hexagona,Brycopia hexagona,,AFD,TENEBRIONIDAE,,8,scav,n,med,,
+0.970876452,0.071022727,22,0.733333333,NS,NS,NS,bigger_patches,bigocc,geog,Catoposchema_tasmaniae_,both,27,Catoposchema tasmaniae,Catoposchema tasmaniae,,AFD,LEIODIDAE,Caroposchema tasmaniae (misspelling),6,scav,y,med,,
+0.999999995,0.328472222,30,1,NS,NS,na,na,NS,ns,Choleva_TFIC_sp_01,frequency,4,Choleva TFIC sp 01,,Choleva TFIC sp 01,,LEIODIDAE,Nargomorphus TFIC sp 02,2.5,scav,y,small,may include other species of small leiodid but probably nearly all this sp,OT5
+1,0.508333333,30,1,RF,NS,na,na,RF(freq),veg,Chylnus_ater_,frequency,3,Chylnus ater (Putzeys 1868),Chylnus ater,,AFD,CARABIDAE,,19,carn,n,big,,CA4
+0.950261557,0.060606061,22,0.733333333,NS,more_forest,NS,NS,more_forest(freq),geog,Coripera_deplanata_,both,28,Coripera deplanata,Coripera deplanata,,AFD,TENEBRIONIDAE,,15,scav,n,big,,
+0.999880507,0.171527778,30,1,RF,NS,na,na,RF(freq),veg,Decilaus_striatus_,frequency,5,Decilaus striatus Lea 1913,Decilaus striatus,,AFD,CURCULIONIDAE,,2.2,detr,n,small,,WE1
+0.999391784,0.14295977,29,0.966666667,NS,NS,na,na,NS,ns,Decilaus_TFIC_sp_04,frequency,9,Decilaus TFIC sp 04,,Decilaus TFIC sp 04,,CURCULIONIDAE,Decilaus TFIC sp 01,4,detr,n,small,may include one other species,WE13
+0.994907788,0.104166667,24,0.8,NS,NS,NS,NS,NS,ns,Decilaus_TFIC_sp_18,both,20,Decilaus TFIC sp 18,,Decilaus TFIC sp 18,,CURCULIONIDAE,Decilaus lateralis,2.5,detr,n,small,may include other species,WE9
+0.999860261,0.168821839,29,0.966666667,NS,NS,na,na,NS,ns,Decilaus_TFIC_sp_19,frequency,7,Decilaus TFIC sp 19,,Decilaus TFIC sp 19,,CURCULIONIDAE,Decilaus sp NIC2?,1.7,detr,n,small,includes at least one other species,WE20
+0.999970481,0.1953125,24,0.8,RF,NS,RF,smaller_patches,"RF(both),smallocc",both,Dinichus_terreus,both,19,Dinichus terreus Pascoe 1887,Dinichus terreus,,AFD,CURCULIONIDAE,,10.5,detr,n,big,,WE8
+0.913958512,0.049818841,23,0.766666667,NS,NS,RF,NS,RF(occ),veg,Exithius_capucinus_,both,26,Exithius capucinus,Exithius cariosus,Exithius capucinus,AFD,CURCULIONIDAE,,4,detr,n,small,,
+0.925009658,0.052536232,23,0.766666667,EUC + ScrubRF,NS,NS,NS,euc and scrub(freq),veg,Heteronyx_tasmanicus_,both,25,Heteronyx tasmanicus,Heteronyx tasmanicus,,AFD,SCARABAEIDAE,,13,herb,y,big,,
+0.999841766,0.166666667,9,0.3,Euc,NS,NS,more_isolated,"euc(freq),more_isolated(occ)",both,Lestignathus_cursor_,both,43,Lestignathus cursor Erichson 1842,Lestignathus cursor,,AFD,CARABIDAE,,14,carn,n,big,,CA29
+0.947964915,0.059722222,15,0.5,NS,less_isolated,NS,less_isolated,less_isolated(both),geog,Lissotes_curvicornis_,both,39,Lissotes curvicornis,Lissotes curvicornis,,AFD,LUCANIDAE,,14,detr,n,big,,
+1,0.60625,30,1,NS,NS,na,na,NS,ns,Lissotes_rodwayi_,frequency,1,Lissotes rodwayi Lea 1910,Lissotes rodwayi,,AFD,LUCANIDAE,,19,detr,n,big,,LU1
+0.916225381,0.050347222,12,0.4,NS,more_isolated,NS,more_isolated,more_isolated (both),geog,Macrohelodes_crassus_,both,41,Macrohelodes crassus,Pictacara crassa,Macrohelodes crassus,AFD,SCIRTIDAE,,9,detr,y,med,,
+0.999539596,0.147916667,30,1,RF,NS,na,na,RF(freq),veg,Mandalotus_muscivorus_,frequency,6,Mandalotus muscivorus Lea 1909,Mandalotus muscivorus,,AFD,CURCULIONIDAE,,3.5,detr,n,small,,WE10
+0.999461022,0.145114943,29,0.966666667,ScrubRF,NS,na,na,scrub(freq),veg,Microchaetus_hystricosus_,frequency,8,Microchaetus hystricosus Lea 1920,Microchaetus hystricosus,,AFD,BYRRHIDAE,Microchaetus hystriosus (misspelling),2.5,herb,y,small,,OT1
+0.989887065,0.091269841,21,0.7,RF,NS,"Euc+RF (contradictory, but RF p only 0.06)",NS,RF(both)and Euc(occ),veg,Myrmicholeva_ligulata_,both,29,Myrmicholeva ligulata,Myrmicholeva ligulata,,AFD,LEIODIDAE,,5,fung?,y,med,,
+1,0.573611111,30,1,RF,NS,na,na,RF(freq),veg,Nargomorphus_globulus_,frequency,2,"Nargomorphus globulus Jeannel, 1936",Nargomorphus globulus,,AFD,LEIODIDAE,Nargomorphus TFIC sp 03,2,fung?,y,small,likely to include other Nargomorphus spp and poss other small leiodids,OT2
+0.999999997,0.334104938,27,0.9,NS,NS,na,na,NS,ns,Notonomus_politulus_,frequency,15,Notonomus politulus (Chaudoir 1865),Notonomus politulus,,AFD,CARABIDAE,,18.5,carn,n,big,,CA1
+0.929406298,0.05372807,19,0.633333333,ScrubRF,less_isolated,ScrubRF,NS,"scrub (both), less_isolated(occ)",both,Palimbolus_victoriae_,both,34,Palimbolus victoriae,Palimbolus victoriae,,AFD,STAPHYLINIDAE,,4,carn,y,small,,
+0.954853793,0.0625,6,0.2,RF,NS,RF,NS,RF(both),veg,Pedilophorus_gemmatus_,both,44,Pedilophorus gemmatus,Notolioon gemmatus,Pedilophorus gemmatus,AFD,BYRRHIDAE,,5,herb,y,med,,
+0.941100363,0.057291667,16,0.533333333,RF,NS,NS,NS,RF(freq),veg,Pselaphaulax_CHANDLER_Tasmania_1,both,38,Pselaphaulax CHANDLER Tasmania 1,,Pselaphaulax CHANDLER Tasmania 1,,STAPHYLINIDAE,,3,carn,y,small,,
+0.930959879,0.054166667,10,0.333333333,ScrubRF,NS,Euc + scrubRF,more_forest,"scrub(both),euc,more_forest(occ)",both,Pselaphinae_TFIC_sp_29,both,42,Pselaphinae TFIC sp 29,,Pselaphinae TFIC sp 29,,STAPHYLINIDAE,,1.5,carn,y,small,,
+0.997763396,0.119391026,26,0.866666667,NS,NS,na,na,NS,ns,Pseudomicrocara_TFIC_sp_01,frequency,18,Pseudomicrocara TFIC sp 01,,Pseudomicrocara TFIC sp 01,,SCIRTIDAE,,5,detr,y,med,,CH1
+0.992485545,0.096875,20,0.666666667,NS,NS,NS,NS,ns,ns,Pseudomicrocara_TFIC_sp_02,both,31,Pseudomicrocara TFIC sp 02,,Pseudomicrocara TFIC sp 02,,SCIRTIDAE,,3.5,detr,y,small,,
+0.997540583,0.117647059,17,0.566666667,RF,NS,NS,NS,RF(freq),veg,Pterocyrtus_globosus_,both,36,Pterocyrtus globosus (Sloane 1921),Pterocyrtus globosus,,AFD,CARABIDAE,,5.5,carn,n,med,,CA14
+0.997343378,0.11622807,19,0.633333333,RF,NS,RF,NS,RF(both),veg,Pterocyrtus_tasmanicus_,both,32,Pterocyrtus tasmanicus Castleneau 1867,Pterocyrtus tasmanicus,,AFD,CARABIDAE,,5.5,carn,n,med,,CA16
+0.97881363,0.077160494,27,0.9,RF,NS,na,na,RF(freq),veg,Roptoperus_tasmaniensis_,frequency,17,Roptoperus tasmaniensis,Roptoperus tasmaniensis,,AFD,CURCULIONIDAE,,4,detr,n,small,,
+0.999601204,0.150462963,27,0.9,RF,NS,na,na,RF(freq),veg,Rybaxis_parvidens_,frequency,16,"Rybaxis parvidens Lea, 1911",Rybaxis parvidens,,AFD,STAPHYLINIDAE,,2.2,carn,y,small,,PS4
+0.99783305,0.119971264,29,0.966666667,ScrubRF,NS,na,na,scrub(freq),veg,Scydmaenidae_TFIC_sp_04,frequency,11,Scydmaenidae TFIC sp 04,,Scydmaenidae TFIC sp 04,,STAPHYLINIDAE,,1.7,carn,y,small,,PS2
+0.999673311,0.153985507,23,0.766666667,NS,NS,NS,smaller_patches,smallocc,geog,Sloaneana_tasmaniae_,both,23,"Sloaneana tasmaniae (Sloane, 1915)",Sloaneana tasmaniae,,AFD,CARABIDAE,,5,carn,n,med,,CA2
+0.99582981,0.107886905,28,0.933333333,NS,more_forest,na,na,more_forest(freq),geog,Sogdini_.ANIC_Gen_B._TFIC_sp_01,frequency,14,Sogdini ANIC Gen B TFIC sp 01,,Sogdini ANIC Gen B TFIC sp 01,,LEIODIDAE,,2.5,fung?,y,small,,
+0.9999676,0.19375,20,0.666666667,NS,NS,NS,NS,ns,ns,Stichonotus_leai,both,30,"Stichonotus leai Sloane, 1901",Stichonotus leai,,AFD,CARABIDAE,,6,carn,n,med,,CA10
+0.975027804,0.073994253,29,0.966666667,RF + ScrubRF,NS,na,na,RFandScrub(freq),veg,Telura_vitticollis_,frequency,12,Telura vitticollis,Telura vitticollis,,AFD,SCARABAEIDAE,,11,herb,y,big,,
+0.998417789,0.125718391,29,0.966666667,ScrubRF,NS,na,na,scrub(freq),veg,Thalycrodes_cylindricum_,frequency,10,Thalycrodes cylindricum Blackburn 1891,Thalycrodes cylindricum,,AFD,NITIDULIDAE,,3.5,fung?,y,small,,CH5
+0.999998839,0.247767857,28,0.933333333,ScrubRF,NS,na,na,scrub(freq),veg,Thalycrodes_pulchrum_,frequency,13,Thalycrodes pulchrum Blackburn 1891,Thalycrodes pulchrum,,AFD,NITIDULIDAE,,3,fung?,y,small,,CH2
+0.99990565,0.175595238,14,0.466666667,NS,NS,NS,NS,ns,ns,Trechimorphus_diemenensis_,both,40,"Trechimorphus diemenensis (Bates, 1867)",Trechimorphus diemenensis,,AFD,CARABIDAE,Trechinomorphus diemenensis (misspelling),5.5,carn,n,med,,CA19
+0.969063041,0.069852941,17,0.566666667,ScrubRF,more_forest,NS,more_forest,"scrub(freq),more_forest(both)",both,Zeadolopus_TFIC_sp_02,both,37,Zeadolopus TFIC sp 02,,Zeadolopus TFIC sp 02,,LEIODIDAE,,1.5,fung,y,small,,
