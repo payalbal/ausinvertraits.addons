@@ -1,0 +1,205 @@
+---
+title: "Cleaning the World Spider Catalog List"
+author: "Fonti Kar"
+date: "2023-05-08"
+output:
+  html_document: default
+  pdf_document:
+    latex_engine: xelatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      include=FALSE)
+```
+
+# Cleaning the World Spider Catalog
+
+Data can be accessed via the [WSC Data resources](https://wsc.nmbe.ch/dataresources) page. Bulk download is from their "Daily Species Exports" heading
+
+## Load dependencies 
+
+```{r, include=TRUE}
+pacman::p_load(tidyverse, skimr, arrow, janitor, worrms, here, job)
+```
+
+## Read in data
+
+```{r, include=TRUE}
+wsc <- read_csv(here("data/WSC_taxonomic_checklist.csv"))
+```
+
+## Getting familiar with data
+
+```{r, include=TRUE}
+skim(wsc)
+```
+
+## What are the relevant levels of 'distribution' 
+
+```{r}
+wsc |> 
+  pull(distribution) |> str_subset(pattern = "Australia") |> 
+  unique()
+
+# Pattern to ignore Introduced to Australia
+wsc |> 
+  pull(distribution) |> str_subset(pattern = "Introduced to Australia") 
+```
+
+
+## Precleaning 
+
+No scientific_name found in dataset. Here, we created a `scientific_name` variable
+
+```{r, include=TRUE}
+wsc_scnm <- wsc |> 
+  mutate(scientific_name = case_when(
+    is.na(subspecies) ~ paste(genus, species),
+    !is.na(subspecies) ~ paste(genus, species, subspecies)
+  )
+  ) |> 
+  select(speciesId:species_lsid, scientific_name, family:distribution)
+
+wsc_scnm
+```
+
+## Remove non-Australian species
+
+"Introduced to Australia" described the introduction of a foreign species to Australia (exclude these)
+"Country to Australia" e.g. Indonesia to Australia is describing the range of the taxa. 
+
+```{r, include=TRUE}
+# All records that are flagged Australia
+oz_wsc <- wsc_scnm |> 
+  filter(str_detect(distribution, "Australia"))
+
+# Use regular expression to detect Introduced to Australia
+# These are the ones that we will exclude
+oz_wsc |> 
+  pull(distribution) |> 
+  str_subset("Introduced to.*Australia")  |> # .* matches instances where there are as many spaces/characters between "Introduced to" and "Australia. E.g. Introduced to St. Helena, Australia, New Zealand
+  head()
+
+# Number to be excluded
+introduced_taxa <- oz_wsc |> 
+  pull(distribution) |> 
+  str_subset("Introduced to.*Australia") |> 
+  length()
+
+# Use regular expression to detect and exclude "Introduced to Australia"
+oz_wsc_nointroduced <- oz_wsc |> 
+  filter(! str_detect(distribution, "Introduced to.*Australia"))
+
+nrow(oz_wsc) - introduced_taxa == nrow(oz_wsc_nointroduced)
+```
+
+Exclude `r introduced_taxa` taxa that were Introduced to Australia. `r nrow(oz_wsc_nointroduced)` remaining.
+
+## Remove improper names
+
+```{r, echo=TRUE}
+source(here("scripts/remove_improper_names_v2.R"))
+
+oz_wsc_clean_names <- oz_wsc_nointroduced |> 
+  pull(scientific_name) |> 
+  remove_improper_names_v2()
+
+oz_wsc_clean_names$improper_species
+```
+
+There were `r length(oz_wsc_clean_names$improper_species)` improper species.
+
+## Remove marine species
+
+```{r}
+# job({
+# wm_oz_wsc <- map(oz_wsc_nointroduced |> pull(scientific_name),
+#     possibly(~wm_records_name(.x, fuzzy = FALSE) |>
+#                mutate(search_term = .x))) |>
+#   discard(.p = ~is.null(.x)) |>
+#   bind_rows()
+# 
+# 
+# saveRDS(wm_oz_wsc, here("outputs/WSC_worms_marine_check"))
+# })
+
+wm_oz_wsc <- readRDS(here("outputs/WSC_worms_marine_check"))
+```
+
+`r nrow(wm_oz_wsc)` marine species found in WSC data.
+
+```{r, include=TRUE}
+wm_oz_wsc |> select(search_term, scientificname, valid_name, AphiaID, isMarine)
+
+# Exclude these from WSC checklist
+oz_wsc_nointroduced_nomarine <- oz_wsc_nointroduced |> 
+  filter(! scientific_name %in% wm_oz_wsc$search_term)
+```
+
+## Duplicates
+
+```{r, include=TRUE}
+duplicated_taxa <- oz_wsc_nointroduced_nomarine |> 
+  filter(duplicated(scientific_name)) |> 
+  pull(scientific_name)
+```
+
+We found `r length(duplicated_taxa)` duplicated taxa. Author, Year and Distribution appears to differ between the two rows. **NO ACTION YET** - Keep both or which to keep?
+
+```{r, include=TRUE}
+oz_wsc_nointroduced_nomarine |> 
+  filter(scientific_name == duplicated_taxa) 
+```
+
+## Matches to AFD
+
+```{r}
+afd_may <- read_csv(here("data/afd_May2023_clean.csv"))
+
+matches <- intersect(oz_wsc_nointroduced_nomarine |> pull(scientific_name), afd_may |> pull(FULL_NAME))
+```
+
+There were `r length(matches)` matches found between Australian taxa in the WSC and the AFD. These include (6 examples show here):
+
+```{r, include=TRUE}
+matches |> 
+  head()
+```
+
+## New taxon additions
+
+```{r}
+new <- setdiff(oz_wsc_nointroduced_nomarine |> pull(scientific_name), afd_may |> pull(FULL_NAME))
+```
+
+There were `r length(new)` *new taxa found* in the WSC that we can add to the AFD. These include: 
+
+```{r, include=TRUE}
+sort(new)
+```
+
+## Flag in AFD
+
+```{r, include=TRUE}
+# Select relevant columns and case column case to match AFD and add "source" variable to flag new taxa comes from WSC
+new_taxa <- oz_wsc_nointroduced_nomarine |> 
+  filter(scientific_name %in% new) |> 
+  select(scientific_name, family, genus, species , author, year) |> 
+  mutate(source = "WSC",
+         year = as.character(year)) |> 
+  clean_names(case = "all_caps") 
+
+# Check
+updated_afd_wsc <- bind_rows(afd_may |> mutate(SOURCE = "AFD"),
+          new_taxa)  
+
+updated_afd_wsc$SOURCE |> tabyl()
+```
+
+## Final checks
+
+```{r, include=TRUE}
+length(matches) + length(new) + length(duplicated_taxa) == nrow(oz_wsc_nointroduced_nomarine)  
+```
+
