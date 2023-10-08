@@ -22,7 +22,6 @@ out_dir <- file.path(getwd(), "outputs/other_dbs/Driscoll_2020")
 library(tidyverse)
 
 ## Load the Driscoll_2020 dataset
-
 d1 <- read_csv(file.path(getwd(), "data", "Driscoll_2020/Eyre_Peninsula_SA_beetles.csv"), show_col_types = FALSE)
 
 ## Load the data template
