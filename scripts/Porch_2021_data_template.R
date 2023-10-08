@@ -39,9 +39,6 @@ template <- read_csv(file.path(getwd(), "data", "Porch_2021/data_template.csv"),
 #### Modify the dataset in preparation for the data template ####
 ##-------------------------------------------------------------##
 
-# Deal with Composite_Taxon (Yes)
-# Deal with microhabitat for myrmecophiles - would it be burrow?
-
 d_mod <- d %>%
   dplyr::filter(Introduced_Native == "Native") %>% # keep only native taxa
   dplyr::rename(
