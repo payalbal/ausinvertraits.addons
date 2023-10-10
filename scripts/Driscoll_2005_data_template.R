@@ -1,9 +1,9 @@
 ##-----------------------##
-## Driscoll_2020 dataset ##
+## Driscoll_2005 dataset ##
 ##-----------------------##
 
 
-## Script to clean and map the Driscoll South Australian Eyre Peninsula beetle 
+## Script to clean and map the Driscoll_2005 beetles and habitat fragmentation
 ## dataset to the InverTraits data_template and create a data.csv for the database.
 
 
@@ -16,49 +16,59 @@
 getwd()
 setwd(...) # set this to R project directory if needed
 
-out_dir <- file.path(getwd(), "outputs/other_dbs/Driscoll_2020")
+out_dir <- file.path(getwd(), "outputs/other_dbs/Driscoll_2005")
 
 ## Load required package
 library(tidyverse)
 
-## Load the Driscoll_2020 dataset
-d1 <- read_csv(file.path(getwd(), "data", "Driscoll_2020/Eyre_Peninsula_SA_beetles.csv"), show_col_types = FALSE)
+## Load the Driscoll_2005 dataset
+mallee <- read_csv(file.path(getwd(), "data", "Driscoll_2005/Driscoll_2005_Beetles_NSW_Mallee_Driscoll_and_Weir_2005.csv"), show_col_types = FALSE)
 
 ## Load the data template
-template <- read_csv(file.path(getwd(), "data", "Driscoll_2020/data_template.csv"), show_col_types = FALSE) 
+template <- read_csv(file.path(getwd(), "data", "Driscoll_2005/data_template.csv"), show_col_types = FALSE) 
 
 
 ## QUESTIONS FOR DON:
-## ## How can we interpret those beetles that are flightless and have large wings?
-## ## If a beetle is listed as a "scavenger" but there is no value in the food column that is "dead plant material"; are they scavenging animal matter, i.e., necrophage?
+
+## Do you have size in mm (rather than size classes)?
 
 ## NOTES:
-## Other traits in the dataset to keep in mind: pronotum width, antennae length, total number in study
-
 
 ##-------------------------------------------------------------##
 #### Modify the dataset in preparation for the data template ####
 ##-------------------------------------------------------------##
 
-d1_mod <- d1 %>%
-  dplyr::filter(is.na(introduced)) %>% # drop introduced taxa
+
+## (1) Modify the dataset in preparation for the data template.
+
+mallee_mod <- mallee %>%
+  dplyr::filter(is.na(introduced) | introduced != "introduced") %>% # exclude introduced taxa
   dplyr::rename(
-    taxon_name = species,
+    taxon_name = unique_name,
     taxon_family = family,
-    body_length = bodylength_mm,
     wing_development = flightless,
-    functional_role_adult = trophicgroupdetail) %>% # change column names to match data_template column names
+    functional_role_adult = trophic_level,
+    microhabitat_activity_adult = usual_habitat_adult,
+    microhabitat_activity_larva = usual_habitat_larvae) %>% # change column names to match data_template column names
   dplyr::mutate(functional_role_larva = NA)  %>% # create new functional_role columns for larva life stage
-  dplyr::select(taxon_name, taxon_name_original, taxname_source, taxon_family, body_length, 
-                wing_development, Wing_Type, trophicgroup, functional_role_larva, functional_role_adult, 
-                Feeding_Group, food, above_on_below, usual_habitat_adult, usual_habitat_larvae) %>% # keep only needed columns for now
+  dplyr::mutate(wing_development_male = NA)  %>% # create new functional_role columns for larva life stage
+  dplyr::mutate(wing_development_female = NA)  %>% # create new functional_role columns for larva life stage
+  dplyr::select(taxon_name, taxon_name_original, taxname_source, taxon_family, wing_development,
+                wing_development_male, wing_development_female, functional_role_adult, functional_role_larva, adult_position,
+                foodtype, microhabitat_activity_adult, microhabitat_activity_larva) %>% # keep only needed columns for now
+  dplyr::mutate(
+    wing_development_female = case_when(
+      wing_development == "no(m)_yes(f)" ~ "wingless",
+      .default = as.character(wing_development_female))) %>% # change flightless category for female beetles where specified
+  dplyr::mutate(
+    wing_development_male = case_when(
+      wing_development == "no(m)_yes(f)" ~ "winged",
+      .default = as.character(wing_development_male))) %>% # change flightless category for female beetles where specified
   dplyr::mutate(
     wing_development = case_when(
       wing_development == "yes" ~ "wingless",
-      wing_development == "no" ~ "winged")) %>% # change flightless category to "wingless", and flight category to "winged"
-  dplyr::mutate(wing_development = case_when(
-    wing_development == "wingless" & Wing_Type == "present (large)" ~ "rudimentary",
-    .default = as.character(wing_development))) %>% # change wing_development category to rudimentary for flightless beetles with large wings
+      wing_development == "no" ~ "winged",
+      wing_development == "no(m)_yes(f)" ~ NA)) %>% # change flightless category to "wingless", and flight category to "winged"
   dplyr::mutate(functional_role_adult = case_when(
     functional_role_adult == "adult carnivore/larva herbivore" ~ "predator",
     functional_role_adult == "carnivore" ~ "predator",
@@ -151,7 +161,7 @@ d1_mod <- d1 %>%
                       names_to = "trait_name",
                       values_to = "value") %>%  # convert to long format so that all trait names and values are in two columns
   tidyr::drop_na(value) # remove rows with NA in the value column
-
+  
 
 ##-------------------------------------------------------------------------##
 #### Merge the dataset with the IA data template, & occupy missing cells ####
@@ -225,7 +235,7 @@ d1_template <- template %>%
       trait_name == "functional_role" ~ "We sampled beetles from 23 transect and seven grid sites across four conservation reserves. Transect sites consisted of 11 pairs of 20 litre pitfall traps, each pair connected by a 20 m drift fence. Trap pairs were spaced along the 400 m transect at 40 m intervals. Grid sites included a 5 × 10 arrangement of individual 20 litre pitfall traps, each with a 10 m drift fence, with traps spaced at 25 m intervals. The grids and transects were placed in 15 areas that were burnt by different fires in five different locations. We surveyed beetles over four consecutive summers from December 2004-February 2005 (referred to as 2004) to December 2007-February 2008 (referred to as 2007). In each summer, we conducted three six-night sampling periods approximately monthly, except in the second summer when we sampled in two periods (December and February). Sites were sampled for an average of 15.4 (SD = 4.0) nights per year and we accommodated unequal sampling in the analyses. Data from February 2006 at Pinkawillinie were excluded from year 2 due to a fire in December 2005 which changed the time since fire during the sampling year. Post-fire data from Hincks in December 2006 were excluded because inflated capture rates immediately after fire give a misleading impression of high abundance. Beetles were identified to species or morphospecies level using a photographic guide to common beetles that we prepared based on initial trapping, alongside a field-box of pinned specimens. Species that were unambiguously identified were marked with a paint spot on the ventral surface and released 5-10 m from the point of capture. Recaptured animals were excluded from the data. Individuals that could not be identified in the field were assigned a morphospecies name, and were preserved for later identification at the South Australian Museum (Eric Matthews) or CSIRO Entomology (Tom Weir, Rolf Oberprieler). Beetles < 6mm long could not be reliably collected from 20 litre pitfall traps in a time-efficient manner and were excluded from analysis, and we excluded species with fewer than five records as they were inadequate for analysis. Trophic group was allocated based on expert knowledge (Tom Weir, CSIRO) of the family, or, where there were subfamily differences, the tribe level of classification was used.",
       trait_name == "microhabitat_activity" ~ "We sampled beetles from 23 transect and seven grid sites across four conservation reserves. Transect sites consisted of 11 pairs of 20 litre pitfall traps, each pair connected by a 20 m drift fence. Trap pairs were spaced along the 400 m transect at 40 m intervals. Grid sites included a 5 × 10 arrangement of individual 20 litre pitfall traps, each with a 10 m drift fence, with traps spaced at 25 m intervals. The grids and transects were placed in 15 areas that were burnt by different fires in five different locations. We surveyed beetles over four consecutive summers from December 2004-February 2005 (referred to as 2004) to December 2007-February 2008 (referred to as 2007). In each summer, we conducted three six-night sampling periods approximately monthly, except in the second summer when we sampled in two periods (December and February). Sites were sampled for an average of 15.4 (SD = 4.0) nights per year and we accommodated unequal sampling in the analyses. Data from February 2006 at Pinkawillinie were excluded from year 2 due to a fire in December 2005 which changed the time since fire during the sampling year. Post-fire data from Hincks in December 2006 were excluded because inflated capture rates immediately after fire give a misleading impression of high abundance. Beetles were identified to species or morphospecies level using a photographic guide to common beetles that we prepared based on initial trapping, alongside a field-box of pinned specimens. Species that were unambiguously identified were marked with a paint spot on the ventral surface and released 5-10 m from the point of capture. Recaptured animals were excluded from the data. Individuals that could not be identified in the field were assigned a morphospecies name, and were preserved for later identification at the South Australian Museum (Eric Matthews) or CSIRO Entomology (Tom Weir, Rolf Oberprieler). Beetles < 6mm long could not be reliably collected from 20 litre pitfall traps in a time-efficient manner and were excluded from analysis, and we excluded species with fewer than five records as they were inadequate for analysis. Microhabitat position was based on Tom Weir’s (CSIRO) expert opinion based on a lifetime studying beetles.",
       trait_name == "wing_development" ~ "We sampled beetles from 23 transect and seven grid sites across four conservation reserves. Transect sites consisted of 11 pairs of 20 litre pitfall traps, each pair connected by a 20 m drift fence. Trap pairs were spaced along the 400 m transect at 40 m intervals. Grid sites included a 5 × 10 arrangement of individual 20 litre pitfall traps, each with a 10 m drift fence, with traps spaced at 25 m intervals. The grids and transects were placed in 15 areas that were burnt by different fires in five different locations. We surveyed beetles over four consecutive summers from December 2004-February 2005 (referred to as 2004) to December 2007-February 2008 (referred to as 2007). In each summer, we conducted three six-night sampling periods approximately monthly, except in the second summer when we sampled in two periods (December and February). Sites were sampled for an average of 15.4 (SD = 4.0) nights per year and we accommodated unequal sampling in the analyses. Data from February 2006 at Pinkawillinie were excluded from year 2 due to a fire in December 2005 which changed the time since fire during the sampling year. Post-fire data from Hincks in December 2006 were excluded because inflated capture rates immediately after fire give a misleading impression of high abundance. Beetles were identified to species or morphospecies level using a photographic guide to common beetles that we prepared based on initial trapping, alongside a field-box of pinned specimens. Species that were unambiguously identified were marked with a paint spot on the ventral surface and released 5-10 m from the point of capture. Recaptured animals were excluded from the data. Individuals that could not be identified in the field were assigned a morphospecies name, and were preserved for later identification at the South Australian Museum (Eric Matthews) or CSIRO Entomology (Tom Weir, Rolf Oberprieler). Beetles < 6mm long could not be reliably collected from 20 litre pitfall traps in a time-efficient manner and were excluded from analysis, and we excluded species with fewer than five records as they were inadequate for analysis.",
-    )) %>% # add methods for the traits
+      )) %>% # add methods for the traits
   dplyr::mutate(site_name = "Eyre Peninsula, South Australia") %>%  # add site name
   dplyr::mutate(site_date_of_visit = "2004-12/2008-02") %>%  # add study date
   dplyr::mutate(site_description = "The study region consists of mallee woodland dominated by multistemmed Eucalyptus species and an understorey of shrubs and spinifex (Triodia irritans). Parabolic and longitudinal sand dunes overlie a limestone-calcrete base across a relatively flat landscape. Annual rainfall is within the range 300-400 mm.") %>%  # add site description
