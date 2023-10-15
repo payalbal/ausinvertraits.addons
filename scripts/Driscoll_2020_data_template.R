@@ -120,32 +120,20 @@ d1_mod <- d1 %>%
     usual_habitat_larvae == "in burrows in ground" ~ "burrow",
     usual_habitat_larvae == "in rotten wood" ~ "in_dead_wood_ground in_standing_wood_dead",
     usual_habitat_larvae == "in soil" ~ "soil",
-    usual_habitat_larvae == "in soil or decaying logs" ~ "soil in_dead_wood_ground in_standing_wood_dead",
-    usual_habitat_larvae == "in termite mounds or logs" ~ "mound_above_ground in_dead_wood_ground in_standing_wood_dead",
+    usual_habitat_larvae == "in soil or decaying logs" ~ "soil in_dead_wood_ground",
+    usual_habitat_larvae == "in termite mounds or logs" ~ "mound_above_ground in_dead_wood_ground",
     usual_habitat_larvae == "live with ants ?" ~ "burrow",
     usual_habitat_larvae == "subterranean" ~ "soil",
     usual_habitat_larvae == "subterranean ?" ~ "soil",
-    usual_habitat_larvae == "subterranean and burrowing" ~ "soil burrow",
-    usual_habitat_larvae == "subterranean and borrowing" ~ "soil burrow",
+    usual_habitat_larvae == "subterranean and burrowing" ~ "burrow",
+    usual_habitat_larvae == "subterranean and borrowing" ~ "burrow",
     usual_habitat_larvae == "subterranean" ~ "soil",
     food == "sap pollen nectar, larvae eat wood" ~ "in_dead_wood_ground in_standing_wood_dead",
     .default = as.character(usual_habitat_larvae))) %>% # specify larva microhabitat_activity given information in other columns
-  dplyr::mutate(associated_fauna_taxa = NA)  %>% # create column for associated_fauna_taxa
-  dplyr::mutate(fauna_relation_description = NA)  %>% # create column for fauna_relation_description
-  dplyr::mutate(associated_fauna_taxa = case_when(
-    food == "larvae feed on termites" ~ "Termitoidae",
-    food == "larvae prey on ants" ~ "Formicidae",
-    food == "Scaritini" ~ "Scaritini",
-    .default = as.character(associated_fauna_taxa))) %>% # add associated fauna taxa with information from "food" column
-  dplyr::mutate(fauna_relation_description = case_when(
-    food == "larvae feed on termites" ~ "The invertebrate is a predator of the associated fauna",
-    food == "larvae prey on ants" ~ "The invertebrate is a predator of the associated fauna",
-    food == "Scaritini" ~ "The invertebrate is a predator of the associated fauna",
-    .default = as.character(fauna_relation_description))) %>% # add associated fauna taxa with information from "food" column
   dplyr::rename(measurement_remarks = food) %>% # rename column that has measurement remarks
   dplyr::select(taxon_name, taxon_name_original, taxname_source, taxon_family, measurement_remarks,
-                associated_fauna_taxa, fauna_relation_description, body_length, wing_development, functional_role_larva,
-                functional_role_adult, usual_habitat_adult, usual_habitat_larvae) %>% # keep and reorder only columns needed
+                body_length, wing_development, functional_role_larva, functional_role_adult, 
+                usual_habitat_adult, usual_habitat_larvae) %>% # keep and reorder only columns needed
   dplyr::mutate(body_length = as.character(body_length))  %>% # set numeric column to character so that all trait values can be combined into one column
   tidyr::pivot_longer(cols = body_length:usual_habitat_larvae,
                       names_to = "trait_name",
@@ -198,7 +186,7 @@ d1_template <- template %>%
       measurement_remarks == "flowers" ~ "feed on flowers",
       measurement_remarks == "nectar/pollen" ~ "feed on nectar and pollen",
       measurement_remarks == "plant material/insect larvae" ~ "feed on plant material and insect larvae",
-      measurement_remarks == "Scaritini" ~ "prey on Scaritini",
+      measurement_remarks == "Scaritini" ~ "feed on Scaritini",
       measurement_remarks == "adult flowers/larvae humus or root feeders" & life_stage_generic == "adult" ~ "feed on flowers",
       measurement_remarks == "adult flowers/larvae humus or root feeders" & life_stage_generic == "juvenile" ~ "feed on humus and plant roots",
       measurement_remarks == "adults flowers/foliage Eucalypts/larvae humus or roots" & life_stage_generic == "adult" ~ "feed on flowers and Eucalyptus foliage",
@@ -213,7 +201,7 @@ d1_template <- template %>%
       measurement_remarks == "larvae humus or roots" & life_stage_generic == "adult" ~ NA,
       measurement_remarks == "larvae plant roots etc" & life_stage_generic == "juvenile" ~ "feed on plant roots",
       measurement_remarks == "larvae plant roots etc" & life_stage_generic == "adult" ~ NA,
-      measurement_remarks == "larvae prey on ants" & life_stage_generic == "juvenile" ~ "prey on ants",
+      measurement_remarks == "larvae prey on ants" & life_stage_generic == "juvenile" ~ "feed on ants",
       measurement_remarks == "larvae prey on ants" & life_stage_generic == "adult" ~ NA,
       measurement_remarks == "sap pollen nectar, larvae eat wood" & life_stage_generic == "juvenile" ~ "feed on wood",
       measurement_remarks == "sap pollen nectar, larvae eat wood" & life_stage_generic == "adult" ~ "feed on sap, pollen, and nectar",
@@ -238,6 +226,16 @@ d1_template <- template %>%
     measurement_remarks == "feed on flowers or Eucalyptus foliage" ~ "The invertebrate is a folivore (herbivore) of the associated plants",
     measurement_remarks == "feed on Eucalyptus foliage" ~ "The invertebrate is a folivore (herbivore) of the associated plants",
     .default = as.character(plant_relation_description))) %>% # add associated plant relationship description from information in measurement_remarks
+  dplyr::mutate(associated_fauna_taxa = case_when(
+    measurement_remarks == "feed on termites" ~ "Termitoidae",
+    measurement_remarks == "feed on ants" ~ "Formicidae",
+    measurement_remarks == "Scaritini" ~ "Scaritini",
+    .default = as.character(associated_fauna_taxa))) %>% # add associated fauna taxa with information from "food" column
+  dplyr::mutate(fauna_relation_description = case_when(
+    measurement_remarks == "feed on termites" ~ "The invertebrate is a predator of the associated fauna",
+    measurement_remarks == "feed on ants" ~ "The invertebrate is a predator of the associated fauna",
+    measurement_remarks == "Scaritini" ~ "The invertebrate is a predator of the associated fauna",
+    .default = as.character(fauna_relation_description))) %>% # add associated fauna taxa with information from "food" column
   dplyr::mutate(source_key = "Driscoll_2020") %>%  # add source_key
   dplyr::mutate(source_doi = "doi: 10.1111/een.12798") %>%  # add source_doi
   dplyr::mutate(source_citation = "Driscoll, D. A., Smith, A. L., Blight, S., & Sellar, I. (2020). Interactions among body size, trophic level, and dispersal traits predict beetle detectability and occurrence responses to fire. Ecological Entomology, 45(2), 300-310.") %>%  # add source_citation

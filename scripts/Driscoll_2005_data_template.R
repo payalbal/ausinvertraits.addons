@@ -31,6 +31,9 @@ template <- read_csv(file.path(getwd(), "data", "Driscoll_2005/data_template.csv
 ## QUESTIONS FOR DON:
 
 ## Do you have size in mm (rather than size classes)?
+## Does trophic_level apply to adults only? For foodtype descriptions, when "adult/larvae" are not mentioned, are the descriptions for adults? Or both larvae and adults?
+## Does usual habitat for adults, "concealed places/nocturnal" mean "bark rock" as in other studies?
+## For microhabitat_activity_larva, does "in dung-provisioned burrows" mean "burrow" or "dung"
 
 ## NOTES:
 
@@ -72,92 +75,82 @@ mallee_mod <- mallee %>%
   dplyr::mutate(functional_role_adult = case_when(
     functional_role_adult == "adult carnivore/larva herbivore" ~ "predator",
     functional_role_adult == "carnivore" ~ "predator",
+    functional_role_adult == "humus/fungus feeder" ~ "detritivore fungivore",
     functional_role_adult == "omnivore(granivore)" ~ "omnivore granivore",
-    functional_role_adult == "saproxylic" ~ "xylophage",
-    food == "dead plant material" ~ "detritivore",
-    food == "dead plant material/roots" ~ "detritivore",
-    Feeding_Group == "?pollinator" ~ "herbivore pollinator",
-    Feeding_Group == "pollinator" ~ "herbivore pollinator",
-    functional_role_adult == "scavenger" ~ "necrophage",
+    foodtype == "dead plant material/roots" ~ "detritivore herbivore",
+    functional_role_adult == "scavenger" ~ "detritivore",
     .default = as.character(functional_role_adult))) %>% # specify adult functional_role trait levels given information in other columns
   dplyr::mutate(functional_role_larva = case_when(
     functional_role_adult == "adult carnivore/larva herbivore" ~ "herbivore",
-    food == "adults flowers/foliage Eucalypts/larvae humus or roots" ~ "detritivore herbivore",
-    food == "adult flowers/larvae humus or root feeders" ~ "detritivore herbivore",
-    food == "adults flowers/larvae rotten wood" ~ "xylophage",
-    food == "adults foliage Eucalypts/larvae humus or roots" ~ "detritivore herbivore",
-    food == "larvae feed on termites" ~ "predator",
-    food == "larvae humus or roots" ~ "detritivore herbivore",
-    food == "larvae in dead wood" ~ "xylophage",
-    food == "larvae plant roots etc" ~ "herbivore",
-    food == "larvae prey on ants" ~ "predator",
-    food == "sap pollen nectar, larvae eat wood" ~ "xylophage",
+    foodtype == "adult flowers/larvae humus or root feeders" ~ "detritivore herbivore",
+    foodtype == "adult foliage Eucalypts/ larvae humus or grass roots" ~ "detritivore herbivore",
+    foodtype == "adults flowers/foliage Eucalypts/larvae humus or roots" ~ "detritivore herbivore",
+    foodtype == "adults flowers/larvae rotten wood" ~ "xylophage",
+    foodtype == "adults foliage Eucalypts/larvae humus or roots" ~ "detritivore herbivore",
+    foodtype == "larvae feed on termites" ~ "predator",
+    foodtype == "larvae humus or root feeder" ~ "detritivore herbivore",
+    foodtype == "larvae humus or roots" ~ "detritivore herbivore",
+    foodtype == "larvae humus/plant root feeder" ~ "detritivore herbivore",
+    foodtype == "larvae plant roots etc" ~ "herbivore",
+    foodtype == "larvae prey on ants" ~ "predator",
+    foodtype == "larvaeplant roots etc" ~ "herbivore",
+    microhabitat_activity_larva == "in dung-provisioned burrows" ~ "coprophage",
+    microhabitat_activity_larva == "in fungi" ~ "fungivore",
     .default = as.character(functional_role_larva))) %>% # specify larva functional_role trait levels given information in other columns
-  dplyr::mutate(usual_habitat_adult = case_when(
-    food == "under bark for WA species, maybe in grass trees and grass tussocks, http://www.archive.org/stream/proceedingsoflin46linn/proceedingsoflin46linn_djvu.txt" ~ "bark vegetation_understorey",
-    usual_habitat_adult == "arboreal/lives under bark" ~ "bark",
-    usual_habitat_adult == "canopy" ~ "arboreal_canopy",
-    usual_habitat_adult == "carcasses/skins/dung" ~ "animal_carcass dung",
-    usual_habitat_adult == "concealed places/nocturnal" ~ "bark rock",
-    usual_habitat_adult == "fossorial" ~ "burrow",
-    usual_habitat_adult == "fossorial/burrowing/nocturnal" ~ "burrow",
-    usual_habitat_adult == "fossorial/nocturnal" ~ "burrow",
-    usual_habitat_adult == "fossorial/nocturnal/sandy soil" ~ "burrow",
-    usual_habitat_adult == "ground" ~ "ground_open",
-    usual_habitat_adult == "hygrophilus" ~ "riparian",
-    usual_habitat_adult == "in dung" ~ "dung",
-    usual_habitat_adult == "litter" ~ "litter_ground",
-    usual_habitat_adult == "nocturnal" ~ "bark rock",
-    usual_habitat_adult == "nomadic/nocturnal/ground" ~ "ground_open",
-    usual_habitat_adult == "subterranean and borrowing/nocturnal" ~ "burrow",
-    usual_habitat_adult == "subterranean and burrowing" ~ "burrow",
-    usual_habitat_adult == "under bark" ~ "bark",
-    usual_habitat_adult == "under bark/logs" ~ "bark under_dead_wood_ground",
-    usual_habitat_adult == "under bark" ~ "bark",
-    food == "adult flowers/larvae humus or root feeders" ~ "vegetation",
-    food == "adults flowers/foliage Eucalypts/larvae humus or roots" ~ "vegetation arboreal_trees",
-    food == "adults flowers/larvae rotten wood" ~ "vegetation",
-    food == "adults foliage Eucalypts/larvae humus or roots" ~ "arboreal_trees",
-    food == "adults flowers/larvae rotten wood" ~ "vegetation",
-    food == "flowers" ~ "vegetation",
-    food == "sap pollen nectar, larvae eat wood" ~ "vegetation",
+  dplyr::mutate(microhabitat_activity_adult = case_when(
+    microhabitat_activity_adult == "active during the day, not nocturnal" ~ "bark rock",
+    microhabitat_activity_adult == "arboreal/foliage Eucalypts" ~ "arboreal_canopy",
+    microhabitat_activity_adult == "arboreal/live under bark" ~ "bark",
+    microhabitat_activity_adult == "arboreal/lives under bark" ~ "bark",
+    microhabitat_activity_adult == "arboreal/under bark" ~ "bark",
+    microhabitat_activity_adult == "carcasses/skins/dung" ~ "animal_carcass",
+    microhabitat_activity_adult == "concealed places/nocturnal" ~ "bark rock",
+    microhabitat_activity_adult == "concealed places/nocturnal/arboreal?" ~ "bark rock arboreal_canopy",
+    microhabitat_activity_adult == "fossorial" ~ "burrow",
+    microhabitat_activity_adult == "fossorial/burrowing/nocturnal" ~ "burrow",
+    microhabitat_activity_adult == "fossorial/nocturnal" ~ "burrow",
+    microhabitat_activity_adult == "fossorial/nocturnal/open scrub/sandy soil" ~ "burrow",
+    microhabitat_activity_adult == "fossorial/nocturnal/sandy soil" ~ "burrow",
+    microhabitat_activity_adult == "fossorial/riparian/mud" ~ "burrow riparian",
+    microhabitat_activity_adult == "ground" ~ "ground_open",
+    microhabitat_activity_adult == "hygrophilus" ~ "riparian",
+    microhabitat_activity_adult == "in burrows in soil" ~ "burrow",
+    microhabitat_activity_adult == "in dung" ~ "dung",
+    microhabitat_activity_adult == "in fungi" ~ "fungus",
+    microhabitat_activity_adult == "litter" ~ "litter_ground",
+    microhabitat_activity_adult == "low woodland/pastures" ~ "ground_open",
+    microhabitat_activity_adult == "nocturnal" ~ "bark rock",
+    microhabitat_activity_adult == "nomadic/nocturnal/ground" ~ "ground_open",
+    microhabitat_activity_adult == "riparian/nocturnal" ~ "riparian",
+    microhabitat_activity_adult == "subterranean and borrowing/nocturnal" ~ "burrow",
+    microhabitat_activity_adult == "subterranean and burrowing" ~ "burrow",
+    microhabitat_activity_adult == "subterranean/burrowing/nocturnal" ~ "burrow",
+    microhabitat_activity_adult == "tall open shrubland" ~ "ground_open",
+    microhabitat_activity_adult == "under bark/logs" ~ "bark under_dead_wood_ground",
+    functional_role_adult == "coprophage" ~ "dung",
     functional_role_adult == "herbivore" ~ "vegetation",
-    functional_role_adult == "herbivore pollinator" ~ "vegetation",
-    functional_role_adult == "xylophage" ~ "in_dead_wood_ground in_standing_wood_dead",
-    .default = as.character(usual_habitat_adult))) %>% # specify adult microhabitat_activity given information in other columns
-  dplyr::mutate(usual_habitat_larvae = case_when(
-    food == "larvae in dead wood" ~ "in_dead_wood_ground in_standing_wood_dead",
-    usual_habitat_larvae == "in burrows in ground" ~ "burrow",
-    usual_habitat_larvae == "in rotten wood" ~ "in_dead_wood_ground in_standing_wood_dead",
-    usual_habitat_larvae == "in soil" ~ "soil",
-    usual_habitat_larvae == "in soil or decaying logs" ~ "soil in_dead_wood_ground in_standing_wood_dead",
-    usual_habitat_larvae == "in termite mounds or logs" ~ "mound_above_ground in_dead_wood_ground in_standing_wood_dead",
-    usual_habitat_larvae == "live with ants ?" ~ "burrow",
-    usual_habitat_larvae == "subterranean" ~ "soil",
-    usual_habitat_larvae == "subterranean ?" ~ "soil",
-    usual_habitat_larvae == "subterranean and burrowing" ~ "soil burrow",
-    usual_habitat_larvae == "subterranean and borrowing" ~ "soil burrow",
-    usual_habitat_larvae == "subterranean" ~ "soil",
-    food == "sap pollen nectar, larvae eat wood" ~ "in_dead_wood_ground in_standing_wood_dead",
-    .default = as.character(usual_habitat_larvae))) %>% # specify larva microhabitat_activity given information in other columns
-  dplyr::mutate(associated_fauna_taxa = NA)  %>% # create column for associated_fauna_taxa
-  dplyr::mutate(fauna_relation_description = NA)  %>% # create column for fauna_relation_description
-  dplyr::mutate(associated_fauna_taxa = case_when(
-    food == "larvae feed on termites" ~ "Termitoidae",
-    food == "larvae prey on ants" ~ "Formicidae",
-    food == "Scaritini" ~ "Scaritini",
-    .default = as.character(associated_fauna_taxa))) %>% # add associated fauna taxa with information from "food" column
-  dplyr::mutate(fauna_relation_description = case_when(
-    food == "larvae feed on termites" ~ "The invertebrate is a predator of the associated fauna",
-    food == "larvae prey on ants" ~ "The invertebrate is a predator of the associated fauna",
-    food == "Scaritini" ~ "The invertebrate is a predator of the associated fauna",
-    .default = as.character(fauna_relation_description))) %>% # add associated fauna taxa with information from "food" column
-  dplyr::rename(measurement_remarks = food) %>% # rename column that has measurement remarks
+    .default = as.character(microhabitat_activity_adult))) %>% # specify adult microhabitat_activity given information in other columns
+  dplyr::mutate(microhabitat_activity_larva = case_when(
+    microhabitat_activity_larva == "in burrows in ground" ~ "burrow",
+    microhabitat_activity_larva == "in burrows in soil" ~ "burrow",
+    microhabitat_activity_larva == "in dung-provisioned burrows" ~ "burrow",
+    microhabitat_activity_larva == "in fungi" ~ "fungus",
+    microhabitat_activity_larva == "in rotten wood" ~ "in_dead_wood_ground in_standing_wood_dead",
+    microhabitat_activity_larva == "in soil" ~ "soil",
+    microhabitat_activity_larva == "in soil or decaying logs" ~ "soil in_dead_wood_ground",
+    microhabitat_activity_larva == "in termite mounds or logs" ~ "mound_above_ground in_dead_wood_ground",
+    microhabitat_activity_larva == "live with ants" ~ "burrow",
+    microhabitat_activity_larva == "live with ants ?" ~ "burrow",
+    microhabitat_activity_larva == "subterranean" ~ "soil",
+    microhabitat_activity_larva == "subterranean ?" ~ "soil",
+    microhabitat_activity_larva == "subterranean and burrowing" ~ "burrow",
+    microhabitat_activity_larva == "subterranean/burrowing" ~ "burrow",
+    .default = as.character(microhabitat_activity_larva))) %>% # specify larva microhabitat_activity given information in other columns
+  dplyr::rename(measurement_remarks = foodtype) %>% # rename column that has measurement remarks
   dplyr::select(taxon_name, taxon_name_original, taxname_source, taxon_family, measurement_remarks,
-                associated_fauna_taxa, fauna_relation_description, body_length, wing_development, functional_role_larva,
-                functional_role_adult, usual_habitat_adult, usual_habitat_larvae) %>% # keep and reorder only columns needed
-  dplyr::mutate(body_length = as.character(body_length))  %>% # set numeric column to character so that all trait values can be combined into one column
-  tidyr::pivot_longer(cols = body_length:usual_habitat_larvae,
+                wing_development, wing_development_female, wing_development_male, functional_role_larva, functional_role_adult, 
+                functional_role_larva, microhabitat_activity_adult, microhabitat_activity_larva) %>% # keep and reorder only columns needed
+  tidyr::pivot_longer(cols = wing_development:microhabitat_activity_larva,
                       names_to = "trait_name",
                       values_to = "value") %>%  # convert to long format so that all trait names and values are in two columns
   tidyr::drop_na(value) # remove rows with NA in the value column
@@ -167,90 +160,117 @@ mallee_mod <- mallee %>%
 #### Merge the dataset with the IA data template, & occupy missing cells ####
 ##-------------------------------------------------------------------------##
 
-d1_template <- template %>%
-  dplyr::full_join(d1_mod) %>%  # merge with empty data_template
+mallee_template <- template %>%
+  dplyr::full_join(mallee_mod) %>%  # merge with empty data_template
   dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from data template)
   dplyr::mutate(entity_type_tax = "species") %>%  # add entity_type_tax category
   dplyr::mutate(
     life_stage_generic = case_when(
-      trait_name == "body_length" ~ "adult",
       trait_name == "functional_role_adult" ~ "adult",
       trait_name == "functional_role_larva" ~ "juvenile",
-      trait_name == "usual_habitat_adult"~ "adult",
-      trait_name == "usual_habitat_larvae"~ "juvenile",
-      trait_name == "wing_development" ~ "adult")) %>%  # add life stage for the traits
+      trait_name == "microhabitat_activity_adult"~ "adult",
+      trait_name == "microhabitat_activity_larva"~ "juvenile",
+      trait_name == "wing_development" ~ "adult",
+      trait_name == "wing_development_female" ~ "adult",
+      trait_name == "wing_development_male" ~ "adult")) %>%  # add life stage for the traits
   dplyr::mutate(
     life_stage_taxon_specific = case_when(
       trait_name == "functional_role_larva" ~ "larva",
-      trait_name == "usual_habitat_larvae"~ "larva",
+      trait_name == "microhabitat_activity_larva"~ "larva",
       .default = as.character(life_stage_taxon_specific))) %>%   # add taxon specific life stage for the relevant traits
   dplyr::mutate(
+    sex = case_when(
+      trait_name == "wing_development_female" ~ "female",
+      trait_name == "wing_development_male"~ "male",
+      .default = as.character(sex))) %>%   # add sex for the wing_development
+    dplyr::mutate(
     trait_name = case_when(
       trait_name == "functional_role_adult" ~ "functional_role",
       trait_name == "functional_role_larva" ~ "functional_role",
-      trait_name == "usual_habitat_adult"~ "microhabitat_activity",
-      trait_name == "usual_habitat_larvae"~ "microhabitat_activity",
+      trait_name == "microhabitat_activity_adult"~ "microhabitat_activity",
+      trait_name == "microhabitat_activity_larva"~ "microhabitat_activity",
+      trait_name == "wing_development_female"~ "wing_development",
+      trait_name == "wing_development_male"~ "wing_development",
       .default = as.character(trait_name))) %>% # change trait_names to match IA traits now that life stage has been specified
   dplyr::mutate(entity_type = "metapopulation") %>%  # add entity_type category
-  dplyr::mutate(value_type = case_when(trait_name == "body_length" ~ "mean", .default = as.character(value_type))) %>%  # add value_type for the one numerical trait
-  dplyr::mutate(unit_numeric = case_when(trait_name == "body_length" ~ "mm", .default = as.character(unit_numeric))) %>%  # add unit for the one numerical trait
   dplyr::mutate(
     measurement_remarks = case_when(
-      measurement_remarks == "under bark for WA species, maybe in grass trees and grass tussocks, http://www.archive.org/stream/proceedingsoflin46linn/proceedingsoflin46linn_djvu.txt" & trait_name == "microhabitat_activity" ~ "under bark for WA species, maybe in grass trees and grass tussocks",
-      trait_name == "body_length" ~ NA,
       trait_name == "microhabitat_activity" ~ NA,
       trait_name == "wing_development" ~ NA,
-      measurement_remarks == "dead animals" ~ NA,
-      measurement_remarks == "dead plant material" ~ NA,
-      measurement_remarks == "dung" ~ NA,
-      measurement_remarks == "dead plant material/roots" ~ "feed on dead plant material and plant roots",
-      measurement_remarks == "dead wood" ~ "feed on dead wood",
-      measurement_remarks == "flowers" ~ "feed on flowers",
-      measurement_remarks == "nectar/pollen" ~ "feed on nectar and pollen",
-      measurement_remarks == "plant material/insect larvae" ~ "feed on plant material and insect larvae",
-      measurement_remarks == "Scaritini" ~ "prey on Scaritini",
       measurement_remarks == "adult flowers/larvae humus or root feeders" & life_stage_generic == "adult" ~ "feed on flowers",
-      measurement_remarks == "adult flowers/larvae humus or root feeders" & life_stage_generic == "juvenile" ~ "feed on humus and plant roots",
-      measurement_remarks == "adults flowers/foliage Eucalypts/larvae humus or roots" & life_stage_generic == "adult" ~ "feed on flowers and Eucalyptus foliage",
-      measurement_remarks == "adults flowers/foliage Eucalypts/larvae humus or roots" & life_stage_generic == "juvenile" ~ "feed on humus and plant roots",
+      measurement_remarks == "adult flowers/larvae humus or root feeders" & life_stage_generic == "juvenile" ~ "feed on humus and roots",
+      measurement_remarks == "adult foliage Eucalypts/ larvae humus or grass roots" & life_stage_generic == "adult" ~ "feed on Eucalyptus foliage",
+      measurement_remarks == "adult foliage Eucalypts/ larvae humus or grass roots" & life_stage_generic == "juvenile" ~ "feed on humus and grass roots",
+      measurement_remarks == "adults flowers/foliage Eucalypts/larvae humus or roots" & life_stage_generic == "adult" ~ "feed on Eucalyptus foliage and flowers",
+      measurement_remarks == "adults flowers/foliage Eucalypts/larvae humus or roots" & life_stage_generic == "juvenile" ~ "feed on humus and roots",
       measurement_remarks == "adults flowers/larvae rotten wood" & life_stage_generic == "adult" ~ "feed on flowers",
       measurement_remarks == "adults flowers/larvae rotten wood" & life_stage_generic == "juvenile" ~ "feed on rotten wood",
       measurement_remarks == "adults foliage Eucalypts/larvae humus or roots" & life_stage_generic == "adult" ~ "feed on Eucalyptus foliage",
-      measurement_remarks == "adults foliage Eucalypts/larvae humus or roots" & life_stage_generic == "juvenile" ~ "feed on humus and plant roots",
+      measurement_remarks == "adults foliage Eucalypts/larvae humus or roots" & life_stage_generic == "juvenile" ~ "feed on humus and roots",
+      measurement_remarks == "cow/horse/kangaroo dung" ~ "feed on cow/horse/kangaroo dung",
+      measurement_remarks == "dead animals" ~ NA,
+      measurement_remarks == "dead plant material" ~ NA,
+      measurement_remarks == "dead plant material/roots" & life_stage_generic == "juvenile" ~ NA,
+      measurement_remarks == "dead plant material/roots" & life_stage_generic == "adult" ~ "feed on plant material and roots",
+      measurement_remarks == "dung" ~ NA,
+      measurement_remarks == "fungal fruiting bodies" ~ "feed on fungal fruiting bodies",
+      measurement_remarks == "humus/fungus" & life_stage_generic == "juvenile" ~ NA,
+      measurement_remarks == "humus/fungus" & life_stage_generic == "adult" ~ "feed on humus and fungus",
       measurement_remarks == "larvae feed on termites" & life_stage_generic == "juvenile" ~ "feed on termites",
       measurement_remarks == "larvae feed on termites" & life_stage_generic == "adult" ~ NA,
-      measurement_remarks == "larvae humus or roots" & life_stage_generic == "juvenile" ~ "feed on humus or plant roots",
+      measurement_remarks == "larvae humus or root feeder" & life_stage_generic == "juvenile" ~ "feed on humus and roots",
+      measurement_remarks == "larvae humus or root feeder" & life_stage_generic == "adult" ~ NA,
+      measurement_remarks == "larvae humus or roots" & life_stage_generic == "juvenile" ~ "feed on humus and roots",
       measurement_remarks == "larvae humus or roots" & life_stage_generic == "adult" ~ NA,
-      measurement_remarks == "larvae plant roots etc" & life_stage_generic == "juvenile" ~ "feed on plant roots",
+      measurement_remarks == "larvae humus/plant root feeder" & life_stage_generic == "juvenile" ~ "feed on humus and roots",
+      measurement_remarks == "larvae humus/plant root feeder" & life_stage_generic == "adult" ~ NA,
+      measurement_remarks == "larvae plant roots etc" & life_stage_generic == "juvenile" ~ "feed on roots",
       measurement_remarks == "larvae plant roots etc" & life_stage_generic == "adult" ~ NA,
-      measurement_remarks == "larvae prey on ants" & life_stage_generic == "juvenile" ~ "prey on ants",
+      measurement_remarks == "larvae prey on ants" & life_stage_generic == "juvenile" ~ "feed on ants",
       measurement_remarks == "larvae prey on ants" & life_stage_generic == "adult" ~ NA,
-      measurement_remarks == "sap pollen nectar, larvae eat wood" & life_stage_generic == "juvenile" ~ "feed on wood",
-      measurement_remarks == "sap pollen nectar, larvae eat wood" & life_stage_generic == "adult" ~ "feed on sap, pollen, and nectar",
-      measurement_remarks == "under bark for WA species, maybe in grass trees and grass tussocks, http://www.archive.org/stream/proceedingsoflin46linn/proceedingsoflin46linn_djvu.txt"~ NA,
+      measurement_remarks == "larvaeplant roots etc" & life_stage_generic == "juvenile" ~ "feed on roots",
+      measurement_remarks == "larvaeplant roots etc" & life_stage_generic == "adult" ~ NA,
+      measurement_remarks == "plant material/insect larvae" & life_stage_generic == "juvenile" ~ NA,
+      measurement_remarks == "plant material/insect larvae" & life_stage_generic == "adult" ~ "feed on plant material and insect larvae",
+      measurement_remarks == "small frogs?" & life_stage_generic == "juvenile" ~ NA,
+      measurement_remarks == "small frogs?" & life_stage_generic == "adult" ~ "feed on small frogs",
       .default = as.character(measurement_remarks))) %>%  # specify measurement_remarks for functional_role and microhabitat_activity
-  dplyr::mutate(
-    methods = case_when(
-      trait_name == "body_length" ~ "We sampled beetles from 23 transect and seven grid sites across four conservation reserves. Transect sites consisted of 11 pairs of 20 litre pitfall traps, each pair connected by a 20 m drift fence. Trap pairs were spaced along the 400 m transect at 40 m intervals. Grid sites included a 5 × 10 arrangement of individual 20 litre pitfall traps, each with a 10 m drift fence, with traps spaced at 25 m intervals. The grids and transects were placed in 15 areas that were burnt by different fires in five different locations. We surveyed beetles over four consecutive summers from December 2004-February 2005 (referred to as 2004) to December 2007-February 2008 (referred to as 2007). In each summer, we conducted three six-night sampling periods approximately monthly, except in the second summer when we sampled in two periods (December and February). Sites were sampled for an average of 15.4 (SD = 4.0) nights per year and we accommodated unequal sampling in the analyses. Data from February 2006 at Pinkawillinie were excluded from year 2 due to a fire in December 2005 which changed the time since fire during the sampling year. Post-fire data from Hincks in December 2006 were excluded because inflated capture rates immediately after fire give a misleading impression of high abundance. Beetles were identified to species or morphospecies level using a photographic guide to common beetles that we prepared based on initial trapping, alongside a field-box of pinned specimens. Species that were unambiguously identified were marked with a paint spot on the ventral surface and released 5-10 m from the point of capture. Recaptured animals were excluded from the data. Individuals that could not be identified in the field were assigned a morphospecies name, and were preserved for later identification at the South Australian Museum (Eric Matthews) or CSIRO Entomology (Tom Weir, Rolf Oberprieler). Beetles < 6mm long could not be reliably collected from 20 litre pitfall traps in a time-efficient manner and were excluded from analysis, and we excluded species with fewer than five records as they were inadequate for analysis. Beetle sizes were based on measurement of one to five pinned specimens from our study.",
-      trait_name == "functional_role" ~ "We sampled beetles from 23 transect and seven grid sites across four conservation reserves. Transect sites consisted of 11 pairs of 20 litre pitfall traps, each pair connected by a 20 m drift fence. Trap pairs were spaced along the 400 m transect at 40 m intervals. Grid sites included a 5 × 10 arrangement of individual 20 litre pitfall traps, each with a 10 m drift fence, with traps spaced at 25 m intervals. The grids and transects were placed in 15 areas that were burnt by different fires in five different locations. We surveyed beetles over four consecutive summers from December 2004-February 2005 (referred to as 2004) to December 2007-February 2008 (referred to as 2007). In each summer, we conducted three six-night sampling periods approximately monthly, except in the second summer when we sampled in two periods (December and February). Sites were sampled for an average of 15.4 (SD = 4.0) nights per year and we accommodated unequal sampling in the analyses. Data from February 2006 at Pinkawillinie were excluded from year 2 due to a fire in December 2005 which changed the time since fire during the sampling year. Post-fire data from Hincks in December 2006 were excluded because inflated capture rates immediately after fire give a misleading impression of high abundance. Beetles were identified to species or morphospecies level using a photographic guide to common beetles that we prepared based on initial trapping, alongside a field-box of pinned specimens. Species that were unambiguously identified were marked with a paint spot on the ventral surface and released 5-10 m from the point of capture. Recaptured animals were excluded from the data. Individuals that could not be identified in the field were assigned a morphospecies name, and were preserved for later identification at the South Australian Museum (Eric Matthews) or CSIRO Entomology (Tom Weir, Rolf Oberprieler). Beetles < 6mm long could not be reliably collected from 20 litre pitfall traps in a time-efficient manner and were excluded from analysis, and we excluded species with fewer than five records as they were inadequate for analysis. Trophic group was allocated based on expert knowledge (Tom Weir, CSIRO) of the family, or, where there were subfamily differences, the tribe level of classification was used.",
-      trait_name == "microhabitat_activity" ~ "We sampled beetles from 23 transect and seven grid sites across four conservation reserves. Transect sites consisted of 11 pairs of 20 litre pitfall traps, each pair connected by a 20 m drift fence. Trap pairs were spaced along the 400 m transect at 40 m intervals. Grid sites included a 5 × 10 arrangement of individual 20 litre pitfall traps, each with a 10 m drift fence, with traps spaced at 25 m intervals. The grids and transects were placed in 15 areas that were burnt by different fires in five different locations. We surveyed beetles over four consecutive summers from December 2004-February 2005 (referred to as 2004) to December 2007-February 2008 (referred to as 2007). In each summer, we conducted three six-night sampling periods approximately monthly, except in the second summer when we sampled in two periods (December and February). Sites were sampled for an average of 15.4 (SD = 4.0) nights per year and we accommodated unequal sampling in the analyses. Data from February 2006 at Pinkawillinie were excluded from year 2 due to a fire in December 2005 which changed the time since fire during the sampling year. Post-fire data from Hincks in December 2006 were excluded because inflated capture rates immediately after fire give a misleading impression of high abundance. Beetles were identified to species or morphospecies level using a photographic guide to common beetles that we prepared based on initial trapping, alongside a field-box of pinned specimens. Species that were unambiguously identified were marked with a paint spot on the ventral surface and released 5-10 m from the point of capture. Recaptured animals were excluded from the data. Individuals that could not be identified in the field were assigned a morphospecies name, and were preserved for later identification at the South Australian Museum (Eric Matthews) or CSIRO Entomology (Tom Weir, Rolf Oberprieler). Beetles < 6mm long could not be reliably collected from 20 litre pitfall traps in a time-efficient manner and were excluded from analysis, and we excluded species with fewer than five records as they were inadequate for analysis. Microhabitat position was based on Tom Weir’s (CSIRO) expert opinion based on a lifetime studying beetles.",
-      trait_name == "wing_development" ~ "We sampled beetles from 23 transect and seven grid sites across four conservation reserves. Transect sites consisted of 11 pairs of 20 litre pitfall traps, each pair connected by a 20 m drift fence. Trap pairs were spaced along the 400 m transect at 40 m intervals. Grid sites included a 5 × 10 arrangement of individual 20 litre pitfall traps, each with a 10 m drift fence, with traps spaced at 25 m intervals. The grids and transects were placed in 15 areas that were burnt by different fires in five different locations. We surveyed beetles over four consecutive summers from December 2004-February 2005 (referred to as 2004) to December 2007-February 2008 (referred to as 2007). In each summer, we conducted three six-night sampling periods approximately monthly, except in the second summer when we sampled in two periods (December and February). Sites were sampled for an average of 15.4 (SD = 4.0) nights per year and we accommodated unequal sampling in the analyses. Data from February 2006 at Pinkawillinie were excluded from year 2 due to a fire in December 2005 which changed the time since fire during the sampling year. Post-fire data from Hincks in December 2006 were excluded because inflated capture rates immediately after fire give a misleading impression of high abundance. Beetles were identified to species or morphospecies level using a photographic guide to common beetles that we prepared based on initial trapping, alongside a field-box of pinned specimens. Species that were unambiguously identified were marked with a paint spot on the ventral surface and released 5-10 m from the point of capture. Recaptured animals were excluded from the data. Individuals that could not be identified in the field were assigned a morphospecies name, and were preserved for later identification at the South Australian Museum (Eric Matthews) or CSIRO Entomology (Tom Weir, Rolf Oberprieler). Beetles < 6mm long could not be reliably collected from 20 litre pitfall traps in a time-efficient manner and were excluded from analysis, and we excluded species with fewer than five records as they were inadequate for analysis.",
-      )) %>% # add methods for the traits
-  dplyr::mutate(site_name = "Eyre Peninsula, South Australia") %>%  # add site name
-  dplyr::mutate(site_date_of_visit = "2004-12/2008-02") %>%  # add study date
-  dplyr::mutate(site_description = "The study region consists of mallee woodland dominated by multistemmed Eucalyptus species and an understorey of shrubs and spinifex (Triodia irritans). Parabolic and longitudinal sand dunes overlie a limestone-calcrete base across a relatively flat landscape. Annual rainfall is within the range 300-400 mm.") %>%  # add site description
-  dplyr::mutate(site_fire_impact = "Fire-prone woodlands. Sites varied in time since fire, from 39 years ago to 0 years (sites burned during the study). The grids and transects were placed in 15 areas that were burnt by different fires in five different locations. Six transects were burnt during the study and therefore had two different times since fire in the data. Five of the grids straddled the edge of a burn for part or all of the study.") %>%  # add fire impact description
+  dplyr::mutate(methods = "We sampled 10 sites in each of the three locations. We sampled 
+                each site with 16 pitfall traps (20 L, 28 cm in diameter). Each trap had 
+                a separate 10 m long drift fence positioned across its centre. We spaced 
+                traps at 25 m intervals and opened them for five consecutive 24 hour 
+                periods in October, November, and December 1999, and in January 2000. 
+                These months include late spring and summer, when animals are expected to 
+                be most active. We emptied traps daily.") %>%  # add methods for all traits
+  dplyr::mutate(site_name = "Pulletop, Gubbata, and Taleeban, NSW") %>%  # add site name
+  dplyr::mutate(site_date_of_visit = "1999-10/2000-01") %>%  # add study date
+  dplyr::mutate(site_description = "Pulletop, Gubbata, and Taleeban in south-central New 
+                South Wales. Each location was 100 km2 in size and in mallee habitat. We 
+                recognized six landscape elements: reserve, strip, grazed strip, road, 
+                woodland, and paddock. The four landscape elements with mallee (reserve, 
+                strip, grazed strip, and road) were stratified by the presence or absence 
+                of spinifex (Triodia scariosa), a spiny-leaved clumping grass, in the 
+                understory. Spinifex was absent from sites that were slightly lower 
+                in the landscape, where the soil had higher clay content.") %>%  # add site description
   dplyr::mutate(associated_plant_taxa = case_when(
-    measurement_remarks == "feed on flowers or Eucalyptus foliage" ~ "Eucalyptus",
     measurement_remarks == "feed on Eucalyptus foliage" ~ "Eucalyptus",
+    measurement_remarks == "feed on Eucalyptus foliage or flowers" ~ "Eucalyptus",
     .default = as.character(associated_plant_taxa))) %>% # add associated plant taxa from information in measurement_remarks
   dplyr::mutate(plant_relation_description = case_when(
-    measurement_remarks == "feed on flowers or Eucalyptus foliage" ~ "The invertebrate is a folivore (herbivore) of the associated plants",
     measurement_remarks == "feed on Eucalyptus foliage" ~ "The invertebrate is a folivore (herbivore) of the associated plants",
+    measurement_remarks == "feed on Eucalyptus foliage or flowers" ~ "The invertebrate is a folivore (herbivore) of the associated plants",
     .default = as.character(plant_relation_description))) %>% # add associated plant relationship description from information in measurement_remarks
-  dplyr::mutate(source_key = "Driscoll_2020") %>%  # add source_key
-  dplyr::mutate(source_doi = "doi: 10.1111/een.12798") %>%  # add source_doi
-  dplyr::mutate(source_citation = "Driscoll, D. A., Smith, A. L., Blight, S., & Sellar, I. (2020). Interactions among body size, trophic level, and dispersal traits predict beetle detectability and occurrence responses to fire. Ecological Entomology, 45(2), 300-310.") %>%  # add source_citation
+  dplyr::mutate(associated_fauna_taxa = case_when(
+    measurement_remarks == "feed on termites" ~ "Termitoidae",
+    measurement_remarks == "feed on ants" ~ "Formicidae",
+    .default = as.character(associated_fauna_taxa))) %>% # add associated fauna taxa with information from "food" column
+  dplyr::mutate(fauna_relation_description = case_when(
+    measurement_remarks == "feed on termites" ~ "The invertebrate is a predator of the associated fauna",
+    measurement_remarks == "feed on ants" ~ "The invertebrate is a predator of the associated fauna",
+    .default = as.character(fauna_relation_description))) %>% # add associated fauna taxa with information from "food" column
+  dplyr::mutate(source_key = "Driscoll_2005") %>%  # add source_key
+  dplyr::mutate(source_doi = "doi: 10.1111/j.1523-1739.2005.00586.x") %>%  # add source_doi
+  dplyr::mutate(source_citation = "Driscoll, D. A., & Weir, T. O. M. (2005). Beetle responses to habitat fragmentation depend on ecological traits, habitat condition, and remnant size. Conservation Biology, 19(1), 182-194.") %>%  # add source_citation
   dplyr::mutate(source_type = "article") %>% # add source_type
   readr::write_csv(file.path(out_dir, "data.csv")) # save final dataset
 
