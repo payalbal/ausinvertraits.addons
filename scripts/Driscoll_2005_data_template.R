@@ -27,6 +27,9 @@ mallee <- read_csv(file.path(getwd(), "data", "Driscoll_2005/Driscoll_2005_Beetl
 ## Load the data template
 template <- read_csv(file.path(getwd(), "data", "Driscoll_2005/data_template.csv"), show_col_types = FALSE) 
 
+## Load the data extracted from reading the Driscoll_2005 paper
+mallee_paper <- read_csv(file.path(getwd(), "data", "Driscoll_2005/Driscoll_2005.csv"), show_col_types = FALSE) 
+
 
 ## QUESTIONS FOR DON:
 
@@ -272,5 +275,7 @@ mallee_template <- template %>%
   dplyr::mutate(source_doi = "doi: 10.1111/j.1523-1739.2005.00586.x") %>%  # add source_doi
   dplyr::mutate(source_citation = "Driscoll, D. A., & Weir, T. O. M. (2005). Beetle responses to habitat fragmentation depend on ecological traits, habitat condition, and remnant size. Conservation Biology, 19(1), 182-194.") %>%  # add source_citation
   dplyr::mutate(source_type = "article") %>% # add source_type
+  dplyr::bind_rows(mallee_paper) %>% # add data extracted from reading paper
+  dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from mallee_paper)
   readr::write_csv(file.path(out_dir, "data.csv")) # save final dataset
 
