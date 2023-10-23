@@ -126,6 +126,7 @@ mallee_mod <- mallee %>%
     microhabitat_activity_adult == "riparian/nocturnal" ~ "riparian",
     microhabitat_activity_adult == "subterranean and borrowing/nocturnal" ~ "burrow",
     microhabitat_activity_adult == "subterranean and burrowing" ~ "burrow",
+    microhabitat_activity_adult == "subterranean and borrowing" ~ "burrow",
     microhabitat_activity_adult == "subterranean/burrowing/nocturnal" ~ "burrow",
     microhabitat_activity_adult == "tall open shrubland" ~ "ground_open",
     microhabitat_activity_adult == "under bark/logs" ~ "bark under_dead_wood_ground",
@@ -146,6 +147,7 @@ mallee_mod <- mallee %>%
     microhabitat_activity_larva == "subterranean" ~ "soil",
     microhabitat_activity_larva == "subterranean ?" ~ "soil",
     microhabitat_activity_larva == "subterranean and burrowing" ~ "burrow",
+    microhabitat_activity_larva == "subterranean and borrowing" ~ "burrow",
     microhabitat_activity_larva == "subterranean/burrowing" ~ "burrow",
     .default = as.character(microhabitat_activity_larva))) %>% # specify larva microhabitat_activity given information in other columns
   dplyr::rename(measurement_remarks = foodtype) %>% # rename column that has measurement remarks
