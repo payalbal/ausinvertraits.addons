@@ -28,12 +28,6 @@ template <- read_csv(file.path(getwd(), "data", "Driscoll_2008/data_template.csv
 ## Load the data extracted from reading the Driscoll_2008 paper
 dtas_paper <- read_csv(file.path(getwd(), "data", "Driscoll_2008/Driscoll_2008.csv"), show_col_types = FALSE) 
 
-## QUESTIONS FOR DON:
-
-## Do feeding guilds refer to adult life stage?
-## scav = necrophage?
-
-
 
 ##-------------------------------------------------------------##
 #### Modify the dataset in preparation for the data template ####
@@ -49,7 +43,7 @@ dtas_mod <- dtas %>%
     wing_development = case_when(
       wing_development == "y" ~ "winged",
       wing_development == "n" ~ "wingless",
-      .default = as.character(wing_development))) %>% # modify trait categories to match IA
+      .default = as.character(wing_development))) %>% # modify wing_development categories to match IA trait
   dplyr::mutate(
     functional_role = case_when(
       functional_role == "carn" ~ "predator",
@@ -57,7 +51,7 @@ dtas_mod <- dtas %>%
       functional_role == "fung" ~ "fungivore",
       functional_role == "fung?" ~ "fungivore",
       functional_role == "herb" ~ "herbivore",
-      functional_role == "scav" ~ "necrophage")) %>% # modify trait categories to match IA
+      functional_role == "scav" ~ "necrophage")) %>% # modify functional_role categories to match IA trait
   dplyr::mutate(microhabitat_activity = NA) %>% # create new column for microhabitat_activity
   dplyr::mutate(
     microhabitat_activity = case_when(
@@ -86,7 +80,7 @@ dtas_template <- template %>%
   dplyr::mutate(entity_type = "metapopulation") %>%  # add entity_type category for all traits
   dplyr::mutate(
     value_type = case_when(
-      trait_name == "body_length" ~ "mean", 
+      trait_name == "body_length" ~ "median", 
       .default = as.character(value_type))) %>%  # add value_type for the one numerical trait
   dplyr::mutate(
     unit_numeric = case_when(
@@ -97,7 +91,7 @@ dtas_template <- template %>%
       within 100 m of continuous forest, (3) Mid: small patches of scrub 100 - 420 m from continuous forest; (4) Distant: small 
       patches of scrub 420 - 780 m from continuous forest; (5) Dense: small patches of scrub with several other small patches within 
       50 m; (6) Stream: linear scrub along streams surrounded by buttongrass; (7) Matrix: buttongrass sampled 20 - 100 m from nearest 
-      scrub patch (Fig. 1). Each landscape element was replicated three times at each location, with the exceptions of North (three 
+      scrub patch. Each landscape element was replicated three times at each location, with the exceptions of North (three 
       Distant, four Mid), Anne (five Distant, two Mid), Scotts (six Distant, two Mid). The cut-off distance between Mid and Distant 
       sites was selected to ensure at least two sites in each category at each location. A total of 58 bush sites and nine buttongrass 
       sites were sampled. All discrete patches (Close, Mid, and Distant landscape elements) were small (mean size 689 m2, range 
@@ -109,12 +103,27 @@ dtas_template <- template %>%
       was included.") %>%  # add methods for all traits
   dplyr::mutate(
     methods = case_when(
+      trait_name == "body_length" ~ "At each of three locations (North, Anne, Scotts), habitat patches from seven landscape elements 
+      were sampled, including (1) Connected: Eucalyptus scrub at the edge of continuous forest; (2) Close: small patches of scrub 
+      within 100 m of continuous forest, (3) Mid: small patches of scrub 100 - 420 m from continuous forest; (4) Distant: small 
+      patches of scrub 420 - 780 m from continuous forest; (5) Dense: small patches of scrub with several other small patches within 
+      50 m; (6) Stream: linear scrub along streams surrounded by buttongrass; (7) Matrix: buttongrass sampled 20 - 100 m from nearest 
+      scrub patch. Each landscape element was replicated three times at each location, with the exceptions of North (three 
+      Distant, four Mid), Anne (five Distant, two Mid), Scotts (six Distant, two Mid). The cut-off distance between Mid and Distant 
+      sites was selected to ensure at least two sites in each category at each location. A total of 58 bush sites and nine buttongrass 
+      sites were sampled. All discrete patches (Close, Mid, and Distant landscape elements) were small (mean size 689 m2, range 
+      245 - 1211 m2). Each site was sampled using 16 pairs of 225 ml pit-fall traps (32 cups per site), spaced at 5 m intervals and 
+      with 50 ml of saturated salt solution as a preservative. Plastic lids held 5 cm above the ground prevented traps from filling 
+      with rain. Traps were set in December 2002 and left open for eight consecutive weeks over summer, when beetle activity is 
+      highest. The collections were sorted to morphospecies then identified as far as possible. Most Staphylinidae were excluded from 
+      the data set because they are difficult to distinguish morphologically, although one common, distinctive taxon Baeocera sp. A 
+      was included. A few beetles were measured of each taxon and the median used.",
       trait_name == "wing_development" ~ "At each of three locations (North, Anne, Scotts), habitat patches from seven landscape elements 
       were sampled, including (1) Connected: Eucalyptus scrub at the edge of continuous forest; (2) Close: small patches of scrub 
       within 100 m of continuous forest, (3) Mid: small patches of scrub 100 - 420 m from continuous forest; (4) Distant: small 
       patches of scrub 420 - 780 m from continuous forest; (5) Dense: small patches of scrub with several other small patches within 
       50 m; (6) Stream: linear scrub along streams surrounded by buttongrass; (7) Matrix: buttongrass sampled 20 - 100 m from nearest 
-      scrub patch (Fig. 1). Each landscape element was replicated three times at each location, with the exceptions of North (three 
+      scrub patch. Each landscape element was replicated three times at each location, with the exceptions of North (three 
       Distant, four Mid), Anne (five Distant, two Mid), Scotts (six Distant, two Mid). The cut-off distance between Mid and Distant 
       sites was selected to ensure at least two sites in each category at each location. A total of 58 bush sites and nine buttongrass 
       sites were sampled. All discrete patches (Close, Mid, and Distant landscape elements) were small (mean size 689 m2, range 
@@ -124,7 +133,7 @@ dtas_template <- template %>%
       highest. The collections were sorted to morphospecies then identified as far as possible. Most Staphylinidae were excluded from 
       the data set because they are difficult to distinguish morphologically, although one common, distinctive taxon Baeocera sp. A 
       was included. Beetle taxa were scored for presence or absence of functional wings.",
-      .default = as.character(methods))) %>%  # add specific methods for wing_development
+      .default = as.character(methods))) %>%  # add specific methods for body_length and wing_development
   dplyr::mutate(site_name = "near Lake Pedder, southwest TAS") %>%  # add site name
   dplyr::mutate(site_date_of_visit = "2002-12/2003-01") %>%  # add study date
   dplyr::mutate(site_description = "Sedgelands dominated by buttongrass Gymnoschoenus sphaerocephalus and heaths (Epacridaceae) with
