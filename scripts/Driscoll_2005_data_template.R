@@ -31,14 +31,6 @@ template <- read_csv(file.path(getwd(), "data", "Driscoll_2005/data_template.csv
 mallee_paper <- read_csv(file.path(getwd(), "data", "Driscoll_2005/Driscoll_2005.csv"), show_col_types = FALSE) 
 
 
-## QUESTIONS FOR DON:
-
-## Do you have size in mm (rather than size classes)?
-## Does trophic_level apply to adults only? For foodtype descriptions, when "adult/larvae" are not mentioned, are the descriptions for adults? Or both larvae and adults?
-## Does usual habitat for adults, "concealed places/nocturnal" mean "bark rock" as in other studies?
-
-## NOTES:
-
 ##-------------------------------------------------------------##
 #### Modify the dataset in preparation for the data template ####
 ##-------------------------------------------------------------##
@@ -56,8 +48,8 @@ mallee_mod <- mallee %>%
     microhabitat_activity_adult = usual_habitat_adult,
     microhabitat_activity_larva = usual_habitat_larvae) %>% # change column names to match data_template column names
   dplyr::mutate(functional_role_larva = NA)  %>% # create new functional_role columns for larva life stage
-  dplyr::mutate(wing_development_male = NA)  %>% # create new functional_role columns for larva life stage
-  dplyr::mutate(wing_development_female = NA)  %>% # create new functional_role columns for larva life stage
+  dplyr::mutate(wing_development_male = NA)  %>% # create new wing_development columns for males
+  dplyr::mutate(wing_development_female = NA)  %>% # create new wing_development columns for females
   dplyr::select(taxon_name, taxon_name_original, taxname_source, taxon_family, wing_development,
                 wing_development_male, wing_development_female, functional_role_adult, functional_role_larva, adult_position,
                 foodtype, microhabitat_activity_adult, microhabitat_activity_larva) %>% # keep only needed columns for now
@@ -89,6 +81,14 @@ mallee_mod <- mallee %>%
     foodtype == "adults flowers/foliage Eucalypts/larvae humus or roots" ~ "detritivore herbivore",
     foodtype == "adults flowers/larvae rotten wood" ~ "xylophage",
     foodtype == "adults foliage Eucalypts/larvae humus or roots" ~ "detritivore herbivore",
+    foodtype == "caterpillar feeder" ~ "predator",
+    foodtype == "cow/horse dung" ~ "coprophage",
+    foodtype == "cow/horse/kangaroo dung" ~ "coprophage",
+    foodtype == "dead animals" ~ "necrophage",
+    foodtype == "dead plant material" ~ "detritivore",
+    foodtype == "dead plant material/roots" ~ "detritivore herbivore",
+    foodtype == "dung" ~ "coprophage",
+    foodtype == "humus/fungus" ~ "detritivore fungivore",
     foodtype == "larvae feed on termites" ~ "predator",
     foodtype == "larvae humus or root feeder" ~ "detritivore herbivore",
     foodtype == "larvae humus or roots" ~ "detritivore herbivore",
@@ -96,9 +96,11 @@ mallee_mod <- mallee %>%
     foodtype == "larvae plant roots etc" ~ "herbivore",
     foodtype == "larvae prey on ants" ~ "predator",
     foodtype == "larvaeplant roots etc" ~ "herbivore",
+    foodtype == "plant material/insect larvae" ~ "omnivore",
+    foodtype == "small frogs?" ~ "predator",
     microhabitat_activity_larva == "in dung-provisioned burrows" ~ "coprophage",
     microhabitat_activity_larva == "in fungi" ~ "fungivore",
-    .default = as.character(functional_role_larva))) %>% # specify larva functional_role trait levels given information in other columns
+    .default = as.character(functional_role_larva))) %>% # specify larva functional_role trait levels given information in other columns; food type is relevant to both adult and larva when not specified.
   dplyr::mutate(microhabitat_activity_adult = case_when(
     microhabitat_activity_adult == "active during the day, not nocturnal" ~ "bark rock",
     microhabitat_activity_adult == "arboreal/foliage Eucalypts" ~ "arboreal_canopy",
@@ -195,7 +197,7 @@ mallee_template <- template %>%
       trait_name == "microhabitat_activity_larva"~ "microhabitat_activity",
       trait_name == "wing_development_female"~ "wing_development",
       trait_name == "wing_development_male"~ "wing_development",
-      .default = as.character(trait_name))) %>% # change trait_names to match IA traits now that life stage has been specified
+      .default = as.character(trait_name))) %>% # change trait_names to match IA traits now that life stage and sex has been specified
   dplyr::mutate(entity_type = "metapopulation") %>%  # add entity_type category
   dplyr::mutate(
     measurement_remarks = case_when(
@@ -214,12 +216,10 @@ mallee_template <- template %>%
       measurement_remarks == "cow/horse/kangaroo dung" ~ "feed on cow/horse/kangaroo dung",
       measurement_remarks == "dead animals" ~ NA,
       measurement_remarks == "dead plant material" ~ NA,
-      measurement_remarks == "dead plant material/roots" & life_stage_generic == "juvenile" ~ NA,
-      measurement_remarks == "dead plant material/roots" & life_stage_generic == "adult" ~ "feed on plant material and roots",
+      measurement_remarks == "dead plant material/roots" ~ "feed on dead plant material and roots",
       measurement_remarks == "dung" ~ NA,
       measurement_remarks == "fungal fruiting bodies" ~ "feed on fungal fruiting bodies",
-      measurement_remarks == "humus/fungus" & life_stage_generic == "juvenile" ~ NA,
-      measurement_remarks == "humus/fungus" & life_stage_generic == "adult" ~ "feed on humus and fungus",
+      measurement_remarks == "humus/fungus" ~ "feed on humus and fungus",
       measurement_remarks == "larvae feed on termites" & life_stage_generic == "juvenile" ~ "feed on termites",
       measurement_remarks == "larvae feed on termites" & life_stage_generic == "adult" ~ NA,
       measurement_remarks == "larvae humus or root feeder" & life_stage_generic == "juvenile" ~ "feed on humus and roots",
@@ -234,28 +234,13 @@ mallee_template <- template %>%
       measurement_remarks == "larvae prey on ants" & life_stage_generic == "adult" ~ NA,
       measurement_remarks == "larvaeplant roots etc" & life_stage_generic == "juvenile" ~ "feed on roots",
       measurement_remarks == "larvaeplant roots etc" & life_stage_generic == "adult" ~ NA,
-      measurement_remarks == "plant material/insect larvae" & life_stage_generic == "juvenile" ~ NA,
-      measurement_remarks == "plant material/insect larvae" & life_stage_generic == "adult" ~ "feed on plant material and insect larvae",
-      measurement_remarks == "small frogs?" & life_stage_generic == "juvenile" ~ NA,
-      measurement_remarks == "small frogs?" & life_stage_generic == "adult" ~ "feed on small frogs",
+      measurement_remarks == "plant material/insect larvae" ~ "feed on plant material and insect larvae",
+      measurement_remarks == "small frogs?" ~ "feed on small frogs",
       .default = as.character(measurement_remarks))) %>%  # specify measurement_remarks for functional_role and microhabitat_activity
-  dplyr::mutate(methods = "We sampled 10 sites in each of the three locations. We sampled 
-                each site with 16 pitfall traps (20 L, 28 cm in diameter). Each trap had 
-                a separate 10 m long drift fence positioned across its centre. We spaced 
-                traps at 25 m intervals and opened them for five consecutive 24 hour 
-                periods in October, November, and December 1999, and in January 2000. 
-                These months include late spring and summer, when animals are expected to 
-                be most active. We emptied traps daily.") %>%  # add methods for all traits
+  dplyr::mutate(methods = "We sampled 10 sites in each of the three locations. We sampled each site with 16 pitfall traps (20 L, 28 cm in diameter). Each trap had a separate 10 m long drift fence positioned across its centre. We spaced traps at 25 m intervals and opened them for five consecutive 24 hour periods in October, November, and December 1999, and in January 2000. These months include late spring and summer, when animals are expected to be most active. We emptied traps daily.") %>%  # add methods for all traits
   dplyr::mutate(site_name = "Pulletop, Gubbata, and Taleeban, NSW") %>%  # add site name
   dplyr::mutate(site_date_of_visit = "1999-10/2000-01") %>%  # add study date
-  dplyr::mutate(site_description = "Pulletop, Gubbata, and Taleeban in south-central New 
-                South Wales. Each location was 100 km2 in size and in mallee habitat. We 
-                recognized six landscape elements: reserve, strip, grazed strip, road, 
-                woodland, and paddock. The four landscape elements with mallee (reserve, 
-                strip, grazed strip, and road) were stratified by the presence or absence 
-                of spinifex (Triodia scariosa), a spiny-leaved clumping grass, in the 
-                understory. Spinifex was absent from sites that were slightly lower 
-                in the landscape, where the soil had higher clay content.") %>%  # add site description
+  dplyr::mutate(site_description = "Pulletop, Gubbata, and Taleeban in south-central New South Wales. Each location was 100 km2 in size and in mallee habitat. We recognized six landscape elements: reserve, strip, grazed strip, road, woodland, and paddock. The four landscape elements with mallee (reserve, strip, grazed strip, and road) were stratified by the presence or absence of spinifex (Triodia scariosa), a spiny-leaved clumping grass, in the understory. Spinifex was absent from sites that were slightly lower in the landscape, where the soil had higher clay content.") %>%  # add site description
   dplyr::mutate(associated_plant_taxa = case_when(
     measurement_remarks == "feed on Eucalyptus foliage" ~ "Eucalyptus",
     measurement_remarks == "feed on Eucalyptus foliage or flowers" ~ "Eucalyptus",
@@ -267,11 +252,11 @@ mallee_template <- template %>%
   dplyr::mutate(associated_fauna_taxa = case_when(
     measurement_remarks == "feed on termites" ~ "Termitoidae",
     measurement_remarks == "feed on ants" ~ "Formicidae",
-    .default = as.character(associated_fauna_taxa))) %>% # add associated fauna taxa with information from "food" column
+    .default = as.character(associated_fauna_taxa))) %>% # add associated fauna taxa with information from measurement_remarks
   dplyr::mutate(fauna_relation_description = case_when(
     measurement_remarks == "feed on termites" ~ "The invertebrate is a predator of the associated fauna",
     measurement_remarks == "feed on ants" ~ "The invertebrate is a predator of the associated fauna",
-    .default = as.character(fauna_relation_description))) %>% # add associated fauna taxa with information from "food" column
+    .default = as.character(fauna_relation_description))) %>% # add associated fauna taxa with information from measurement_remarks
   dplyr::mutate(source_key = "Driscoll_2005") %>%  # add source_key
   dplyr::mutate(source_doi = "doi: 10.1111/j.1523-1739.2005.00586.x") %>%  # add source_doi
   dplyr::mutate(source_citation = "Driscoll, D. A., & Weir, T. O. M. (2005). Beetle responses to habitat fragmentation depend on ecological traits, habitat condition, and remnant size. Conservation Biology, 19(1), 182-194.") %>%  # add source_citation
@@ -279,4 +264,3 @@ mallee_template <- template %>%
   dplyr::bind_rows(mallee_paper) %>% # add data extracted from reading paper
   dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from mallee_paper)
   readr::write_csv(file.path(out_dir, "data.csv")) # save final dataset
-
