@@ -103,7 +103,7 @@ dtas_template <- template %>%
       was included.") %>%  # add methods for all traits
   dplyr::mutate(
     methods = case_when(
-      trait_name == "body_length" ~ "At each of three locations (North, Anne, Scotts), habitat patches from seven landscape elements 
+      trait_name == "body_length" ~ "Once collected, a few beetles were measured of each taxon and the median used.At each of three locations (North, Anne, Scotts), habitat patches from seven landscape elements 
       were sampled, including (1) Connected: Eucalyptus scrub at the edge of continuous forest; (2) Close: small patches of scrub 
       within 100 m of continuous forest, (3) Mid: small patches of scrub 100 - 420 m from continuous forest; (4) Distant: small 
       patches of scrub 420 - 780 m from continuous forest; (5) Dense: small patches of scrub with several other small patches within 
@@ -117,8 +117,9 @@ dtas_template <- template %>%
       with rain. Traps were set in December 2002 and left open for eight consecutive weeks over summer, when beetle activity is 
       highest. The collections were sorted to morphospecies then identified as far as possible. Most Staphylinidae were excluded from 
       the data set because they are difficult to distinguish morphologically, although one common, distinctive taxon Baeocera sp. A 
-      was included. A few beetles were measured of each taxon and the median used.",
-      trait_name == "wing_development" ~ "At each of three locations (North, Anne, Scotts), habitat patches from seven landscape elements 
+      was included.",
+      trait_name == "wing_development" ~ "Once collected, beetle taxa were scored for presence or absence of functional wings.
+      At each of three locations (North, Anne, Scotts), habitat patches from seven landscape elements 
       were sampled, including (1) Connected: Eucalyptus scrub at the edge of continuous forest; (2) Close: small patches of scrub 
       within 100 m of continuous forest, (3) Mid: small patches of scrub 100 - 420 m from continuous forest; (4) Distant: small 
       patches of scrub 420 - 780 m from continuous forest; (5) Dense: small patches of scrub with several other small patches within 
@@ -132,7 +133,7 @@ dtas_template <- template %>%
       with rain. Traps were set in December 2002 and left open for eight consecutive weeks over summer, when beetle activity is 
       highest. The collections were sorted to morphospecies then identified as far as possible. Most Staphylinidae were excluded from 
       the data set because they are difficult to distinguish morphologically, although one common, distinctive taxon Baeocera sp. A 
-      was included. Beetle taxa were scored for presence or absence of functional wings.",
+      was included.",
       .default = as.character(methods))) %>%  # add specific methods for body_length and wing_development
   dplyr::mutate(site_name = "near Lake Pedder, southwest TAS") %>%  # add site name
   dplyr::mutate(site_date_of_visit = "2002-12/2003-01") %>%  # add study date

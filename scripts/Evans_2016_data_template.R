@@ -25,12 +25,6 @@ evans <- read_csv(file.path(getwd(), "data", "Evans_2016/Evans_2016_beetles_Wog_
 ## Load the data template
 template <- read_csv(file.path(getwd(), "data", "Evans_2016/data_template.csv"), show_col_types = FALSE) 
 
-## QUESTIONS FOR DON:
-## Flightless 1 = yes?, 0 = no?
-## Do feeding guilds refer to adult life stage?
-## What is the microhabotat difference between saproxylic and xylophagous beetles? Do xylophages also feed on alive wood?
-## Are body lengths ameans?
-
 
 ##-------------------------------------------------------------##
 #### Modify the dataset in preparation for the data template ####
@@ -82,7 +76,7 @@ evans_mod <- evans %>%
     functional_role = case_when(
       functional_role == "saproxylic" ~ "xylophage",
       functional_role == "myrmecophile" ~ NA,
-      .default = as.character(functional_role))) %>% # modify function roles that aren't standard for IA
+      .default = as.character(functional_role))) %>% # modify functional roles that aren't standard for IA
   dplyr::select(taxon_name, taxon_name_original, taxname_source, taxon_family, 
                 body_length, wing_development, functional_role, 
                 microhabitat_activity, ecological_dependency) %>% # keep only needed columns
@@ -105,7 +99,7 @@ evans_template <- template %>%
   dplyr::mutate(entity_type = "metapopulation") %>%  # add entity_type category for all traits
   dplyr::mutate(
     value_type = case_when(
-      trait_name == "body_length" ~ "mean", 
+      trait_name == "body_length" ~ "median", 
       .default = as.character(value_type))) %>%  # add value_type for the one numerical trait
   dplyr::mutate(
     unit_numeric = case_when(
@@ -113,8 +107,8 @@ evans_template <- template %>%
       .default = as.character(unit_numeric))) %>%  # add unit for the one numerical trait
   dplyr::mutate(
     methods = case_when(
-      trait_name == "body_length" ~ "Once collected the body lengths of beetles were measured. Beetles were sampled
-      along trasects using pitfall traps. At each sampling point, two pitfall traps, each consisting of a cup 90 mm 
+      trait_name == "body_length" ~ "Once collected the body lengths of a few beetles were measured for each taxon and the median used. 
+      Beetles were sampled along trasects using pitfall traps. At each sampling point, two pitfall traps, each consisting of a cup 90 mm 
       in diameter and 100 mm deep, a 600 mm x 50 mm high fence and a 200 mm x 200 mm roof, were placed 3 m a part in 
       a randomised direction. Pitfall traps containing pitfall fixative (94% ethanol, 5% glycol, 1% distilled water) 
       were left open for 1 week in February 2011. The two pitfall trap catches at each sampling point were pooled to 
@@ -204,4 +198,3 @@ evans_template <- template %>%
   dplyr::mutate(source_citation = "Evans, M. J., Banks, S. C., Davies, K. F., Mcclenahan, J., Melbourne, B., & Driscoll, D. A. (2016). The use of traits to interpret responses to large scale-edge effects: a study of epigaeic beetle assemblages across a Eucalyptus forest and pine plantation edge. Landscape Ecology, 31, 1815-1831.") %>%  # add source_citation
   dplyr::mutate(source_type = "article") %>% # add source_type
   readr::write_csv(file.path(out_dir, "data.csv")) # save final dataset
-
