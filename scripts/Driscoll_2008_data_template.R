@@ -5,7 +5,6 @@
 ## Script to clean and map the Driscoll_2008 dataset to the InverTraits
 ## data_template and create a data.csv for the database.
 
-
 ##-------------------------##
 #### The start up basics ####
 ##-------------------------##
@@ -151,4 +150,3 @@ dtas_template <- template %>%
   dplyr::bind_rows(dtas_paper) %>% # add data extracted from reading paper
   dplyr::filter(if_any(everything(), ~ !is.na(.))) %>%  # remove rows with all NAs (from dtas_paper)
   readr::write_csv(file.path(out_dir, "data.csv")) # save final dataset
-

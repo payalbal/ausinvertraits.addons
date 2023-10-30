@@ -28,13 +28,12 @@ mallee <- read_csv(file.path(getwd(), "data", "Driscoll_2005/Driscoll_2005_Beetl
 template <- read_csv(file.path(getwd(), "data", "Driscoll_2005/data_template.csv"), show_col_types = FALSE) 
 
 ## Load the data extracted from reading the Driscoll_2005 paper
-mallee_paper <- read_csv(file.path(getwd(), "data", "Driscoll_2005/Driscoll_2005.csv"), show_col_types = FALSE) 
+mallee_paper <- read_csv(file.path(getwd(), "data", "Driscoll_2005/Driscoll_2005.csv"), show_col_types = FALSE)
 
 
 ##-------------------------------------------------------------##
 #### Modify the dataset in preparation for the data template ####
 ##-------------------------------------------------------------##
-
 
 ## (1) Modify the dataset in preparation for the data template.
 
