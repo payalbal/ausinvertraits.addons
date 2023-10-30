@@ -105,6 +105,24 @@ evans_template <- template %>%
     unit_numeric = case_when(
       trait_name == "body_length" ~ "mm", 
       .default = as.character(unit_numeric))) %>%  # add unit for the one numerical trait
+  dplyr::mutate(methods = "Beetles were sampled along trasects using pitfall traps. At each sampling point, two pitfall traps, each consisting of a cup 90 mm 
+      in diameter and 100 mm deep, a 600 mm x 50 mm high fence and a 200 mm x 200 mm roof, were placed 3 m a part in 
+      a randomised direction. Pitfall traps containing pitfall fixative (94% ethanol, 5% glycol, 1% distilled water) 
+      were left open for 1 week in February 2011. The two pitfall trap catches at each sampling point were pooled to 
+      create one sample per sampling point. Beetles from each sample were sorted to species level. We used the Wog Wog 
+      beetle reference collection stored at the Australian National Insect Collection at CSIRO Ecosystem Sciences in 
+      Canberra, Australia, to help in the identification of some species. The CSIRO collection consists of morphospecies, 
+      many of which are identified to species, each with a unique voucher code. We retained these codes in our data and 
+      gave new codes to those morphospecies that we were not able to identify by reference to CSIRO Wog Wog collection. 
+      Our resulting collection consists of species and morphospecies (all hereafter referred to as species). Our 
+      experimental design consisted of three blocks of up to seven transects spanning the native Eucalyptus forest–pine 
+      plantation edge. The edge between the Eucalyptus and pine forests is intersected by a dirt road of about 10 m in 
+      width and (in one block) a cleared fire break of about 100 m in width. Sampling points were located along the 
+      transects at 0 m (on the edge of the forest and road or firebreak), 10, 31.6, 100, 316 and 1000 m into the 
+      Eucalyptus forest and 0, 10, 31.6, 100 and 316 m into the pine forest. We excluded sampling points in gullies and 
+      ridge tops. As a result of this, many transects did not have the full complement of sampling points at all distances. 
+      This left us with a total of 148 sampling points (84 in native Eucalyptus forest, 64 in pine forest) consisting of 
+      296 pitfall traps arranged along 25 transects.") %>%  # add methods for all traits
   dplyr::mutate(
     methods = case_when(
       trait_name == "body_length" ~ "Once collected the body lengths of a few beetles were measured for each taxon and the median used. 
