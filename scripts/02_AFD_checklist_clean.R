@@ -91,9 +91,21 @@ length(unique(afd_data$FULL_NAME)); nrow(afd_data)
 ## ----------------------------------------------- ##
 ## Identify duplicates ####
 ## ----------------------------------------------- ##
-
 ## List duplicates comparing all columns
 nrow(afd_data[duplicated(afd_data),] )
+
+
+## Create FULL_NAME + AUTHOR = COMPLETE_NAME column
+afd_data %>% add_column(COMPLETE_NAME = paste0(trimws(afd_data$FULL_NAME), 
+                                               ", ", trimws(afd_data$AUTHOR), 
+                                               " ", trimws(afd_data$YEAR)), 
+                        .after = "YEAR") -> afd_data
+
+length(unique(afd_data$FULL_NAME))
+length(unique(afd_data$COMPLETE_NAME))
+
+## Set keys
+afd_data <- setDT(afd_data, key = c("FULL_NAME", "COMPLETE_NAME", "CONCEPT_GUID"))
 
 
 ## Duplicates in FULL_NAME (excluding first appearance)
@@ -118,19 +130,6 @@ nrow(temp)
 fwrite(temp, file.path(outdir, "afd_completename_repeats.csv"))
 
 
-## Create FULL_NAME + AUTHOR = COMPLETE_NAME column
-afd_data %>% add_column(COMPLETE_NAME = paste0(trimws(afd_data$FULL_NAME), 
-                                               ", ", trimws(afd_data$AUTHOR), 
-                                               " ", trimws(afd_data$YEAR)), 
-                        .after = "YEAR") -> afd_data
-
-length(unique(afd_data$FULL_NAME))
-length(unique(afd_data$COMPLETE_NAME))
-
-## Set keys
-afd_data <- setDT(afd_data, key = c("FULL_NAME", "COMPLETE_NAME", "CONCEPT_GUID"))
-
-
 ## Are there duplicates in FULL_NAME & COMPLETE_NAME?
 length(afd_data$FULL_NAME) != length(unique(afd_data$FULL_NAME))
 nrow(afd_data[duplicated(FULL_NAME),] )
@@ -139,9 +138,61 @@ length(afd_data$COMPLETE_NAME) != length(unique(afd_data$COMPLETE_NAME))
 nrow(afd_data[duplicated(COMPLETE_NAME),] )
 
 
-## >> Resolve duplicates manually ####
-## NOTE: Duplicates will NOT be removed at this stage. 
-...
+afd_data[,COMPLETE_NAME := NULL] ## drop column
+
+
+
+
+
+## ----------------------------------------------- ##
+## Resolve duplicates ####
+## ----------------------------------------------- ##
+
+## Load commented sheet
+reps <- fread(file.path(outdir, "afd_fullname_repeats_JRM.csv"))
+reps[, .N, Exclude]
+reps <- reps[is.na(Exclude)]; nrow(reps)
+reps[ ,':='(Exclude = NULL, Include = NULL, JM_notes=NULL)]; dim(reps)
+reps[,COMPLETE_NAME := NULL]
+
+
+## Clean up table reps table if needed
+x <- grep("\"",reps$AUTHOR, value = TRUE)
+y <- gsub("\"","",x)
+reps[AUTHOR %in% x]$AUTHOR <- y
+grep("\"",reps$AUTHOR, value = TRUE)
+
+
+## New table with combined info for duplicated
+newdt <- data.table()
+ctr <-  0
+
+for(i in unique(reps$FULL_NAME)){
+  ctr <- ctr + 1
+  temp = afd_data[FULL_NAME == i]
+  temp2 <- temp[1,]
+  
+  temp2$AUTHOR = paste(unique(c(temp2$AUTHOR, unique(temp$AUTHOR))), collapse = ", ")
+  temp2$YEAR = paste(unique(c(temp2$YEAR, unique(temp$YEAR))), collapse = ", ")
+  temp2$SYNONYMS = paste(unique(c(temp2$SYNONYMS, unique(temp$SYNONYMS))), collapse = "; ")
+  
+  temp2[FULL_NAME == i, 'InvDir_ID'] = paste0("InvDir-ID-", ctr)
+  newdt <- rbind(newdt, temp2)
+}
+
+
+
+
+## ----------------------------------------------- ##
+## Update AFD  ####
+## ----------------------------------------------- ##
+
+## Add new ID column
+afd_data[, InvDir_ID := as.character()] ## add column for in-house IDs
+
+
+## Bind new rows to data
+afd_data <- rbind(afd_data, newdt)
 
 
 
@@ -176,23 +227,33 @@ grep("\\[",afd_data$FULL_NAME, value = TRUE) ## occurrences for ()
 
 
 
+## ----------------------------------------------- ##
+## Save cleaned data ####
+## ----------------------------------------------- ##
+fwrite(afd_data, file.path(outdir, paste0("afd_Feb2025.csv")))
+
+
+
+
 
 ## ----------------------------------------------- ##
-## Create rows for higher order taxa ####
+## Create rows for higher order taxa - LIZZY ####
 ## ----------------------------------------------- ##
 names(afd_data)
 taxclasses <- names(afd_data)[c(1,3:19, 22)]
 
 
 
-for(t in taxclasses){
-  
-}
-
 
 
 
 ## ----------------------------------------------- ##
-## Save cleaned data ####
+## Save data ####
 ## ----------------------------------------------- ##
-fwrite(afd_data, file.path(outdir, paste0("AFD_cleaned_", Sys.Date())))
+
+fwrite(afd_data, file.path(outdir, paste0("afd_taxIDs_Feb2025.csv")))
+
+
+
+
+
