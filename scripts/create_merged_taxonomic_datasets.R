@@ -47,7 +47,13 @@ afd_all <- afd_exact %>%
   
 
 afd_all %>% write_csv("config/taxon_lists/afd_tweaked.csv")  
-  
+
+
+# version 2024-02-04
+
+afd_final <- afd_final %>% 
+  rename(genus = GENUS, family = FAMILY, order = ORDER, class = CLASS, phylum = PHYLUM)
+
   
 # 2025-01-23 adding additional taxonomic datasets
 
@@ -77,14 +83,11 @@ iNat_inverts <- iNat_inverts_in_Australia %>%
     taxonomic_dataset = "iNaturalist"
   )
 
-taxon_list <- afd_inverts %>%
-  mutate(
-    taxonomic_dataset = "AFD"
-  ) %>%
+taxon_list <- afd_final %>%
   bind_rows(iNat_inverts) %>%
   mutate(
     taxonomic_dataset = factor(taxonomic_dataset, levels = c("AFD", "iNaturalist")),
-    scientific_name = canonical_name,
+    scientific_name = FULL_NAME,
   ) %>%
   dplyr::arrange(taxonomic_dataset, canonical_name) %>%
   dplyr::group_by(canonical_name) %>%

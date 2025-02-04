@@ -63,13 +63,13 @@ taxa[["tocheck"]] <-
       fuzzy_match_family = NA_character_,
       fuzzy_match_family_synonym = NA_character_,
       fuzzy_match_binomial = NA_character_,
-      fuzzy_match_binomial_APC_synonym = NA_character_,
+      fuzzy_match_binomial_synonym = NA_character_,
       fuzzy_match_trinomial = NA_character_,
       fuzzy_match_trinomial_synonym = NA_character_,
-      fuzzy_match_cleaned_APC = NA_character_,
-      fuzzy_match_cleaned_APC_synonym = NA_character_,
-      fuzzy_match_cleaned_APC_imprecise = NA_character_,
-      fuzzy_match_cleaned_APC_synonym_imprecise = NA_character_,
+      fuzzy_match_cleaned = NA_character_,
+      fuzzy_match_cleaned_synonym = NA_character_,
+      fuzzy_match_cleaned_imprecise = NA_character_,
+      fuzzy_match_cleaned_synonym_imprecise = NA_character_,
       taxonomic_dataset = NA_character_,
       taxon_rank = NA_character_,
       alignment_code = NA_character_
@@ -86,11 +86,10 @@ dplyr::bind_rows(taxa_raw) %>%
   dplyr::filter(original_name %>% standardise_names() != "")
 
 
-#' @title Match taxonomic names to names in the APC/APNI
+#' @title Match taxonomic names to names in a taxonomic dataset
 #' 
 #' @description
-#' This function attempts to match input strings to Australia's reference lists
-#' for vascular plants, the APC and APNI. It attempts:
+#' This function attempts to match input strings to Australia's specified taxonomic datasets. It attempts:
 #' 1. perfect matches and fuzzy matches
 #' 2. matches to infraspecies, species, genus, and family names
 #' 3. matches to the entire input string and subsets there-of
@@ -104,7 +103,7 @@ dplyr::bind_rows(taxa_raw) %>%
 #'  taxa not identified to species).
 #' - It prioritises matches that do not require fuzzy matching (i.e. synonyms,
 #'  orthographic variants) over those that do.
-#' - If prioritises matches to taxa in the APC over names in the APNI.
+#' - Taxonomic datasets are sorted, so names align to the top priority taxonomic dataset if a name is present in multiple lists.
 #' 
 #' @param taxa The list of taxa requiring checking
 #
@@ -124,8 +123,6 @@ dplyr::bind_rows(taxa_raw) %>%
 #'  It offers a way to get a wider range of possible names, possibly
 #'  corresponding to very distant spelling mistakes. This is FALSE as default
 #'  and all outputs should be checked as it often makes erroneous matches.
-#' @param APNI_matches Name matches to the APNI (Australian Plant Names Index)
-#'  are turned off as a default.
 #' @param identifier A dataset, location or other identifier,
 #'  which defaults to NA.
 #'
@@ -137,7 +134,6 @@ match_taxa <- function(
     fuzzy_rel_dist = 0.2, 
     fuzzy_matches = TRUE, 
     imprecise_fuzzy_matches = FALSE, 
-    APNI_matches = FALSE, 
     identifier = NA_character_
 ) {
   
@@ -171,17 +167,9 @@ match_taxa <- function(
     imprecise_fuzzy_rel_dist <- 0
   }
   
-  ## remove APNI-listed genera from resources if APNI matches are turned off
-  ##(the default)
-  # if (APNI_matches == TRUE) {
-  #   resources$genera_all2 <- resources$genera_all
-  # } else {
-  #   resources$genera_all2 <- resources$genera_all %>% dplyr::filter(taxonomic_dataset != "APNI")
-  # }
-  
   ## Repeatedly used identifier strings are created. 
   ## These identifier strings are added to the aligned names of taxa that do
-  ## not match to an APC or APNI species or infra-specific level name.
+  ## not match to a species or infra-specific level name.
   taxa$tocheck <- taxa$tocheck %>%
     dplyr::mutate(
       identifier_string = ifelse(is.na(identifier), NA_character_, paste0(" [", identifier, "]")),
@@ -232,7 +220,7 @@ match_taxa <- function(
       taxon_rank = resources$species$accepted$taxon_rank[ii],
       aligned_name = resources$species$accepted$canonical_name[ii],
       aligned_reason = paste0(
-        "Exact match of taxon name to an accepted/valid scientific name (including authorship) (",
+        "Exact match of taxon name to an accepted/valid scientific name (including authorship) in ", resources$species$accepted$taxonomic_dataset[ii], " (",
         Sys.Date(),
         ")"
       ),
@@ -247,7 +235,7 @@ match_taxa <- function(
     return(taxa)
   
   # match_01b: Scientific name matches
-  # Taxon names that are an APC-known scientific name, with authorship.
+  # Taxon names that are exact matches to a synonymmous scientific name, with authorship.
   
   i <-
     taxa$tocheck$original_name %in% resources$species$synonym$scientific_name
@@ -264,7 +252,7 @@ match_taxa <- function(
       taxon_rank = resources$species$synonym$taxon_rank[ii],
       aligned_name = resources$species$synonym$canonical_name[ii],
       aligned_reason = paste0(
-        "Exact match of taxon name to a known scientific name (including authorship) (",
+        "Exact match of taxon name to a synonymous scientific name (including authorship) in ", resources$species$accepted$taxonomic_dataset[ii], " (",
         Sys.Date(),
         ")"
       ),
@@ -277,8 +265,8 @@ match_taxa <- function(
   if (nrow(taxa$tocheck) == 0)
     return(taxa)
   
-  # match_01c: APC-accepted canonical name
-  # Taxon names that are exact matches to APC-accepted canonical names, once filler words and punctuation are removed.
+  # match_01c: Accepted/valid canonical name
+  # Taxon names that are exact matches to canonical names, once filler words and punctuation are removed.
   i <-
     taxa$tocheck$cleaned_name %in% resources$species$accepted$canonical_name
   
@@ -294,7 +282,7 @@ match_taxa <- function(
       taxon_rank = resources$species$accepted$taxon_rank[ii],
       aligned_name = resources$species$accepted$canonical_name[ii],
       aligned_reason = paste0(
-        "Exact match of taxon name to an accepted/valid canonical name once punctuation and filler words are removed (",
+        "Exact match of taxon name to an accepted/valid canonical name in ", resources$species$accepted$taxonomic_dataset[ii], " once punctuation and filler words are removed (",
         Sys.Date(),
         ")"
       ),
@@ -308,7 +296,7 @@ match_taxa <- function(
     return(taxa)
   
   # match_01d: APC-known canonical name
-  # Taxon names that are exact matches to APC-known canonical names, once filler words and punctuation are removed.
+  # Taxon names that are exact matches to a synonymous canonical name once filler words and punctuation are removed.
   i <-
     taxa$tocheck$cleaned_name %in% resources$species$synonym$canonical_name
   
@@ -324,7 +312,7 @@ match_taxa <- function(
       taxon_rank = resources$species$synonym$taxon_rank[ii],
       aligned_name = resources$species$synonym$canonical_name[ii],
       aligned_reason = paste0(
-        "Exact match of taxon name to a known canonical name once punctuation and filler words are removed (",
+        "Exact match of taxon name to a synonymous canonical name in ", resources$species$accepted$taxonomic_dataset[ii], ", once punctuation and filler words are removed (",
         Sys.Date(),
         ")"
       ),
@@ -341,32 +329,32 @@ match_taxa <- function(
   # Exact matches to higher level taxa for names where the final "word" is `sp` or `spp`
   # Aligned name includes identifier to indicate `genus sp.`, `family sp.`, etc refers to a specific species (or infra-specific taxon), associated with a specific dataset/location.
   
-  for (h in taxon_ranks_to_check) {
+  for (ranks in taxon_ranks_to_check) {
     
     i <-
       stringr::str_detect(taxa$tocheck$cleaned_name, "[:space:]sp\\.$") &
-      taxa$tocheck$genus %in% resources[[h]]$canonical_name #&
+      taxa$tocheck$genus %in% resources[[ranks]]$canonical_name #&
       #word(taxa$tocheck$cleaned_name, 2) %in% c("sp.") ##TO DO - this needs to be tweaked to accommodate hybrids. Should actually be full string minus genus as declared by "extract_genus"
     
     ii <-
       match(
         taxa$tocheck[i,]$genus,
-        resources[[h]]$canonical_name
+        resources[[ranks]]$canonical_name
       )
     
     taxa$tocheck[i,] <- taxa$tocheck[i,] %>%
       dplyr::mutate(
-        taxonomic_dataset = resources[[h]]$taxonomic_dataset[ii],
-        taxon_rank = h,
-        aligned_name_tmp = paste0(resources[[h]]$genus[ii], " sp."),
+        taxonomic_dataset = resources[[ranks]]$taxonomic_dataset[ii],
+        taxon_rank = ranks,
+        aligned_name_tmp = paste0(resources[[ranks]]$genus[ii], " sp."),
         aligned_name = ifelse(is.na(identifier_string),
                               aligned_name_tmp,
                               paste0(aligned_name_tmp, identifier_string)
         ),
         aligned_reason = paste0(
-          "Exact match of taxon name ending with `sp.` to an ",
+          "Exact match of taxon name ending with `sp.` to a ", taxonomic_status, taxon_rank, " in ",
           taxonomic_dataset,
-          " genus (",
+          " (",
           Sys.Date(),
           ")"
         ),
@@ -388,7 +376,7 @@ match_taxa <- function(
   # there isn't an exact match to an APC accepted genus name
   # Aligned name includes identifier to indicate `genus sp.` refers to a specific species (or infra-specific taxon), associated with a specific dataset/location.
   
-  for (h in taxon_ranks_to_check) {  
+  for (ranks in taxon_ranks_to_check) {  
     taxa$tocheck <- taxa$tocheck %>%
       dplyr::mutate(
         fuzzy_match_genus =
@@ -397,27 +385,29 @@ match_taxa <- function(
   
     i <-
       stringr::str_detect(taxa$tocheck$cleaned_name, "[:space:]sp\\.$") &
-      taxa$tocheck$fuzzy_match_genus %in% resources[[h]]$canonical_name #&
+      taxa$tocheck$fuzzy_match_genus %in% resources[[ranks]]$canonical_name #&
       #word(taxa$tocheck$cleaned_name, 2) %in% c("sp.")
     
     ii <-
       match(
         taxa$tocheck[i,]$fuzzy_match_genus,
-        resources[[h]]$canonical_name
+        resources[[ranks]]$canonical_name
       )
     
     taxa$tocheck[i,] <- taxa$tocheck[i,] %>%
       dplyr::mutate(
-        taxonomic_dataset = resources[[h]]$taxonomic_dataset[ii],
-        taxon_rank = h,           
+        taxonomic_dataset = resources[[ranks]]$taxonomic_dataset[ii],
+        taxon_rank = ranks,           
         aligned_name_tmp = 
-          paste0(resources[[h]]$canonical_name[ii], " sp."),
+          paste0(resources[[ranks]]$canonical_name[ii], " sp."),
         aligned_name = ifelse(is.na(identifier_string),
                               aligned_name_tmp,
                               paste0(aligned_name_tmp, identifier_string)
         ),
         aligned_reason = paste0(
-          "Fuzzy match of taxon name ending with `sp.` to a higher order rank (",
+          "Exact match of taxon name ending with `sp.` to a ", taxonomic_status, taxon_rank, " in ",
+          taxonomic_dataset,
+          " (",
           Sys.Date(),
           ")"
         ),
@@ -432,12 +422,12 @@ match_taxa <- function(
     
   }
   
-  ## for now removing matches 3, 4 for simplicity, since I don't think being used for you
+  ## removed matches 3, 4 for simplicity, since I don't think they would be triggered by any names (for specific weird informal names)
   
-  # match_05a: fuzzy match to APC-accepted canonical name
+  # match_05a: fuzzy match to accepted/valid canonical name
   # Fuzzy match of taxon name to an APC-accepted canonical name, once filler words and punctuation are removed.
   for (i in seq_len(nrow(taxa$tocheck))) {    
-    taxa$tocheck$fuzzy_match_cleaned_APC[i] <-
+    taxa$tocheck$fuzzy_match_cleaned[i] <-
       fuzzy_match(
         txt = taxa$tocheck$stripped_name[i],
         accepted_list = resources$species$accepted$stripped_canonical,
@@ -448,11 +438,11 @@ match_taxa <- function(
   }
   
   i <-
-    taxa$tocheck$fuzzy_match_cleaned_APC %in% resources$species$accepted$stripped_canonical
+    taxa$tocheck$fuzzy_match_cleaned %in% resources$species$accepted$stripped_canonical
   
   ii <-
     match(
-      taxa$tocheck[i,]$fuzzy_match_cleaned_APC,
+      taxa$tocheck[i,]$fuzzy_match_cleaned,
       resources$species$accepted$stripped_canonical
     )
   
@@ -462,7 +452,7 @@ match_taxa <- function(
       taxon_rank = resources$species$accepted$taxon_rank[ii],
       aligned_name = resources$species$accepted$canonical_name[ii],
       aligned_reason = paste0(
-        "Fuzzy match of taxon name to an APC-accepted canonical name once punctuation and filler words are removed (",
+        "Fuzzy match of taxon name to an accepted canonical name in ", taxonomic_dataset, " once punctuation and filler words are removed (",
         Sys.Date(),
         ")"
       ),
@@ -478,7 +468,7 @@ match_taxa <- function(
   # match_05b: fuzzy match to APC-known canonical name
   # Fuzzy match of taxon name to an APC-known canonical name, once filler words and punctuation are removed.
   for (i in seq_len(nrow(taxa$tocheck))) {    
-    taxa$tocheck$fuzzy_match_cleaned_APC_synonym[i] <-
+    taxa$tocheck$fuzzy_match_cleaned_synonym[i] <-
       fuzzy_match(
         txt = taxa$tocheck$stripped_name[i],
         accepted_list = resources$species$synonym$stripped_canonical,
@@ -489,11 +479,11 @@ match_taxa <- function(
   }
   
   i <-
-    taxa$tocheck$fuzzy_match_cleaned_APC_synonym %in% resources$species$synonym$stripped_canonical
+    taxa$tocheck$fuzzy_match_cleaned_synonym %in% resources$species$synonym$stripped_canonical
   
   ii <-
     match(
-      taxa$tocheck[i,]$fuzzy_match_cleaned_APC_synonym,
+      taxa$tocheck[i,]$fuzzy_match_cleaned_synonym,
       resources$species$synonym$stripped_canonical
     )
   
@@ -503,7 +493,7 @@ match_taxa <- function(
       taxon_rank = resources$species$synonym$taxon_rank[ii],
       aligned_name = resources$species$synonym$canonical_name[ii],
       aligned_reason = paste0(
-        "Fuzzy match of taxon name to an APC-known canonical name once punctuation and filler words are removed (",
+        "Fuzzy match of taxon name to a synonymous canonical name in ", taxonomic_dataset, " once punctuation and filler words are removed (",
         Sys.Date(),
         ")"
       ),
@@ -811,8 +801,8 @@ match_taxa <- function(
   # # This match also does a good job aligning and correcting syntax of phrase names.
   # for (i in seq_len(nrow(taxa$tocheck))) {
   #   if (!is.na(taxa$tocheck$binomial[i]) &
-  #       is.na(taxa$tocheck$fuzzy_match_binomial_APC_synonym[i])) {
-  #     taxa$tocheck$fuzzy_match_binomial_APC_synonym[i] <-
+  #       is.na(taxa$tocheck$fuzzy_match_binomial_synonym[i])) {
+  #     taxa$tocheck$fuzzy_match_binomial_synonym[i] <-
   #       fuzzy_match(
   #         txt = taxa$tocheck$binomial[i],
   #         accepted_list = resources$species$synonym$binomial,
@@ -825,11 +815,11 @@ match_taxa <- function(
   # }
   # 
   # i <-
-  #   taxa$tocheck$fuzzy_match_binomial_APC_synonym %in% resources$species$synonym$binomial
+  #   taxa$tocheck$fuzzy_match_binomial_synonym %in% resources$species$synonym$binomial
   # 
   # ii <-
   #   match(
-  #     taxa$tocheck[i,]$fuzzy_match_binomial_APC_synonym,
+  #     taxa$tocheck[i,]$fuzzy_match_binomial_synonym,
   #     resources$species$synonym$binomial
   #   )
   # 
@@ -899,7 +889,8 @@ match_taxa <- function(
       taxon_rank = resources$species$synonym$taxon_rank[ii],
       aligned_name = resources$species$synonym$canonical_name[ii],
       aligned_reason = paste0(
-        "Exact match of the first two words of the taxon name to an APC-known canonical name (",
+        "Exact match of to a synonymous canonical name recorded in ", taxonomic dataset, 
+        "when any bracketed words are removed (",
         Sys.Date(),
         ")"
       ),
@@ -914,7 +905,8 @@ match_taxa <- function(
   
   
   # match_12a: higher-level alignment
-  # Toward the end of the alignment function, see if first word of unmatched taxa is an APC-accepted genus.
+  # Toward the end of the alignment function, see if first word of unmatched taxa is a 
+  # higher order taxon name in one of the taxonomic references.
   # The 'taxon name' is then reformatted  as `genus sp.` with the original name in square brackets.
   for (h in taxon_ranks_to_check) {  
     
@@ -937,7 +929,7 @@ match_taxa <- function(
                               paste0(aligned_name_tmp, identifier_string2, "]")
         ),
         aligned_reason = paste0(
-          "Exact match of the first word of the taxon name to an APC-accepted genus (",
+          "Exact match of the first word of the taxon name to a ", taxon_rank, " in ", taxonomic_dataset, " (",
           Sys.Date(),
           ")"
         ),
@@ -953,7 +945,8 @@ match_taxa <- function(
   
   
   # match_12f: higher-level fuzzy alignment
-  # The final alignment step is to see if a fuzzy match can be made for the first word of unmatched taxa to an APC-accepted genus .
+  # The final alignment step is to see if a fuzzy match can be made for the first word of unmatched taxa to an  
+  # higher order taxon name in one of the taxonomic references.
   # The 'taxon name' is then reformatted  as `genus sp.` with the original name in square brackets.
   for (h in taxon_ranks_to_check) {  
     i <-
@@ -975,7 +968,7 @@ match_taxa <- function(
                               paste0(aligned_name_tmp, identifier_string2, "]")
         ),
         aligned_reason = paste0(
-          "Fuzzy match of the first word of the taxon name to an APC-accepted genus (",
+          "Fuzzy match of the first word of the taxon name to a ", taxon_rank, " in ", taxonomic_dataset, " (",
           Sys.Date(),
           ")"
         ),
