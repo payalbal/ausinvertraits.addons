@@ -144,55 +144,49 @@ afd_data[,COMPLETE_NAME := NULL] ## drop column
 
 
 
-## ----------------------------------------------- ##
-## Resolve duplicates ####
-## ----------------------------------------------- ##
-
-## Load commented sheet
-reps <- fread(file.path(outdir, "afd_fullname_repeats_JRM.csv"))
-reps[, .N, Exclude]
-reps <- reps[is.na(Exclude)]; nrow(reps)
-reps[ ,':='(Exclude = NULL, Include = NULL, JM_notes=NULL)]; dim(reps)
-reps[,COMPLETE_NAME := NULL]
-
-
-## Clean up table reps table if needed
-x <- grep("\"",reps$AUTHOR, value = TRUE)
-y <- gsub("\"","",x)
-reps[AUTHOR %in% x]$AUTHOR <- y
-grep("\"",reps$AUTHOR, value = TRUE)
-
-
-## New table with combined info for duplicated
-newdt <- data.table()
-ctr <-  0
-
-for(i in unique(reps$FULL_NAME)){
-  ctr <- ctr + 1
-  temp = afd_data[FULL_NAME == i]
-  temp2 <- temp[1,]
-  
-  temp2$AUTHOR = paste(unique(c(temp2$AUTHOR, unique(temp$AUTHOR))), collapse = ", ")
-  temp2$YEAR = paste(unique(c(temp2$YEAR, unique(temp$YEAR))), collapse = ", ")
-  temp2$SYNONYMS = paste(unique(c(temp2$SYNONYMS, unique(temp$SYNONYMS))), collapse = "; ")
-  
-  temp2[FULL_NAME == i, 'InvDir_ID'] = paste0("InvDir-ID-", ctr)
-  newdt <- rbind(newdt, temp2)
-}
-
-
-
-
-## ----------------------------------------------- ##
-## Update AFD  ####
-## ----------------------------------------------- ##
-
-## Add new ID column
-afd_data[, InvDir_ID := as.character()] ## add column for in-house IDs
-
-
-## Bind new rows to data
-afd_data <- rbind(afd_data, newdt)
+# ## ----------------------------------------------- ##
+# ## Resolve duplicates & update table ####
+# ## ----------------------------------------------- ##
+# 
+# ## Load commented sheet
+# reps <- fread(file.path(outdir, "afd_fullname_repeats_JRM.csv"))
+# reps[, .N, Exclude]
+# reps <- reps[is.na(Exclude)]; nrow(reps)
+# reps[ ,':='(Exclude = NULL, Include = NULL, JM_notes=NULL)]; dim(reps)
+# reps[,COMPLETE_NAME := NULL]
+# 
+# 
+# ## Clean up table reps table if needed
+# x <- grep("\"",reps$AUTHOR, value = TRUE)
+# y <- gsub("\"","",x)
+# reps[AUTHOR %in% x]$AUTHOR <- y
+# grep("\"",reps$AUTHOR, value = TRUE)
+# 
+# 
+# ## New table with combined info for duplicated
+# newdt <- data.table()
+# ctr <-  0
+# 
+# for(i in unique(reps$FULL_NAME)){
+#   ctr <- ctr + 1
+#   temp = afd_data[FULL_NAME == i]
+#   temp2 <- temp[1,]
+#   
+#   temp2$AUTHOR = paste(unique(c(temp2$AUTHOR, unique(temp$AUTHOR))), collapse = ", ")
+#   temp2$YEAR = paste(unique(c(temp2$YEAR, unique(temp$YEAR))), collapse = ", ")
+#   temp2$SYNONYMS = paste(unique(c(temp2$SYNONYMS, unique(temp$SYNONYMS))), collapse = "; ")
+#   
+#   temp2[FULL_NAME == i, 'InvDir_ID'] = paste0("InvDir-ID-", ctr)
+#   newdt <- rbind(newdt, temp2)
+# }
+# 
+# 
+# ## Add new ID column
+# afd_data[, InvDir_ID := as.character()] ## add column for in-house IDs
+# 
+# 
+# ## Bind new rows to data
+# afd_data <- rbind(afd_data, newdt)
 
 
 
