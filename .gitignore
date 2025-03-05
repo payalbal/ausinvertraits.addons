@@ -2,6 +2,8 @@
 # Specific files/folders #
 ##########################
 scripts/extras/
+GBIF_taxonomy/
+data_extra/
 
 
 # R files #
