@@ -134,7 +134,7 @@ dplyr::bind_rows(taxa_raw) %>%
 ####                                          ####
 ##################################################
 
-aligned_names <- match_taxa(
+aligned_names_b <- match_taxa(
     taxa = taxa, 
     resources = resources,
     fuzzy_abs_dist = 3, 
@@ -403,6 +403,7 @@ match_taxa <- function(
       stringr::str_detect(taxa$tocheck$cleaned_name, "[:space:]sp\\.$") &
       stringr::str_detect(stringr::word(taxa$tocheck$cleaned_name, start = 2, end = 2), "^\\(") &
       stringr::str_detect(stringr::word(taxa$tocheck$cleaned_name, start = 2, end = 2), "\\)$") &
+      stringr::str_count(taxa$tocheck$cleaned_name, " ") == 2 &
       stringr::word(taxa$tocheck$cleaned_name, start = 1, end = 2) %in% resources$subgenus_v2$genus_and_subgenus 
     
     ii <-
@@ -447,7 +448,8 @@ match_taxa <- function(
     
     i <-
       stringr::str_detect(taxa$tocheck$cleaned_name, "[:space:]sp\\.$") &
-      taxa$tocheck$word_one_stripped %in% resources[[ranks]]$canonical_name #&
+      taxa$tocheck$word_one_stripped %in% resources[[ranks]]$canonical_name &
+      stringr::str_count(taxa$tocheck$cleaned_name, " ") == 2 #&
       #word(taxa$tocheck$cleaned_name, 2) %in% c("sp.") ##TO DO - this needs to be tweaked to accommodate hybrids. Should actually be full string minus genus as declared by "extract_genus"
     
     ii <-
