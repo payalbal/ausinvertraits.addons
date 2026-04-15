@@ -1,3 +1,8 @@
+### Annotated with XXX-TODO's to generate proper `prepare_taxonomic_references` function, and edit `align_taxa` function to work with any reference list
+### No work yet on `update_taxonomy` because for invert lists I didn't deal with synonyms (they'd already done the updating)
+### For that function, I think the core bit of information is to remove all the code pertaining to splits, because APC is pretty unique in documenting that
+
+
 ##################################################
 ####                                          ####
 #### 1. source functions                      ####
@@ -7,6 +12,7 @@
 source("~/Github/ausinvertraits.addons/scripts/AusInvertAlign_required_functions.R")
 
 library(APCalign)
+library(tidyverse)
 
 
 ##################################################
@@ -16,7 +22,35 @@ library(APCalign)
 ##################################################
 
 # load resources
-taxon_resources <- read_csv("~/GitHub/ausinvertraits.addons/data/taxon_list_for_AusInvertAlign.csv")
+## XXX-TODO Create function `prepare_taxonomic_references` that renames columns, confirms all columns present,  to replace the line that reads in my already-created file below
+
+## ideal would be to have an interactive function where the user is asked to select a tibble (like in traits.build `metadata_add_locations`), then from the tibble the available columns for which column includes each of the required columns
+## so that the names don't have to initially align
+## I'm thinking how in traits.build, for `metadata_create_template()` the user is prompted to specify various columns - could we do the same?
+## in traits.build all the columns not already selected are listed to choose from. Here there would be an added option "create column" for `taxon_rank` and `taxonomic_status`, 
+## which would generate a column with a fixed value `species` for `taxon_rank` and `accepted` for `taxonomic_status`
+## open-text prompt asking what the name of the taxonomic_reference should be - as in `AFD`, `APC`, `iNaturalist`, etc.; stored in a column `taxonomic_reference`
+
+## very fancy would be the ability to add multiple taxonomic references that are bound together, cycling through each... 
+
+
+taxon_resources <- read_csv("~/GitHub/ausinvertraits.addons/data_extra/taxon_list_for_AusInvertAlign.csv")
+
+## But then in addition, I think there needs to be a prompt for which taxon_ranks you're interested in, and filter the list to only include those. 
+## I guess create a list of all the ranks below + species, subspecies, form, variety and have people select which to retain
+## And from that filter, and then in the `align_taxa` function generate the taxon_ranks_to_check vector
+
+# identify taxon ranks you intend to match to
+# XXX-TODO: ??should this string be an input parameter??
+# XXX or something interactive at the start of align_taxa that has a list of all possibilities and you select those that you want to match against
+taxon_ranks_to_check <- c("subgenus", "genus", "family", "superfamily", "subclass", "class", "subfamily", "order", "infraorder", "suborder", "superorder", "tribe")
+
+## work out way to have order people read in references retained; through a secondary counter column? 
+## or I guess at the end they could be asked to prioritise lists, but that seems overkill
+## but if multiple lists probably one is the main list (ie. APC over APNI) and `align_taxa` assumes that priority names appear first
+
+# dummy column for blank cells, because fuzzy matching doesn't cope with blank cells
+zzz <- "zzzz zzzz"
 
 # add columns - once before splitting
 taxon_resources <- taxon_resources %>%
@@ -47,9 +81,8 @@ taxon_resources <- taxon_resources %>%
     trinomial = base::replace(trinomial, duplicated(trinomial), zzz)
   )
 
-zzz <- "zzzz zzzz"
-
 # split by taxon rank
+# different to APCalign, because for inverts, lots of instances where you're aligning to higher ranks
 resources <- taxon_resources %>% split(taxon_resources$taxon_rank2)
 
 # for species, split by taxonomic status
@@ -58,8 +91,6 @@ resources$species <- resources$species %>% split(resources$species$taxonomic_sta
 # add extra subgenus table, because of different rules
 resources$subgenus_v2 <- resources$subgenus %>% mutate(genus_and_subgenus = paste0(genus, " (", canonical_name,")"))
 
-# identify taxon ranks you intend to match to
-taxon_ranks_to_check <- c("subgenus", "genus", "family", "superfamily", "subclass", "class", "subfamily", "order", "infraorder", "suborder", "superorder", "tribe")
 
 ##################################################
 ####                                          ####
@@ -143,6 +174,15 @@ aligned_names_b <- match_taxa(
     imprecise_fuzzy_matches = FALSE, 
     identifier = taxa$dataset_id
 )
+
+## XXX_TODO If - and only if - it is easy, add in a "characters_changed_count" as part of fuzzy matching (and I guess that defaults to 0 for exact matches).
+## I guess there could also be a "characters_changed_prop"
+## That is something most other packages do, that we just never bothered with, but I now often wish there were a column that told me that
+
+## XXX-TODO For `resources` (the taxonomic reference) there needs to be a check that the 
+## required columns exist with an error otherwise to run the "prepare_taxonomic_references" function
+
+### XX-TODO - will need to include a parameter that is a list of the taxon ranks to be considered
 
 ####################################################
 ####                                            ####
@@ -626,6 +666,10 @@ match_taxa <- function(
   if (nrow(taxa$tocheck) == 0)
     return(taxa)
   
+  ## XXX-TODO reinstate matches 7 (imprecise fuzzy matches) & 8 (hybrid names) from APCalign match_taxa function
+  ## The code here is way simpler than in APCalign, because there is only a single list (sorted by priority of taxonomic reference)
+  ## so you don't constantly cycle through `APC_accepted`, `APC_synonyms`, `APNI`
+  ## So for 7 there will just be one chunk and for 8 there will be two (exact, then fuzzy)
   
   # match_09a: exact trinomial matches, accepted
   # Exact match of first three words of taxon name ("trinomial") to an accepted canonical name.
@@ -777,7 +821,9 @@ match_taxa <- function(
   if (nrow(taxa$tocheck) == 0)
     return(taxa)
 
-    
+  
+  ## XXX-TODO - reinstate commented out code, simplfying if needed
+  
   # match_10c: fuzzy binomial matches, APC
   # Fuzzy match of first two words of taxon name ("binomial") to APC-accepted canonical name.
   # The purpose of matching only the first two words only to APC-accepted names is that
@@ -1022,7 +1068,6 @@ match_taxa <- function(
       return(taxa)
   }
   
-  
   # match_12c: higher-level fuzzy alignment
   # The final alignment step is to see if a fuzzy match can be made for the first word of unmatched taxa to an  
   # higher order taxon name in one of the taxonomic references.
@@ -1061,8 +1106,6 @@ match_taxa <- function(
     if (nrow(taxa$tocheck) == 0)
       return(taxa)
   }
-    
- 
   
   taxa$tocheck <- taxa$tocheck %>% dplyr::select(-identifier_string, -identifier_string2, -aligned_name_tmp)
   taxa$checked <- taxa$checked %>% dplyr::select(-identifier_string, -identifier_string2, -aligned_name_tmp)
