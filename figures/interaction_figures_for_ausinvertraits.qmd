@@ -1,0 +1,440 @@
+---
+title: "Linking AusInverTraits and AusTraits"
+format: html
+editor: source
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r render settings, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Introduction
+
+Traits of a given taxa do not exist in isolation. For instance, flower traits can be strongly associated with the traits of invertebrate pollinators, pollen thieves, and nectar robbers. These traits are intricately linked to contemporary interactions, both positive and negative, and primarily stem from co-evolutionary interactions over long time periods. Although the literature on these interactions is vast and intricate—with many types of interactions documented, such as those in Bartomeus et al. (2016) — it has proven challenging to systematically organize this interaction data. Such data can have significant conservation implications, particularly for obligate relationships (many references).
+
+There is a fundamental connection between interactions and traits, in that the characteristics of the two organisms have a strong influence on the nature of the interaction. The nature and effects of herbivory for example is mediated strongly by the size of the plant and the size of the herbivore among other traits. This suggests that trait databases may be a useful context for keeping track of interactions. Moreover many of the original papers record both trait data and interactions suggesting that it may be useful to keep track of these pieces of information together.
+
+There has been a great deal of recent progress in formalizing trait databases but there are currently no standards for how to represent their linkages. We present a worked example for the Australian plant and invertebrate traits datasets.
+
+**Key references:**
+
+Bartomeus, Ignasi, et al. "A common framework for identifying linkage rules across different types of interactions." Functional Ecology 30.12 (2016): 1894-1903.
+
+\newpage
+
+## Setup
+
+Load packages and data
+
+```{r setup, echo = T, results = 'hide'}
+# Load packages - loads dependencies in DESCRIPTION and functions in R/
+devtools::load_all()
+library(APCalign)
+library(austraits)
+library(tidyverse)
+
+austraits <- readRDS("data/austraits/austraits-7.0.0.rds")
+ausinvertraits <- readRDS("data/inverts/ausinvertraits.rds")
+
+# Load plant taxonomy resources from APCalign (APC/APNI)
+plant_taxonomy_resources <- APCalign::load_taxonomic_resources()
+
+# Load species means function
+source("~/GitHub/austraits.portal/R/species_means.R")
+```
+
+
+Process ausinvertraits plant association data
+- Outputs a database object (list of tables) filtered to invertebrate taxa with known plant associations, with plant associate taxonomy updated with APCalign
+
+```{r process, echo = T, results = 'hide'}
+plant_association_data <-
+    ausinvertraits |>
+    austraits::extract_data(table = "contexts", col = "context_property", col_value =  c("associated plant taxa")) |>
+    austraits::join_context_properties(format = "many_columns", include_description = F, vars = c("associated plant taxa", "plant association"))
+  
+  plant_association_data$traits <- plant_association_data$traits |>
+    select(dataset_id:original_name, `associated plant taxa` = `entity_context: associated plant taxa`, `plant association` = `entity_context: plant association`)
+  
+  # Separate associated plant taxa into their own rows
+  plant_association_data$traits <-
+    plant_association_data$traits |>
+    separate_longer_delim("associated plant taxa", ", ")
+```
+
+## Figures
+
+#### 7\. What is the relationship between a plant trait and an invertebrate trait?
+
+E.g. Are annual plants associated with long-winged adult pollinators (forewing length)?
+
+```{r}
+austraits_traits_to_link <- austraits |>
+  extract_trait(c("leaf_mass_per_area", "leaf_N_per_dry_mass", "seed_dry_mass", "wood_density", "flower_colour")) |>
+  join_location_coordinates() |>
+  join_methods(vars = "all") |>
+  join_taxa(vars = "all")
+
+austraits_trait_means <-  estimate_species_trait_means(austraits_traits_to_link$traits)
+```
+
+```{r}
+invert_assocation_data <- plant_association_data$traits |> 
+  filter(value %in% c("herbivore", "xylophage", "pollinator", "granivore")) |> 
+  distinct(`associated plant taxa`, value)
+
+align_plant_names <- APCalign::create_taxonomic_update_lookup(invert_assocation_data$`associated plant taxa`)
+  
+invert_assocation_data_aligned <- align_plant_names |> 
+  filter(taxon_rank %in% c("species", "subspecies", "variety", "form")) |>
+  distinct(original_name, .keep_all = T) |>
+  select(`associated plant taxa` = original_name, accepted_name) |>
+  left_join(invert_assocation_data ) |>
+  select(-`associated plant taxa`) |>
+  rename(taxon_name = accepted_name)
+
+herbivore <- invert_assocation_data_aligned |>
+  filter(
+    str_detect(value, "herbivore")
+  ) |>
+  distinct(taxon_name)
+
+granivore <- invert_assocation_data_aligned |>
+  filter(
+    str_detect(value, "granivore")
+  ) |>
+  distinct(taxon_name)
+
+xylophage <- invert_assocation_data_aligned |>
+  filter(
+    str_detect(value, "xylophage")
+  ) |>
+  distinct(taxon_name) 
+
+pollinator <- invert_assocation_data_aligned |>
+  filter(
+    str_detect(value, "pollinator")
+  ) |>
+  distinct(taxon_name)
+```
+
+### data frames
+```{r}
+herbivore_LMA <- austraits_trait_means |>
+  filter(taxon_name %in% herbivore$taxon_name) |>
+  filter(trait_name == "leaf_mass_per_area") |>
+  select(taxon_name, value_mean) |>
+  mutate(herbivore_plant = "yes")
+
+not_herbivore_LMA <- austraits_trait_means |>
+  filter(!taxon_name %in% herbivore$taxon_name) |>
+  filter(trait_name == "leaf_mass_per_area") |>
+  select(taxon_name, value_mean) |>
+  mutate(herbivore_plant = "no")
+
+leaf_LMA_by_herbivore <- herbivore_LMA |>
+  bind_rows(not_herbivore_LMA) |>
+  mutate(leaf_LMA = as.numeric(value_mean))
+
+herbivore_N <- austraits_trait_means |>
+  filter(taxon_name %in% herbivore$taxon_name) |>
+  filter(trait_name == "leaf_N_per_dry_mass") |>
+  select(taxon_name, value_mean) |>
+  mutate(herbivore_plant = "yes")
+
+not_herbivore_N <- austraits_trait_means |>
+  filter(!taxon_name %in% herbivore$taxon_name) |>
+  filter(trait_name == "leaf_N_per_dry_mass") |>
+  select(taxon_name, value_mean) |>
+  mutate(herbivore_plant = "no")
+
+leaf_N_by_herbivore <- herbivore_N |>
+  bind_rows(not_herbivore_N) |>
+  mutate(leaf_N = as.numeric(value_mean))
+
+granivore_seed <- austraits_trait_means |>
+  filter(taxon_name %in% granivore$taxon_name) |>
+  filter(trait_name == "seed_dry_mass") |>
+  select(taxon_name, value_mean) |>
+  mutate(granivore_plant = "yes")
+
+not_granivore_seed <- austraits_trait_means |>
+  filter(!taxon_name %in% granivore$taxon_name) |>
+  filter(trait_name == "seed_dry_mass") |>
+  select(taxon_name, value_mean) |>
+  mutate(granivore_plant = "no")
+
+seed_mass_by_granivore <- granivore_seed |>
+  bind_rows(not_granivore_seed) |>
+  mutate(seed_mass = as.numeric(value_mean))
+
+xylophage_wood <- austraits_trait_means |>
+  filter(taxon_name %in% xylophage$taxon_name) |>
+  filter(trait_name == "wood_density") |>
+  select(taxon_name, value_mean) |>
+  mutate(xylophage_plant = "yes")|>
+  mutate(xylophage = 1)
+
+not_xylophage_wood <- austraits_trait_means |>
+  filter(!taxon_name %in% xylophage$taxon_name) |>
+  filter(trait_name == "wood_density") |>
+  select(taxon_name, value_mean) |>
+  mutate(xylophage_plant = "no")|>
+  mutate(xylophage = 0)
+
+wood_density_by_xylophage <- xylophage_wood |>
+  bind_rows(not_xylophage_wood) |>
+  mutate(wood_density = as.numeric(value_mean))
+
+pollinator_flower <- austraits_trait_means |>
+  filter(taxon_name %in% pollinator$taxon_name) |>
+  filter(trait_name == "flower_colour") |>
+  select(taxon_name, value_mean) |>
+  mutate(pollinator_plant = "yes")|>
+  mutate(pollinator = 1)
+
+not_pollinator_flower <- austraits_trait_means |>
+  filter(!taxon_name %in% pollinator$taxon_name) |>
+  filter(trait_name == "flower_colour") |>
+  select(taxon_name, value_mean) |>
+  mutate(pollinator_plant = "no")|>
+  mutate(pollinator = 0)
+
+flower_colour_by_pollinator <- pollinator_flower |>
+  bind_rows(not_pollinator_flower)
+```
+
+# plots 1
+```{r}
+N_plot <- ggplot(data = leaf_N_by_herbivore, aes(x = herbivore_plant, y = leaf_N)) +
+  geom_violin() +
+  geom_jitter(alpha = 0.05, color = "salmon") +
+  geom_errorbar(data = leafN_means, aes(y=Mean, ymin = CI_low, ymax = CI_high), width = 0.3, color = "grey40") +
+  scale_y_log10() +
+  theme_classic() +
+  labs(
+    x = "associated with herbivore",
+    y = "leaf N per dry mass (mg/g)"
+  )
+
+LMA_plot <- ggplot(data = leaf_LMA_by_herbivore, aes(x = herbivore_plant, y = leaf_LMA)) +
+  geom_violin() +
+  geom_jitter(alpha = 0.05, color = "salmon") +
+  geom_errorbar(data = leafLMA_means, aes(y=Mean, ymin = CI_low, ymax = CI_high), width = 0.3, color = "grey40") +
+  scale_y_log10() +
+  theme_classic() +
+  labs(
+    x = "associated with herbivore",
+    y = "leaf mass per area (g/m2)"
+  )
+
+wood_density_plot <- ggplot(data = wood_density_by_xylophage, aes(x = xylophage_plant, y = wood_density)) +
+  geom_violin() +
+  geom_jitter(alpha = 0.05, color = "salmon") +
+  geom_errorbar(data = WD_means, aes(y=Mean, ymin = CI_low, ymax = CI_high), width = 0.3, color = "grey40") +
+  #scale_y_log10() +
+  theme_classic() +
+  labs(
+    x = "associated with xylophage",
+    y = "wood density (mg/mm3)"
+  )
+
+interaction_plots <- gridExtra::arrangeGrob(N_plot, LMA_plot, wood_density_plot, ncol = 3, nrow =1)
+
+plot(interaction_plots)
+```
+
+
+### density plots
+```{r}
+wood_density_plot2 <- ggplot(data = wood_density_by_xylophage, aes(x = wood_density, after_stat(count))) +
+  geom_density(fill = "salmon", alpha = 0.2) +
+  geom_density(data = wood_density_by_xylophage |> filter(xylophage_plant == "yes"), 
+               aes(x = wood_density), fill = "salmon") +
+  theme_classic() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  ) +
+  labs(
+    y = "",
+    x = "wood density (mg/mm3)"
+  )
+
+N_plot2 <- ggplot(data = leaf_N_by_herbivore, aes(x = leaf_N, after_stat(count))) +
+  geom_density(fill = "salmon", alpha = 0.2) +
+  geom_density(data = leaf_N_by_herbivore |> filter(herbivore_plant == "yes"), 
+               aes(x = leaf_N), fill = "salmon") +
+  theme_classic() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  ) +
+  scale_x_log10() +
+  labs(
+    y = "observation density",
+    x = "leaf N per dry mass (mg/g)"
+  )
+
+LMA_plot2 <- ggplot(data = leaf_LMA_by_herbivore, aes(x = leaf_LMA, after_stat(count))) +
+  geom_density(fill = "salmon", alpha = 0.2) +
+  geom_density(data = leaf_LMA_by_herbivore |> filter(herbivore_plant == "yes"), 
+               aes(x = leaf_LMA), fill = "salmon") +
+  theme_classic() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  ) +
+  scale_x_log10() +
+  labs(
+    y = "",
+    x = "leaf mass per area (g/m2)"
+  )
+
+seed_mass_plot2 <- ggplot(data = seed_mass_by_granivore, aes(x = seed_mass, after_stat(count))) +
+  geom_density(fill = "salmon", alpha = 0.2) +
+  geom_density(data = seed_mass_by_granivore |> filter(granivore_plant == "yes"), 
+               aes(x = seed_mass), fill = "salmon") +
+  theme_classic() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  ) +
+  scale_x_log10() +
+  labs(
+    y = "",
+    x = "seed dry mass (mg)"
+  )
+
+interaction_plots2 <- gridExtra::arrangeGrob(N_plot2, LMA_plot2, wood_density_plot2, seed_mass_plot2, ncol = 4, nrow =1)
+
+ggsave("outputs/trait_plots.png", interaction_plots2, width = 8, height = 3)
+```
+
+# herbivores (Euler)
+```{r}
+LMA_for_euler <- leaf_LMA_by_herbivore |> 
+  mutate(in_Austraits = 1) |>
+  full_join(herbivore |> mutate(in_AusInverTraits = 1)) |>
+  select(taxon_name, in_Austraits, in_AusInverTraits) |>
+  mutate(
+    in_Austraits = ifelse(is.na(in_Austraits), FALSE, TRUE),
+    in_AusInverTraits = ifelse(is.na(in_AusInverTraits), FALSE, TRUE)
+    )
+
+LMA_fit <- eulerr::euler(LMA_for_euler |> select(-taxon_name))
+#plot(start_fit, quantities = TRUE, labels = TRUE)
+
+LMA_plot <- plot(
+  LMA_fit,
+  quantities = TRUE,
+  labels = TRUE,
+  fills = list(
+    fill = c("#7EB096", "salmon"),
+    alpha = 0.5
+  )
+)
+
+N_for_euler <- leaf_N_by_herbivore |> 
+  mutate(in_Austraits = 1) |>
+  full_join(herbivore |> mutate(in_AusInverTraits = 1)) |>
+  select(taxon_name, in_Austraits, in_AusInverTraits) |>
+  mutate(
+    in_Austraits = ifelse(is.na(in_Austraits), FALSE, TRUE),
+    in_AusInverTraits = ifelse(is.na(in_AusInverTraits), FALSE, TRUE)
+    )
+
+N_fit <- eulerr::euler(N_for_euler |> select(-taxon_name))
+#plot(start_fit, quantities = TRUE, labels = TRUE)
+
+N_plot <- plot(
+  N_fit,
+  quantities = TRUE,
+  labels = TRUE,
+  fills = list(
+    fill = c("#7EB096", "salmon"),
+    alpha = 0.5
+  )
+)
+```
+
+# wood density eulers
+```{r}
+WD_for_euler <- wood_density_by_xylophage |> 
+  mutate(in_Austraits = 1) |>
+  full_join(xylophage |> mutate(in_AusInverTraits = 1)) |>
+  select(taxon_name, in_Austraits, in_AusInverTraits) |>
+  mutate(
+    in_Austraits = ifelse(is.na(in_Austraits), FALSE, TRUE),
+    in_AusInverTraits = ifelse(is.na(in_AusInverTraits), FALSE, TRUE)
+    )
+
+WD_fit <- eulerr::euler(WD_for_euler |> select(-taxon_name))
+
+WD_plot <- plot(
+  WD_fit,
+  quantities = TRUE,
+  labels = TRUE,
+  fills = list(
+    fill = c("#7EB096", "salmon"),
+    alpha = 0.5
+  )
+)
+```
+
+# seed mass eulers
+```{r}
+seed_mass_for_euler <- seed_mass_by_granivore |> 
+  mutate(in_Austraits = 1) |>
+  full_join(granivore |> mutate(in_AusInverTraits = 1)) |>
+  select(taxon_name, in_Austraits, in_AusInverTraits) |>
+  mutate(
+    in_Austraits = ifelse(is.na(in_Austraits), FALSE, TRUE),
+    in_AusInverTraits = ifelse(is.na(in_AusInverTraits), FALSE, TRUE)
+    )
+
+seed_mass_fit <- eulerr::euler(seed_mass_for_euler |> select(-taxon_name))
+
+seed_mass_plot <- plot(
+  seed_mass_fit,
+  quantities = TRUE,
+  labels = TRUE,
+  fills = list(
+    fill = c("#7EB096", "salmon"),
+    alpha = 0.5
+  )
+)
+```
+
+# flower colour eulers
+```{r}
+flower_colour_for_euler <- flower_colour_by_pollinator |> 
+  mutate(in_Austraits = 1) |>
+  full_join(pollinator |> mutate(in_AusInverTraits = 1)) |>
+  select(taxon_name, in_Austraits, in_AusInverTraits) |>
+  mutate(
+    in_Austraits = ifelse(is.na(in_Austraits), FALSE, TRUE),
+    in_AusInverTraits = ifelse(is.na(in_AusInverTraits), FALSE, TRUE)
+    )
+
+flower_colour_fit <- eulerr::euler(flower_colour_for_euler |> select(-taxon_name))
+
+flower_colour_plot <- plot(
+  flower_colour_fit,
+  quantities = TRUE,
+  labels = TRUE,
+  fills = list(
+    fill = c("#7EB096", "salmon"),
+    alpha = 0.5
+  )
+)
+```
+
+```{r}
+euler_plots <- gridExtra::arrangeGrob(N_plot, LMA_plot, WD_plot, seed_mass_plot, flower_colour_plot, ncol = 1, nrow =5)
+
+ggsave("outputs/euler_plots.png", euler_plots, width = 5, height = 11)
+```
+
