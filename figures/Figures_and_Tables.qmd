@@ -1,0 +1,84 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+# Setup 
+
+```{r}
+library(austraits)
+library(tidyverse)
+source("~/OneDrive - UNSW/Documents/data_for_GitHub_repos/ausinvertraits_addons/plot_trait_values.R")
+
+trait_names <- read_csv("~/GitHub/ausinvertraits.addons/data/trait_names_list.csv")
+
+ausinvertraits <- readRDS("~/OneDrive - UNSW/Documents/data_for_GitHub_repos/ausinvertraits_addons/ausinvertraits.rds")
+```
+
+# Figures
+
+### Categorical figure summaries
+```{r}
+ausinvertraits_with_family <- ausinvertraits |>
+  join_taxa(vars = c("family"))
+
+higher_order_taxa_ranks <- read_csv("~/OneDrive - UNSW/Documents/data_for_GitHub_repos/ausinvertraits_addons/data_extra/higher_order_taxa_to_fill_JRM.csv") |> arrange(numerical_order)
+
+x_values_species_range_categories <- c("broad", "restricted", "likely_sre", "sre")
+
+x_values_functional_role_plot <- ausinvertraits_with_family$traits |> 
+  filter(trait_name == "functional_role") |> 
+  filter(!str_detect(value, " ")) |>
+  arrange(value) |> 
+  distinct(value) |> 
+  pull(value)
+
+y_values <- higher_order_taxa_ranks |> filter(!is.na(family)) |> pull(family)
+
+species_range_categories_plot <- plot_categorical_trait_distribution(ausinvertraits_with_family$traits, "species_range_categories", family_count = 100, x_order = x_values_species_range_categories, y_order = y_values, show_legend = F)
+
+functional_role_plot <- plot_categorical_trait_distribution(ausinvertraits_with_family$traits, "functional_role", family_count = 100, x_order = x_values_functional_role_plot, y_order = y_values)
+
+ggsave("~/GitHub/ausinvertraits.addons/outputs/species_range_categories_plot.png", plot = species_range_categories_plot, height = 11, width = 3)
+
+ggsave("~/GitHub/ausinvertraits.addons/outputs/functional_role_plot.png", plot = functional_role_plot, height = 11, width = 6)
+```
+
+### Numerical figure summaries
+
+```{r}
+body_length <- ausinvertraits_with_family$traits |>
+  filter(trait_name == "body_length") |>
+  mutate(value = as.numeric(value)) |>
+  filter(!is.na(family))
+
+body_length_plot <- plot_trait_distribution(body_length, "body_length", y_axis_category = "family", y_order = y_values)
+
+ggsave("~/GitHub/ausinvertraits.addons/outputs/body_length_plot.png", plot = body_length_plot, height = 11, width = 5)
+```
+
+### Tables 
+
+```{r}
+auinvertraits_with_taxa <- ausinvertraits |> 
+  join_taxa(vars = c("genus", "family", "order", "class", "phylum"))
+
+summary_table <- auinvertraits_with_taxa$traits |>
+  group_by(trait_name) |>
+    mutate(
+      `Number of records` = n(),
+      `Number of species with records` = n_distinct(taxon_name),
+      `Number of families represented` = n_distinct(family),
+      `Number of classes represented` = n_distinct(class)
+    ) |>
+  ungroup() |>
+  left_join(trait_names |> select(trait_name, `Trait category` = trait_parent_categories)) |>
+  select(trait_name, `Trait category`, `Number of records`, `Number of species with records`, `Number of families represented`, `Number of classes represented`) |>
+  distinct() |>
+  arrange(`Trait category`, trait_name) |>
+  write_csv("~/GitHub/ausinvertraits.addons/outputs/summary_table.csv")
+```
+```{r}
+
+```
+
